@@ -1,10 +1,10 @@
 [proposal.md](https://github.com/user-attachments/files/28229783/proposal.md)
 # Phase 2 Proposal Document
-## Facial Expression Recognition Framework: A Comparative CNN Study with Explainable AI
+## Comparative Analysis of Custom CNN and Transfer Learning for Facial Expression Recognition
 
 > **Course:** Pattern Recognition  
 > **Institution:** University of Europe for Applied Sciences  
-> **Student:** [Your Full Name]  
+> **Student:** [Yada Thadathanacharoen]  
 > **Submission:** Phase 2 — Proposal and Code Implementation  
 > **Due Date:** June 7, 2026  
 
