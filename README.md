@@ -168,6 +168,6 @@ Pillow
 
 ## Author
 
-**[Your Full Name]**  
+**[Yada Thadathanacharoen]**  
 M.Sc. Student — University of Europe for Applied Sciences  
 Pattern Recognition Course — Summer Semester 2026
