@@ -33,16 +33,16 @@ POINTS TO COVER:
 
 **Facial expression recognition (FER) is a fundamental problem in affective computing with significant practical applications across healthcare (mental health screening), education (student engagement monitoring), transportation (driver safety), and human-computer interaction. Automatically detecting emotional states from facial images has direct social value: research shows 55-60% of human communication occurs through facial expressions.
 
-###The Architecture Challenge.
+The Architecture Challenge.
 Convolutional Neural Networks (CNNs) have become the standard approach for FER because they automatically learn hierarchical features from raw pixels. However, a critical unresolved question remains: should practitioners design custom CNN architectures tailored specifically to the FER-2013 domain (48×48 grayscale), or leverage transfer learning from pretrained models trained on large RGB datasets like ImageNet? State-of-the-art systems achieve only 64-75% accuracy on FER-2013 — below human-level performance of 65-70% — partly because this architectural trade-off is underexplored.
 
-###Transfer Learning Trade-offs.
+Transfer Learning Trade-offs.
 Transfer learning models using pretrained networks (MobileNetV2, ResNet50) bring rich features learned from millions of images but face domain mismatch with low-resolution grayscale input. Custom CNNs optimized specifically for 48×48 pixels may achieve comparable accuracy with far fewer parameters, which is crucial for real-time and edge deployments. The FER-2013 dataset's inherent constraints illustrate why this comparison matters: severe class imbalance (Disgust: 436 samples vs. Happy: 7,215), noisy crowdsourced labels, and pose/occlusion variation.
 
-###Explainability as Essential. Beyond raw accuracy, a critical limitation of many deployed CNN models is opacity — the inability to explain why a model made a particular prediction. In human-centered applications such as FER, understanding why the system predicts a specific emotion is as important as accuracy itself. Explainable AI methods provide solutions: Grad-CAM visualizes which image regions drive predictions, while SHAP quantifies pixel-level importance. Together, these methods enable practitioners to diagnose misclassifications and build trust in deployed systems.
+Explainability as Essential. Beyond raw accuracy, a critical limitation of many deployed CNN models is opacity — the inability to explain why a model made a particular prediction. In human-centered applications such as FER, understanding why the system predicts a specific emotion is as important as accuracy itself. Explainable AI methods provide solutions: Grad-CAM visualizes which image regions drive predictions, while SHAP quantifies pixel-level importance. Together, these methods enable practitioners to diagnose misclassifications and build trust in deployed systems.
 
 
-###Project Objective. This project systematically compares custom CNN architectures against transfer learning models (MobileNetV2, ResNet50) on FER-2013, applies Grad-CAM and SHAP to understand what features each model learns, and identifies which approach best balances accuracy, computational efficiency, and interpretability for practical facial expression recognition systems.**
+Project Objective. This project systematically compares custom CNN architectures against transfer learning models (MobileNetV2, ResNet50) on FER-2013, applies Grad-CAM and SHAP to understand what features each model learns, and identifies which approach best balances accuracy, computational efficiency, and interpretability for practical facial expression recognition systems.**
 ---
 
 ## Section 3 — Problem Statement
