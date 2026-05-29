@@ -244,81 +244,197 @@ Disgust and Fear) at a small cost to overall accuracy.
 
 ## Section 8 — Proposed Methodology
 
-### 8.1 Overview Pipeline
+This project follows a structured end-to-end pipeline 
+covering dataset preparation, preprocessing, model 
+development, training, evaluation, and explainability 
+analysis. The methodology is designed to ensure 
+reproducibility and fair comparison across all three 
+models.
 
-```
-Raw FER-2013 Dataset
-        ↓
-Data Loading & Inspection   [§8.2]
-        ↓
-Preprocessing & Augmentation [§8.3]
-        ↓
-Train / Validation / Test Split [§8.4]
-        ↓
-        ┌──────────────────────────────┐
-        │  Model 1: Custom CNN         │  [§9]
-        │  Model 2: MobileNetV2        │  [§10]
-        │  Model 3: ResNet50           │  [§10]
-        └──────────────────────────────┘
-        ↓
-Model Training & Callbacks [§8.5]
-        ↓
-Evaluation (Accuracy, F1, CM) [§11]
-        ↓
-Grad-CAM Visualization [§8.6]
-        ↓
-SHAP Visualization [§8.7]
-        ↓
-Comparative Analysis & Report
-```
+### 8.1 Dataset Selection and Preparation
 
-### 8.2 Data Loading
+The FER-2013 dataset is selected as the primary 
+benchmark due to its public availability, academic-use 
+permissions, and documented class labels. The dataset 
+is loaded directly from Kaggle 
+(https://www.kaggle.com/datasets/msambare/fer2013) 
+using its folder structure (train/test split). 
 
-The FER-2013 dataset will be loaded directly from its Kaggle path (`/kaggle/input/fer2013/`). Images are stored as 48×48 pixel grayscale arrays. The data will be loaded using TensorFlow's `image_dataset_from_directory()` utility, with class labels inferred from the folder structure.
+Prior to training, the dataset is inspected for:
+* Corrupted or unreadable image files
+* Duplicate images across train and test sets
+* Class distribution summary (Figure 1)
 
-### 8.3 Preprocessing
+Class weights are computed using 
+`sklearn.utils.class_weight.compute_class_weight` 
+to address the 16.5-to-1 imbalance between Happy 
+(7,215) and Disgust (436) classes.
 
-| Step | Details |
-|------|---------|
-| Resizing | All images resized to **48×48** (Custom CNN) or **224×224** (MobileNetV2, ResNet50) |
-| Normalization | Pixel values rescaled to **[0, 1]** by dividing by 255 |
-| Grayscale → RGB | For transfer learning models: grayscale channel replicated to 3 channels |
-| Class Weights | Computed using `sklearn.utils.class_weight` to address class imbalance |
+### 8.2 Preprocessing Pipeline
 
-### 8.4 Data Augmentation
+All images undergo the following preprocessing steps 
+before being fed into any model:
 
-Applied only to the **training set** to improve robustness and reduce overfitting:
+| Step | Custom CNN | MobileNetV2 & ResNet50 |
+|------|-----------|----------------------|
+| Resize | 48×48 pixels | 224×224 pixels |
+| Color format | Grayscale (1 channel) | Pseudo-RGB (3 channels) |
+| Normalization | Divide by 255 → [0,1] | Divide by 255 → [0,1] |
+| Channel conversion | — | Replicate grayscale channel ×3 |
 
-| Technique | Value |
-|-----------|-------|
-| Random Horizontal Flip | 50% probability |
+Transfer learning models (MobileNetV2, ResNet50) 
+require 224×224 RGB input to match their ImageNet 
+pretraining expectations. Grayscale images are 
+converted to pseudo-RGB by replicating the single 
+channel three times.
+
+### 8.3 Data Augmentation
+
+Data augmentation is applied **only to the training 
+set** to improve model robustness and reduce 
+overfitting. The following transformations are applied 
+randomly during training:
+
+| Augmentation | Value |
+|-------------|-------|
+| Horizontal Flip | 50% probability |
 | Random Rotation | ±15 degrees |
 | Random Zoom | ±10% |
 | Random Brightness | ±20% |
 | Random Contrast | ±15% |
 
-### 8.5 Training Setup
+No augmentation is applied to validation or test sets 
+to ensure unbiased evaluation.
+
+### 8.4 Train / Validation / Test Split
+
+The FER-2013 dataset provides a predefined train/test 
+split. The training set is further divided to create 
+a validation set:
+
+| Split | Images | Percentage |
+|-------|--------|-----------|
+| Training | 22,967 | 64% |
+| Validation | 5,742 | 16% |
+| Test | 7,178 | 20% |
+
+Stratified splitting is used to preserve class 
+distribution across all three splits.
+
+### 8.5 Model Development
+
+Three models are developed and compared under 
+identical training conditions:
+
+**Model 1 — Custom CNN (from scratch)**
+A custom CNN architecture designed specifically for 
+48×48 grayscale input. Four convolutional blocks with 
+progressively increasing filter depth (32 → 64 → 128 
+→ 256), each followed by Batch Normalization and 
+MaxPooling. Global Average Pooling replaces Flatten 
+to reduce overfitting. Full architecture details are 
+provided in Section 9.
+
+**Model 2 — MobileNetV2 (Transfer Learning)**
+MobileNetV2 pretrained on ImageNet loaded with 
+`include_top=False`. Base weights frozen during 
+initial training. Custom classification head added: 
+`GlobalAveragePooling2D → Dropout(0.5) → Dense(256, 
+ReLU) → Dropout(0.3) → Dense(7, Softmax)`.
+
+**Model 3 — ResNet50 (Transfer Learning)**
+ResNet50 pretrained on ImageNet loaded with 
+`include_top=False`. Same custom head as MobileNetV2. 
+Fine-tuning applied to last 20 layers after initial 
+convergence. Full transfer learning details in 
+Section 10.
+
+### 8.6 Training Setup and Hyperparameters
+
+All models are trained on Kaggle Notebooks using 
+GPU acceleration (NVIDIA Tesla P100).
 
 | Hyperparameter | Custom CNN | MobileNetV2 | ResNet50 |
-|----------------|------------|-------------|----------|
+|----------------|-----------|-------------|----------|
 | Optimizer | Adam | Adam | Adam |
 | Learning Rate | 0.001 | 0.0001 | 0.0001 |
 | Loss Function | Categorical Cross-Entropy | Categorical Cross-Entropy | Categorical Cross-Entropy |
 | Batch Size | 32 | 32 | 32 |
 | Epochs | 30 | 20 | 20 |
-| Callbacks | EarlyStopping, ModelCheckpoint, ReduceLROnPlateau | Same | Same |
-| Validation Split | 20% of training set | Same | Same |
+| Class Weights | Yes | Yes | Yes |
 
-### 8.6 Grad-CAM Implementation
+The following callbacks are applied during training:
+* **EarlyStopping** — stops training if validation 
+loss does not improve for 5 consecutive epochs
+* **ModelCheckpoint** — saves the best model weights 
+based on validation accuracy
+* **ReduceLROnPlateau** — reduces learning rate by 
+factor 0.5 if validation loss plateaus for 3 epochs
 
-Grad-CAM will be applied to each model's final convolutional layer to generate spatial heatmaps indicating which regions of the input image contributed most to the predicted class. Visualizations will be generated for:
-- 5 correctly classified samples per model (one per expression group)
-- 5 misclassified samples per model, with true and predicted labels annotated
+### 8.7 Evaluation Strategy
 
-### 8.7 SHAP Implementation
+Each model is evaluated on the held-out test set 
+using the following metrics:
 
-SHAP `GradientExplainer` will be applied to each model using a background sample of 50 training images. Explanations will be generated for 3 test images per model, showing positive (red) and negative (blue) pixel contributions to the predicted class.
+| Metric | Method |
+|--------|--------|
+| Accuracy | Overall correct predictions / total |
+| Precision (macro) | sklearn `classification_report` |
+| Recall (macro) | sklearn `classification_report` |
+| F1-Score (macro) | sklearn `classification_report` |
+| Confusion Matrix | Per-class prediction heatmap |
+| Training Time | Wall-clock seconds per epoch |
+| Parameter Count | `model.count_params()` |
 
+Per-class metrics (precision, recall, F1) are 
+reported for all 7 emotion classes to expose 
+minority-class performance that overall accuracy 
+would otherwise mask.
+
+### 8.8 Explainability Analysis (Grad-CAM and SHAP)
+
+**Grad-CAM** is applied to the final convolutional 
+layer of each model to generate spatial heatmaps 
+showing which image regions contributed most to 
+each prediction. Visualizations are generated for:
+* 5 correctly classified samples per model 
+  (Figure 5)
+* 5 misclassified samples per model with true 
+  and predicted labels annotated (Figure 6)
+
+**SHAP** (`GradientExplainer`) is applied using a 
+background sample of 50 training images. Pixel-level 
+positive (red) and negative (blue) contributions are 
+visualized for 3 test images per model (Figure 7).
+
+Together, Grad-CAM and SHAP address RQ4 and RQ5 by 
+revealing whether models focus on semantically 
+meaningful facial regions and diagnosing the visual 
+causes of misclassifications.
+
+### 8.9 Deployment Considerations and Ethics
+
+The final system is presented as a 
+**decision-support framework** that assists human 
+experts rather than replacing human judgment. 
+Key deployment considerations include:
+
+* **Computational constraints** — MobileNetV2 is 
+  the most suitable model for edge or mobile 
+  deployment due to its lightweight architecture
+* **Class imbalance risks** — Without proper 
+  class weighting, models will systematically 
+  underperform on minority emotions (Disgust, Fear)
+* **Ethical concerns** — Automated emotion 
+  recognition carries risks of misuse in 
+  surveillance or profiling contexts; the system 
+  should only be deployed with informed consent 
+  and human oversight
+* **Limitations** — FER-2013's crowdsourced labels 
+  and low resolution limit real-world generalization; 
+  future work should validate on higher-resolution, 
+  expert-annotated datasets
+  
 ---
 
 ## Section 9 — CNN Model Design (Custom CNN)
