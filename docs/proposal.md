@@ -492,26 +492,81 @@ small FER-2013 training set.
 
 ### 10.1 Strategy
 
-Both MobileNetV2 and ResNet50 are loaded with **ImageNet pre-trained weights** with their top classification layers removed (`include_top=False`). The base model weights are **frozen during initial training** (feature extraction phase). A custom head is added on top consisting of: `GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → Dropout(0.3) → Dense(7, Softmax)`.
+Both MobileNetV2 and ResNet50 are loaded with 
+ImageNet pre-trained weights with their top 
+classification layers removed (`include_top=False`). 
+The base model weights are frozen during initial 
+training (feature extraction phase). A custom 
+classification head is added on top:
 
-Input images are resized to **224×224×3** (grayscale channel replicated to 3 channels) to match ImageNet input expectations.
+`GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → Dropout(0.3) → Dense(7, Softmax)`
 
-### 10.2 Model Details
+Input images are resized to **224×224×3** (grayscale 
+channel replicated to 3 channels) to match ImageNet 
+input expectations.
+
+### 10.2 Model Comparison
 
 | Property | MobileNetV2 | ResNet50 |
 |----------|-------------|----------|
-| Original Dataset | ImageNet (1.2M images, 1000 classes) | ImageNet |
-| Architecture Type | Inverted Residuals + Depthwise Separable Conv | Deep Residual Networks (skip connections) |
-| Total Parameters (approx.) | ~2.3M (base) | ~23.5M (base) |
-| Input Size Required | 224×224×3 | 224×224×3 |
-| Base Weights Frozen | Yes (initial training) | Yes (initial training) |
-| Custom Head | GAP → Dropout → Dense(256) → Dense(7) | Same |
-| Fine-Tuning Strategy | Unfreeze last 30 layers after initial convergence | Unfreeze last 20 layers |
+| **Original Dataset** | ImageNet (1.2M images, 1000 classes) | ImageNet |
+| **Architecture Type** | Inverted Residuals + Depthwise Separable Convolutions | Deep Residual Networks (skip connections) |
+| **Total Parameters (approx.)** | ~3.4M | ~25M |
+| **Input Size Required** | 224×224×3 | 224×224×3 |
+| **Base Weights** | Frozen (initial training) | Frozen (initial training) |
+| **Fine-Tuning** | Unfreeze last 30 layers after convergence | Unfreeze last 20 layers after convergence |
+| **Custom Head** | GAP → Dropout(0.5) → Dense(256) → Dense(7) | Same |
+| **Optimizer** | Adam (lr = 0.0001) | Adam (lr = 0.0001) |
+| **Epochs** | 20 | 20 |
 
-### 10.3 Justification for Model Selection
+### 10.3 Two-Phase Training Strategy
 
-MobileNetV2 was selected for its lightweight design and strong performance on mobile and embedded vision tasks — relevant to the deployment context of real-time FER systems. ResNet50 was selected as a deeper residual baseline known for strong image recognition performance. Together, they represent a lightweight-vs-deep tradeoff that directly addresses RQ3.
+Both transfer learning models follow a 
+**two-phase training strategy**:
 
+**Phase 1 — Feature Extraction (Epochs 1–10):**
+* Base model weights are **frozen**
+* Only the custom classification head is trained
+* Higher learning rate acceptable (0.001)
+* Purpose: adapt the new head to FER-2013 features
+
+**Phase 2 — Fine-Tuning (Epochs 11–20):**
+* Last 30 layers (MobileNetV2) or last 20 layers 
+  (ResNet50) are **unfrozen**
+* Lower learning rate used (0.0001) to avoid 
+  destroying pretrained weights
+* Purpose: fine-tune higher-level features 
+  specifically for facial expression patterns
+
+### 10.4 Justification for Model Selection
+
+| Model | Why Selected |
+|-------|-------------|
+| **MobileNetV2** | Lightweight architecture (~3.4M params) designed for mobile and edge deployment; best accuracy-to-cost ratio; directly relevant to real-time FER applications |
+| **ResNet50** | Deep residual architecture (~25M params) with skip connections that prevent vanishing gradients; strong benchmark performance; represents high-capacity transfer learning |
+
+Together, MobileNetV2 and ResNet50 represent a 
+**lightweight vs. deep** trade-off that directly 
+addresses RQ2 and RQ3 — which model family provides 
+the best balance between performance and 
+computational efficiency?
+
+### 10.5 Handling the Grayscale-to-RGB Mismatch
+
+A key challenge when applying ImageNet-pretrained 
+models to FER-2013 is the domain mismatch between 
+large RGB images (224×224×3) and small grayscale 
+images (48×48×1). This project addresses this by:
+
+* Resizing all images from 48×48 to 224×224 using 
+  bilinear interpolation
+* Replicating the single grayscale channel three 
+  times to create pseudo-RGB input: 
+  `[gray, gray, gray]`
+* This approach is consistent with published FER 
+  transfer learning studies (Tutuianu et al., 2023; 
+  Mandave & Patil, 2025)
+  
 ---
 
 ## Section 11 — Evaluation Metrics
