@@ -439,8 +439,6 @@ Key deployment considerations include:
 
 ## Section 9 — CNN Model Design (Custom CNN)
 
-## Section 9 — CNN Model Design
-
 ### 9.1 Architecture Rationale
 
 The custom CNN is designed specifically for 48×48 
