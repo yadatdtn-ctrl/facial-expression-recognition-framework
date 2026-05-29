@@ -41,7 +41,6 @@ Transfer learning models using pretrained networks (MobileNetV2, ResNet50) bring
 
 Explainability as Essential. Beyond raw accuracy, a critical limitation of many deployed CNN models is opacity — the inability to explain why a model made a particular prediction. In human-centered applications such as FER, understanding why the system predicts a specific emotion is as important as accuracy itself. Explainable AI methods provide solutions: Grad-CAM visualizes which image regions drive predictions, while SHAP quantifies pixel-level importance. Together, these methods enable practitioners to diagnose misclassifications and build trust in deployed systems.
 
-
 Project Objective. This project systematically compares custom CNN architectures against transfer learning models (MobileNetV2, ResNet50) on FER-2013, applies Grad-CAM and SHAP to understand what features each model learns, and identifies which approach best balances accuracy, computational efficiency, and interpretability for practical facial expression recognition systems.**
 ---
 
