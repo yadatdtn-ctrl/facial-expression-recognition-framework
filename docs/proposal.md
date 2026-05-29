@@ -122,18 +122,13 @@ These factors explain why state-of-the-art accuracy on FER-2013 typically ranges
 
 ## Section 6 — Research Questions
 
-The following research questions (RQs) guide the experimental design and evaluation of this project:
-
 | RQ | Research Question |
-|----|-------------------|
-| **RQ1** | How accurately can a custom CNN classify the seven facial expression classes in the FER-2013 dataset? |
-| **RQ2** | Does transfer learning using MobileNetV2 and ResNet50 improve classification performance compared with a custom CNN on low-resolution grayscale images? |
-| **RQ3** | Which model provides the best trade-off between classification performance (F1-score) and computational cost (training time and parameter count)? |
-| **RQ4** | Do Grad-CAM visualizations show that trained models focus on semantically meaningful facial regions (e.g., eyes, eyebrows, mouth) when making correct predictions? |
-| **RQ5** | Do Grad-CAM attention patterns differ meaningfully between the custom CNN and the two transfer learning models? |
-| **RQ6** | What do SHAP explanations reveal about the positive and negative pixel-level evidence used by each model during prediction? |
-| **RQ7** | Can Grad-CAM and SHAP jointly help diagnose the visual causes of specific misclassifications (e.g., Sad predicted as Neutral, Angry predicted as Disgust)? |
-
+|----|------------------|
+| **RQ1** | How accurately can CNN-based models perform facial expression recognition using the FER-2013 dataset? |
+| **RQ2** | Which model family — custom CNN or transfer learning (MobileNetV2, ResNet50) — provides the best balance between predictive performance and computational efficiency for facial expression recognition? |
+| **RQ3** | How do preprocessing choices, data augmentation, and class-imbalance handling influence model robustness and per-class performance on FER-2013? |
+| **RQ4** | Do Grad-CAM explanations show that trained models focus on meaningful facial regions (e.g., eyes, mouth, brow) relevant to facial expression recognition? |
+| **RQ5** | What are the main failure patterns, deployment limitations, and practical risks when applying this facial expression recognition framework in real human-centered settings? |
 ---
 
 ## Section 7 — Expected Results
