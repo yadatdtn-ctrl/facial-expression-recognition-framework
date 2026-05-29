@@ -635,27 +635,54 @@ after training:
 
 ## Section 12 — Expected Figures and Tables
 
-All figures will be saved as `.png` files in the `/figures/` directory of the GitHub repository.
+## Section 12 — Expected Figures and Tables
 
-| Figure | Description | Directory |
-|--------|-------------|-----------|
-| **Figure 1** | Grid of sample images from all 7 expression classes with class labels and counts | `figures/Fig1_Dataset_Samples/` |
-| **Figure 2** | Model design workflow diagram: Input → CNN/MobileNetV2/ResNet50 → Prediction → Evaluation → Grad-CAM + SHAP | `figures/Fig2_Model_Workflow/` |
-| **Figure 3a–c** | Training & validation accuracy/loss curves — one plot per model (3 total) | `figures/Fig3_Training_Curves/` |
-| **Figure 4a–c** | Confusion matrices — one per model, normalized and annotated with class names | `figures/Fig4_Confusion_Matrices/` |
-| **Figure 5** | Grad-CAM correct prediction grid: `Original \| Custom CNN \| MobileNetV2 \| ResNet50` across 5 expression classes | `figures/Fig5_GradCAM_Correct/` |
-| **Figure 6** | Grad-CAM misclassification examples: True label / Predicted label / Heatmap / Diagnosis text | `figures/Fig6_GradCAM_Misclassified/` |
-| **Figure 7** | SHAP explanation grid: `Original Image \| SHAP heatmap \| Interpretation` for 3 test images per model | `figures/Fig7_SHAP_Explanations/` |
+All figures will be saved as `.png` files in the 
+`/figures/` directory of the GitHub repository 
+and generated during model training on Kaggle.
 
-**Expected Tables:**
+### 12.1 Expected Figures
 
-| Table | Description |
-|-------|-------------|
-| **Table 1** | Dataset description (classes, image counts, distribution) |
-| **Table 2** | Custom CNN architecture layer-by-layer |
-| **Table 3** | Transfer learning model comparison (MobileNetV2 vs ResNet50) |
-| **Table 4** | Evaluation results — accuracy, precision, recall, F1 per model |
-| **Table 5** | Final comparison table (all metrics + qualitative XAI ratings) |
+| Figure | Description | Folder |
+|--------|-------------|--------|
+| **Figure 1** | Class distribution bar chart showing number of training samples per emotion class (7 bars, annotated with counts and percentages) | `figures/Fig1_Dataset_Samples/` |
+| **Figure 2** | End-to-end methodology workflow diagram: Input → Preprocessing → Model (Custom CNN / MobileNetV2 / ResNet50) → Evaluation → Grad-CAM + SHAP | `figures/Fig2_Model_Workflow/` |
+| **Figure 3a** | Training and validation accuracy/loss curves — Custom CNN (2 subplots: accuracy curve + loss curve) | `figures/Fig3_Training_Curves/` |
+| **Figure 3b** | Training and validation accuracy/loss curves — MobileNetV2 | `figures/Fig3_Training_Curves/` |
+| **Figure 3c** | Training and validation accuracy/loss curves — ResNet50 | `figures/Fig3_Training_Curves/` |
+| **Figure 4a** | Confusion matrix — Custom CNN (normalized, annotated with 7×7 emotion class labels) | `figures/Fig4_Confusion_Matrices/` |
+| **Figure 4b** | Confusion matrix — MobileNetV2 | `figures/Fig4_Confusion_Matrices/` |
+| **Figure 4c** | Confusion matrix — ResNet50 | `figures/Fig4_Confusion_Matrices/` |
+| **Figure 5** | Grad-CAM correct prediction grid: `Original Image \| Custom CNN \| MobileNetV2 \| ResNet50` across 5 correctly classified emotion examples | `figures/Fig5_GradCAM_Correct/` |
+| **Figure 6** | Grad-CAM misclassification examples: True label / Predicted label / Heatmap / Diagnosis text — 5 examples per model | `figures/Fig6_GradCAM_Misclassified/` |
+| **Figure 7** | SHAP explanation grid: `Original Image \| SHAP heatmap \| Interpretation` — 3 test images per model | `figures/Fig7_SHAP_Explanations/` |
+
+### 12.2 Expected Tables
+
+| Table | Description | Location |
+|-------|-------------|----------|
+| **Table 1** | Dataset overview (total images, split sizes, image format) | Section 5 |
+| **Table 2** | Class distribution (emotion, training samples, percentage) | Section 5 |
+| **Table 3** | Custom CNN architecture layer-by-layer | Section 9 |
+| **Table 4** | Transfer learning model comparison (MobileNetV2 vs ResNet50 properties) | Section 10 |
+| **Table 5** | Training hyperparameters per model | Section 8 |
+| **Table 6** | Final evaluation results (accuracy, precision, recall, F1, training time, parameters) | Section 11 / outputs/tables/ |
+| **Table 7** | Per-class F1-score comparison across all 3 models | outputs/tables/ |
+
+### 12.3 Figure Priority
+
+Not all figures carry equal weight. The following 
+are considered most critical for this project:
+
+| Priority | Figure | Why Critical |
+|----------|--------|-------------|
+| 🔴 High | Figure 6 (Grad-CAM Misclassified) | Directly addresses RQ4, RQ5, and error analysis requirement |
+| 🔴 High | Figure 4 (Confusion Matrices) | Exposes per-class failures and class imbalance impact |
+| 🔴 High | Figure 3 (Training Curves) | Shows model convergence and overfitting/underfitting |
+| 🟡 Medium | Figure 5 (Grad-CAM Correct) | Validates that models focus on meaningful facial regions |
+| 🟡 Medium | Figure 7 (SHAP) | Provides pixel-level explanation depth |
+| 🟢 Lower | Figure 1 (Class Distribution) | Dataset visualization — quick to generate |
+| 🟢 Lower | Figure 2 (Workflow Diagram) | Methodology visualization |
 
 ---
 
