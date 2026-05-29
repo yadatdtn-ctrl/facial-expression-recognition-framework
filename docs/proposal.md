@@ -56,11 +56,11 @@ Be specific. State the exact problem, what is unknown, and what this project aim
 Target: 100–130 words.
 -->
 
-Facial expression recognition from static images is a challenging multi-class classification problem due to several inherent factors: high intra-class variability (e.g., different intensities of the same expression), inter-class similarity (e.g., Sad vs. Neutral, Angry vs. Disgust), class imbalance in standard benchmarks, and low image resolution in datasets such as FER-2013 (48×48 pixels, grayscale).
+Facial expression recognition from static images is a challenging multi-class classification problem due to several inherent factors: high intra-class variability (e.g., different intensities of the same expression across ages and cultures), inter-class similarity (e.g., Fear vs. Surprise, Angry vs. Disgust), and low image resolution in FER-2013 (48×48 pixels, grayscale). Additionally, the training dataset exhibits severe class imbalance: Happy contains 7,215 samples while Disgust contains only 436, creating a 16.5-to-1 disparity that causes models to ignore minority classes.
 
-While numerous CNN-based approaches have demonstrated strong performance on this task, **systematic comparisons between lightweight custom architectures and large pre-trained transfer learning models remain underexplored in the context of low-resolution grayscale facial images.** Furthermore, the application of Grad-CAM and SHAP to diagnose misclassifications — specifically to identify which facial regions are responsible for incorrect predictions — has received limited attention.
+While numerous CNN-based approaches have demonstrated strong performance on this task, **systematic comparisons between custom CNN architectures and transfer learning models (MobileNetV2, ResNet50) remain underexplored in the context of low-resolution grayscale images.** Furthermore, the application of Grad-CAM and SHAP to diagnose misclassifications — specifically to identify which facial regions are responsible for incorrect predictions — has received limited attention in FER research.
 
-This project addresses these gaps by designing, training, and interpretively evaluating three CNN architectures on the FER-2013 benchmark.
+This project addresses these gaps by systematically comparing three CNN architectures (custom CNN, MobileNetV2, ResNet50) on FER-2013 under controlled conditions, using per-class evaluation metrics and explainability methods (Grad-CAM and SHAP) to understand what each model learns and how to improve performance on underrepresented emotion classes.
 
 ---
 
