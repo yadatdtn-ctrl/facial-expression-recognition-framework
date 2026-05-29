@@ -154,9 +154,7 @@ to be validated against actual experimental outcomes.
 
 These ranges are consistent with published studies. 
 Pramerdorfer & Kampel (2021) report 65–68% for 
-VGGNet-based baselines, while Mandave & Patil (2025) 
-report 71.8% accuracy and macro-F1 of 0.689 for 
-MobileNetV2 with class-weighted loss. ResNet50 studies 
+VGGNet-based baselines, while Mandave & Patil (2025) report competitive results comparing MobileNetV2 and EfficientNet-B0 on FER-2013, with EfficientNet-B0 outperforming MobileNetV2 across all metrics. ResNet50 studies 
 report 65–73% under standard fine-tuning conditions, 
 with some reaching ~85% when combining private data 
 or custom classification heads.
