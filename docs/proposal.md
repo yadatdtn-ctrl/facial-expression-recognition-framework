@@ -635,8 +635,6 @@ after training:
 
 ## Section 12 — Expected Figures and Tables
 
-## Section 12 — Expected Figures and Tables
-
 All figures will be saved as `.png` files in the 
 `/figures/` directory of the GitHub repository 
 and generated during model training on Kaggle.
