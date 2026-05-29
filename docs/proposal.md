@@ -129,6 +129,7 @@ These factors explain why state-of-the-art accuracy on FER-2013 typically ranges
 | **RQ3** | How do preprocessing choices, data augmentation, and class-imbalance handling influence model robustness and per-class performance on FER-2013? |
 | **RQ4** | Do Grad-CAM explanations show that trained models focus on meaningful facial regions (e.g., eyes, mouth, brow) relevant to facial expression recognition? |
 | **RQ5** | What are the main failure patterns, deployment limitations, and practical risks when applying this facial expression recognition framework in real human-centered settings? |
+
 ---
 
 ## Section 7 — Expected Results
