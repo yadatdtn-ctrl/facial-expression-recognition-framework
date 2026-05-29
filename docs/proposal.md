@@ -571,28 +571,65 @@ images (48×48×1). This project addresses this by:
 
 ## Section 11 — Evaluation Metrics
 
-The following metrics will be computed for each model on the **test set**:
+All three models are evaluated on the held-out test 
+set using the same metrics to ensure fair and 
+reproducible comparison.
+
+### 11.1 Quantitative Metrics
 
 | Metric | Formula / Method | Purpose |
 |--------|-----------------|---------|
-| **Accuracy** | Correct predictions / Total predictions | Overall performance |
-| **Precision (macro)** | TP / (TP + FP) averaged over classes | Correctness of positive predictions |
-| **Recall (macro)** | TP / (TP + FN) averaged over classes | Coverage of actual positives |
-| **F1-Score (macro)** | 2 × (P × R) / (P + R) | Balanced performance, handles imbalance |
-| **Confusion Matrix** | Per-class prediction matrix | Visual error pattern analysis |
-| **Classification Report** | sklearn `classification_report` | Per-class breakdown |
-| **Training Time** | Wall-clock seconds per epoch | Computational cost |
-| **Parameter Count** | `model.count_params()` | Model complexity |
-| **Grad-CAM Quality** | Qualitative (1–5 scale) | Interpretability rating |
-| **SHAP Interpretability** | Qualitative (1–5 scale) | Pixel-level explanation quality |
+| **Accuracy** | Correct predictions / Total predictions | Overall performance baseline |
+| **Precision (macro)** | TP / (TP + FP) averaged over all classes | Correctness of positive predictions |
+| **Recall (macro)** | TP / (TP + FN) averaged over all classes | Coverage of actual positives |
+| **F1-Score (macro)** | 2 × (P × R) / (P + R) averaged over classes | Balanced metric — handles class imbalance |
+| **Per-class F1** | F1 computed individually per emotion | Exposes minority class failures |
+| **Confusion Matrix** | Per-class prediction heatmap | Visual error pattern analysis |
+| **Training Time** | Wall-clock seconds per epoch | Computational cost comparison |
+| **Parameter Count** | `model.count_params()` | Model complexity comparison |
 
-**Final Comparison Table Format (to be filled with results):**
+### 11.2 Why Macro-Averaged Metrics
 
-| Model | Accuracy | F1-Score | Training Time | Parameters | Grad-CAM Quality | SHAP Interpretability | Overall Finding |
-|-------|----------|----------|---------------|------------|------------------|-----------------------|-----------------|
+Macro-averaging computes each metric independently 
+per class and then takes the unweighted average. 
+This treats all 7 emotion classes equally regardless 
+of sample size — meaning Disgust (436 samples) 
+contributes equally to the final score as Happy 
+(7,215 samples). This directly addresses the 
+*accuracy illusion* problem described in Section 3, 
+where overall accuracy masks poor performance on 
+minority classes.
+
+### 11.3 Explainability Metrics
+
+| Metric | Method | Purpose |
+|--------|--------|---------|
+| **Grad-CAM Quality** | Qualitative visual assessment (1–5 scale) | Does the model focus on meaningful facial regions? |
+| **SHAP Interpretability** | Qualitative pixel-level analysis | Are positive/negative contributions semantically meaningful? |
+| **Misclassification Diagnosis** | Grad-CAM on incorrect predictions | Identifies which facial regions cause errors |
+
+### 11.4 Final Model Comparison Table
+
+Results will be reported in the following format 
+after training:
+
+| Model | Accuracy | Precision | Recall | F1-Score | Training Time | Parameters | Grad-CAM Quality |
+|-------|----------|-----------|--------|----------|---------------|------------|-----------------|
 | Custom CNN | — | — | — | — | — | — | — |
 | MobileNetV2 | — | — | — | — | — | — | — |
 | ResNet50 | — | — | — | — | — | — | — |
+
+### 11.5 Implementation Tools
+
+| Tool | Purpose |
+|------|---------|
+| `sklearn.metrics.classification_report` | Precision, Recall, F1 per class |
+| `sklearn.metrics.confusion_matrix` | Confusion matrix generation |
+| `matplotlib` / `seaborn` | Visualization of curves and matrices |
+| `tf-keras-vis` / `grad-cam` library | Grad-CAM heatmap generation |
+| `shap.GradientExplainer` | SHAP pixel-level explanations |
+| `model.count_params()` | Parameter count |
+| `time` module | Training time measurement |
 
 ---
 
