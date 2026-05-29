@@ -66,13 +66,13 @@ This project addresses these gaps by systematically comparing three CNN architec
 
 ## Section 4 — Selected Dataset and Dataset Link
 
-| Field | Detail |
-|-------|--------|
+| Field | Details |
+|-------|---------|
 | **Dataset Name** | FER-2013 (Facial Expression Recognition 2013) |
-| **Source / Link** | [https://www.kaggle.com/datasets/msambare/fer2013](https://www.kaggle.com/datasets/msambare/fer2013) |
+| **Source / Kaggle Link** | https://www.kaggle.com/datasets/msambare/fer2013 |
 | **Original Source** | Introduced at ICML 2013 (Goodfellow et al., 2013) |
 | **License** | Publicly available for academic use |
-| **Format** | CSV file with pixel values + emotion label, also available as folder structure |
+| **Format** | Grayscale images in folder structure (train/test) |
 
 ---
 
@@ -87,32 +87,36 @@ This project addresses these gaps by systematically comparing three CNN architec
 | Test Images | 3,589 |
 | Image Size | 48 × 48 pixels |
 | Image Type | Grayscale (1 channel) |
-| Number of Classes | 7 |
+| Number of Classes | 7 emotions |
 
-### 5.2 Emotion Classes
+### 5.2 Emotion Classes and Training Distribution
 
-| Class Label | Index | Training Images | Test Images |
-|-------------|-------|-----------------|-------------|
-| Angry | 0 | 3,995 | 491 |
-| Disgust | 1 | 436 | 55 |
-| Fear | 2 | 4,097 | 528 |
-| Happy | 3 | 7,215 | 879 |
-| Sad | 4 | 4,830 | 594 |
-| Surprise | 5 | 3,171 | 416 |
-| Neutral | 6 | 4,965 | 626 |
+| Emotion | Training Samples | Percentage |
+|---------|-----------------|------------|
+| Angry | 3,995 | 13.9% |
+| Disgust | 436 | 1.5% |
+| Fear | 4,097 | 14.3% |
+| Happy | 7,215 | 25.1% |
+| Neutral | 4,965 | 17.3% |
+| Sad | 4,830 | 16.8% |
+| Surprise | 3,171 | 11.0% |
+| **TOTAL** | **28,709** | **100%** |
 
-### 5.3 Class Distribution Analysis
+### 5.3 Class Imbalance Analysis
 
-The FER-2013 dataset exhibits **significant class imbalance**. The "Happy" class dominates with 7,215 training images (~25.1% of the training set), while "Disgust" is severely underrepresented with only 436 images (~1.5%). This imbalance has direct implications for model training and will be addressed through class-weighted loss functions and targeted data augmentation.
-
-> **→ See Figure 1:** Class distribution bar chart (to be generated in code)
+The FER-2013 dataset exhibits significant class imbalance. The "Happy" class dominates the training set with 7,215 images (25.1%), while "Disgust" is severely underrepresented with only 436 images (1.5%). This 16.5-to-1 ratio between the largest and smallest classes directly impacts model training: standard loss functions will bias models toward predicting the majority class, leading to poor performance on minority emotions. This imbalance is a key motivation for using class-weighted loss functions and stratified train/validation splits during model development.
 
 ### 5.4 Dataset Challenges
 
-- Low resolution (48×48) limits fine-grained facial feature capture
-- Grayscale images remove skin tone and color-based cues
-- Wild-collected images show high occlusion, lighting variation, and pose diversity
-- "Disgust" class is severely underrepresented and expected to produce the lowest per-class F1
+The FER-2013 dataset presents several well-documented challenges:
+
+* **Low spatial resolution (48×48 pixels)** — Limits fine-grained facial feature capture; subtle differences between similar emotions are difficult to distinguish
+* **Grayscale format** — Removes chromatic cues (e.g., redness from anger, paleness from fear) that aid human emotion recognition
+* **Label noise** — Images were crowdsourced-annotated rather than expert-labeled, resulting in mislabeled or ambiguous samples
+* **Pose and occlusion variation** — Real-world images include non-frontal angles and partial occlusions (hands, hair) that confound models trained on frontal faces
+* **Intra-class and inter-class similarity** — Emotions manifest differently across individuals and ages; similar facial configurations can indicate different emotions
+
+These factors explain why state-of-the-art accuracy on FER-2013 typically ranges from 64–75%, substantially lower than on controlled laboratory datasets like CK+ (~95%).
 
 ---
 
