@@ -139,27 +139,106 @@ These are PREDICTIONS written before running experiments. Required by the propos
 State your hypotheses — you will compare these against actual results in Phase 3.
 -->
 
-Based on the literature and the characteristics of the FER-2013 dataset, the following results are anticipated:
+Based on published benchmarks on the FER-2013 dataset 
+(2021–2025), the following results are anticipated for 
+each model. These predictions serve as informed hypotheses 
+to be validated against actual experimental outcomes.
 
-**Classification Performance:**
-- The **Custom CNN** is expected to establish a baseline accuracy in the range of 55–63%, consistent with published results on FER-2013 using shallow architectures without heavy regularization.
-- **MobileNetV2** is expected to outperform the custom CNN, benefiting from ImageNet-pretrained feature representations, with an estimated accuracy of 62–68%.
-- **ResNet50** is expected to achieve the highest absolute accuracy (65–70%) due to its deeper residual architecture, though at the cost of significantly higher training time and parameter count.
+### 7.1 Expected Classification Performance
 
-**Computational Cost:**
-- The Custom CNN will have the fewest parameters and the fastest training time per epoch.
-- ResNet50 will require the longest training time and highest memory usage.
-- MobileNetV2 is expected to offer the best accuracy-to-cost ratio, making it the most practically deployable model.
+| Model | Expected Accuracy | Expected Macro-F1 |
+|-------|------------------|-------------------|
+| Custom CNN (from scratch) | 63–70% | 0.55–0.65 |
+| MobileNetV2 (transfer learning) | 65–72% | 0.65–0.70 |
+| ResNet50 (transfer learning) | 65–73% | 0.62–0.70 |
 
-**Class-level Performance:**
-- "Happy" is expected to achieve the highest per-class F1-score due to its large training sample and distinct visual features.
-- "Disgust" is expected to yield the lowest F1-score due to severe class imbalance (only 436 training samples).
-- Confusion is anticipated most frequently between: *Sad ↔ Neutral*, *Angry ↔ Disgust*, and *Fear ↔ Surprise*.
+These ranges are consistent with published studies. 
+Pramerdorfer & Kampel (2021) report 65–68% for 
+VGGNet-based baselines, while Mandave & Patil (2025) 
+report 71.8% accuracy and macro-F1 of 0.689 for 
+MobileNetV2 with class-weighted loss. ResNet50 studies 
+report 65–73% under standard fine-tuning conditions, 
+with some reaching ~85% when combining private data 
+or custom classification heads.
 
-**Explainability:**
-- Grad-CAM is expected to highlight eye and mouth regions for correctly classified samples.
-- Misclassified samples (e.g., Sad → Neutral) are expected to show diffuse Grad-CAM activations without clear facial feature focus, suggesting the model relied on background or low-confidence regions.
-- SHAP is expected to confirm pixel-level importance concentrated around eyes and brow regions for "Angry," and mouth/cheek regions for "Happy."
+### 7.2 Expected Per-Class Performance
+
+The FER-2013 class imbalance is expected to produce 
+significant variation in per-class F1-scores:
+
+| Emotion | Expected F1 | Reason |
+|---------|------------|--------|
+| Happy | 0.85–0.92 | Largest class (7,215 samples); most visually distinct |
+| Neutral | 0.60–0.75 | Well-represented; limited confusion |
+| Angry | 0.50–0.65 | High intra-class variation; confused with Disgust |
+| Sad | 0.50–0.65 | Overlaps with Neutral and Fear |
+| Fear | 0.30–0.50 | Visually similar to Surprise and Sad |
+| Disgust | 0.20–0.40 | Severely underrepresented (436 samples); near-zero without class balancing |
+| Surprise | 0.55–0.70 | Distinct features but confused with Fear |
+
+Disgust and Fear are expected to be the most 
+challenging classes across all three models due to 
+severe class imbalance and inter-class similarity 
+with other negative emotions.
+
+### 7.3 Expected Computational Cost
+
+| Model | Expected Training Time | Parameters (approx.) |
+|-------|----------------------|---------------------|
+| Custom CNN | Fastest (~30–60 min) | ~500K–2M |
+| MobileNetV2 | Moderate (~1–2 hours) | ~3.4M |
+| ResNet50 | Slowest (~2–3 hours) | ~25M |
+
+Custom CNNs are expected to train approximately 2× 
+faster than large pretrained models. However, transfer 
+learning models are expected to converge to higher 
+accuracy in fewer epochs once fine-tuning begins. 
+ResNet50 with full fine-tuning is anticipated to be 
+the most computationally expensive option, consistent 
+with FERehab benchmarks reporting 2h 29m on an 
+NVIDIA Tesla P100 (40 epochs).
+
+### 7.4 Expected Model Trade-offs
+
+Based on the literature, the following trade-offs 
+are anticipated:
+
+* **Custom CNN** will have the fewest parameters and 
+fastest training time, making it most suitable for 
+resource-constrained environments. However, it is 
+expected to achieve the lowest overall accuracy 
+without advanced augmentation.
+
+* **MobileNetV2** is expected to offer the best 
+accuracy-to-cost ratio — competitive accuracy with 
+significantly fewer parameters than ResNet50. It is 
+the most practical choice for real-time or 
+edge-deployed FER systems.
+
+* **ResNet50** is expected to achieve the highest 
+absolute accuracy due to its deeper architecture and 
+richer pretrained features, but at the cost of 
+significantly higher training time and memory usage.
+
+### 7.5 Expected Explainability Findings
+
+* **Grad-CAM** is expected to show attention 
+concentrated on eye and mouth regions for correctly 
+classified samples. Misclassified samples (e.g., 
+Disgust predicted as Angry, Fear predicted as Sad) 
+are expected to show diffuse or incorrect activation 
+patterns — focusing on background or irrelevant 
+facial regions.
+
+* **SHAP** is expected to confirm pixel-level 
+importance concentrated around brow and mouth regions 
+for high-confidence predictions, while low-confidence 
+or misclassified samples will show scattered negative 
+contributions across the face.
+
+* Using **class-weighted loss** is expected to 
+visibly improve minority class recall (especially 
+Disgust and Fear) at a small cost to overall accuracy.
 
 ---
 
