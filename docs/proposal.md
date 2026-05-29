@@ -43,6 +43,7 @@ Transfer learning models using pretrained networks (MobileNetV2, ResNet50) bring
 
 ### Project Objective. This project systematically compares custom CNN architectures against transfer learning models (MobileNetV2, ResNet50) on FER-2013, applies Grad-CAM and SHAP to understand what features each model learns, and identifies which approach best balances accuracy, computational efficiency, and interpretability for practical facial expression recognition systems.**
 
+
 ---
 
 ## Section 3 — Problem Statement
