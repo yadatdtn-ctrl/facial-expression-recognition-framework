@@ -562,8 +562,7 @@ images (48×48×1). This project addresses this by:
   times to create pseudo-RGB input: 
   `[gray, gray, gray]`
 * This approach is consistent with published FER 
-  transfer learning studies (Tutuianu et al., 2023; 
-  Mandave & Patil, 2025)
+  transfer learning studies (Tutuianu et al., 2024; Mandave & Patil, 2025)
   
 ---
 
