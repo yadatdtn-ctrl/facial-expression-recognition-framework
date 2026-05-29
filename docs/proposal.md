@@ -439,9 +439,19 @@ Key deployment considerations include:
 
 ## Section 9 — CNN Model Design (Custom CNN)
 
+## Section 9 — CNN Model Design
+
 ### 9.1 Architecture Rationale
 
-The custom CNN is designed to balance representational depth with computational efficiency for 48×48 grayscale input. Four convolutional blocks progressively increase filter depth, followed by Global Average Pooling (replacing Flatten to reduce overfitting) and two dense layers.
+The custom CNN is designed specifically for 48×48 
+grayscale input, balancing representational depth 
+with computational efficiency. Four convolutional 
+blocks progressively increase filter depth (32 → 64 
+→ 128 → 256), allowing the network to learn 
+increasingly abstract facial features. Global Average 
+Pooling replaces the traditional Flatten layer to 
+reduce the risk of overfitting on the relatively 
+small FER-2013 training set.
 
 ### 9.2 Architecture Table
 
@@ -460,12 +470,23 @@ The custom CNN is designed to balance representational depth with computational 
 | Conv_4 | Conv2D | 6 × 6 × 256 | 256 @ 3×3 | ReLU |
 | BN_4 | BatchNorm | 6 × 6 × 256 | — | — |
 | GAP | GlobalAvgPool2D | 256 | — | — |
-| Dropout | Dropout | 256 | rate=0.5 | — |
+| Dropout_1 | Dropout | 256 | rate = 0.5 | — |
 | Dense_1 | Dense | 256 | 256 units | ReLU |
-| Dropout_2 | Dropout | 256 | rate=0.3 | — |
+| Dropout_2 | Dropout | 256 | rate = 0.3 | — |
 | Output | Dense | 7 | 7 units | Softmax |
 
-> **→ See Figure 2:** Model design workflow diagram
+### 9.3 Design Decisions
+
+| Decision | Justification |
+|----------|--------------|
+| **4 Convolutional Blocks** | Sufficient depth for 48×48 images without excessive parameters |
+| **Filter doubling (32→256)** | Progressive feature abstraction from edges to complex expressions |
+| **Batch Normalization** | Stabilizes training, reduces sensitivity to learning rate |
+| **MaxPooling 2×2** | Reduces spatial dimensions while preserving dominant features |
+| **Global Average Pooling** | Replaces Flatten to reduce overfitting and parameter count |
+| **Dropout (0.5 + 0.3)** | Regularization to prevent overfitting on limited training data |
+| **Softmax output** | Multi-class classification across 7 emotion categories |
+| **ReLU activation** | Standard non-linear activation; avoids vanishing gradient |
 
 ---
 
