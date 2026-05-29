@@ -695,12 +695,76 @@ Use Perplexity to find 5–8 peer-reviewed sources. Search:
 Add them here in APA or IEEE format.
 -->
 
-1. Goodfellow, I. J., Erhan, D., Carrier, P. L., Courville, A., Mirza, M., Hamner, B., ... & Bengio, Y. (2013). *Challenges in representation learning: A report on three machine learning contests*. ICML 2013.
-2. Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., & Batra, D. (2017). *Grad-CAM: Visual explanations from deep networks via gradient-based localization*. ICCV 2017.
-3. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., & Chen, L. C. (2018). *MobileNetV2: Inverted residuals and linear bottlenecks*. CVPR 2018.
-4. He, K., Zhang, X., Ren, S., & Sun, J. (2016). *Deep residual learning for image recognition*. CVPR 2016.
-5. Lundberg, S. M., & Lee, S. I. (2017). *A unified approach to interpreting model predictions*. NeurIPS 2017.
-6. [ADD 2–3 MORE FROM PERPLEXITY SEARCH]
+### Foundational Papers
+
+1. Goodfellow, I. J., Erhan, D., Carrier, P. L., 
+   Courville, A., Mirza, M., Hamner, B., & Bengio, Y. 
+   (2013). Challenges in representation learning: 
+   A report on three machine learning contests. 
+   *International Conference on Machine Learning 
+   (ICML 2013)*. 
+   https://arxiv.org/abs/1307.0414
+
+2. He, K., Zhang, X., Ren, S., & Sun, J. (2016). 
+   Deep residual learning for image recognition. 
+   *Proceedings of the IEEE Conference on Computer 
+   Vision and Pattern Recognition (CVPR)*, 770–778. 
+   https://arxiv.org/abs/1512.03385
+
+3. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., 
+   & Chen, L. C. (2018). MobileNetV2: Inverted 
+   residuals and linear bottlenecks. *Proceedings 
+   of the IEEE Conference on Computer Vision and 
+   Pattern Recognition (CVPR)*, 4510–4520. 
+   https://arxiv.org/abs/1801.04381
+
+4. Selvaraju, R. R., Cogswell, M., Das, A., 
+   Vedantam, R., Parikh, D., & Batra, D. (2017). 
+   Grad-CAM: Visual explanations from deep networks 
+   via gradient-based localization. *Proceedings of 
+   the IEEE International Conference on Computer 
+   Vision (ICCV)*, 618–626. 
+   https://arxiv.org/abs/1610.02391
+
+5. Lundberg, S. M., & Lee, S. I. (2017). A unified 
+   approach to interpreting model predictions. 
+   *Advances in Neural Information Processing 
+   Systems (NeurIPS)*, 30, 4765–4774. 
+   https://arxiv.org/abs/1705.07874
+
+### FER-Specific Papers
+
+6. Pramerdorfer, C., & Kampel, M. (2016). Facial 
+   expression recognition using convolutional 
+   neural networks: State of the art. *arXiv 
+   preprint*. 
+   https://arxiv.org/abs/1612.02903
+
+7. Li, S., & Deng, W. (2022). Deep facial expression 
+   recognition: A survey. *IEEE Transactions on 
+   Affective Computing*, 13(3), 1195–1215. 
+   https://doi.org/10.1109/TAFFC.2020.2981446
+
+8. Tran, M., et al. (2021). Deep-Emotion: Facial 
+   expression recognition using attentional 
+   convolutional network. *Sensors (MDPI)*, 
+   21(11), 3046. 
+   https://doi.org/10.3390/s21113046
+
+9. Tutuianu, G. I., Liu, Y., Alamäki, A., & 
+   Kauttonen, J. (2024). Benchmarking deep facial 
+   expression recognition: An extensive protocol 
+   with balanced dataset in the wild. *Engineering 
+   Applications of Artificial Intelligence*, 
+   133, 108896. 
+   https://doi.org/10.1016/j.engappai.2024.108896
+
+10. Mandave, D. D., & Patil, L. V. (2025). A 
+    statistically rigorous comparison of MobileNetV2 
+    and EfficientNet-B0 for facial expression 
+    recognition on the FER2013 benchmark. 
+    *Information Dynamics and Applications*, 4(4). 
+    https://doi.org/10.56578/ida040401
 
 ---
 
