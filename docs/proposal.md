@@ -12,7 +12,7 @@
 
 ## Section 1 — Project Title
 
-**Facial Expression Recognition Framework: A Comparative Analysis of Custom CNN and Transfer Learning Models with Explainable AI
+**Facial Expression Recognition Framework: A Comparative Analysis of Custom CNN and Transfer Learning Models with Explainable AI**
 
 ---
 
