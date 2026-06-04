@@ -83,7 +83,7 @@ This project addresses these gaps by systematically comparing three CNN architec
 |----------|-------|
 | Total Images | 35,887 |
 | Training Images | 28,709 |
-| Test Images | 3,589 |
+| Test Images | 7,178 |
 | Image Size | 48 × 48 pixels |
 | Image Type | Grayscale (1 channel) |
 | Number of Classes | 7 emotions |
@@ -512,7 +512,7 @@ input expectations.
 | **Total Parameters (approx.)** | ~3.4M | ~25M |
 | **Input Size Required** | 224×224×3 | 224×224×3 |
 | **Base Weights** | Frozen (initial training) | Frozen (initial training) |
-| **Fine-Tuning** | Unfreeze last 30 layers after convergence | Unfreeze last 20 layers after convergence |
+| **Fine-Tuning** | Unfreeze last 30 layers after convergence | Unfreeze last 30 layers after convergence |
 | **Custom Head** | GAP → Dropout(0.5) → Dense(256) → Dense(7) | Same |
 | **Optimizer** | Adam (lr = 0.0001) | Adam (lr = 0.0001) |
 | **Epochs** | 20 | 20 |
@@ -612,9 +612,9 @@ after training:
 
 | Model | Accuracy | Precision | Recall | F1-Score | Training Time | Parameters | Grad-CAM Quality |
 |-------|----------|-----------|--------|----------|---------------|------------|-----------------|
-| Custom CNN | — | — | — | — | — | — | — |
-| MobileNetV2 | — | — | — | — | — | — | — |
-| ResNet50 | — | — | — | — | — | — | — |
+| Custom CNN | 58.58% | 0.5259 | 0.5872 | 0.5364 | 27.3 min | ~1.2M | High |
+| MobileNetV2 | 50.49% | 0.4434 | 0.4873 | 0.4440 | 153.5 min | ~3.4M | Medium |
+| ResNet50 | 40.78% | 0.3782 | 0.4110 | 0.3530 | 138.9 min | ~25M | Medium |
 
 ### 11.5 Implementation Tools
 
@@ -632,37 +632,46 @@ after training:
 
 ## Section 12 — Expected Figures and Tables
 
-All figures will be saved as `.png` files in the 
+All figures will be saved as `.pdf` files in the 
 `/figures/` directory of the GitHub repository 
 and generated during model training on Kaggle.
 
 ### 12.1 Expected Figures
 
-| Figure | Description | Folder |
-|--------|-------------|--------|
-| **Figure 1** | Class distribution bar chart showing number of training samples per emotion class (7 bars, annotated with counts and percentages) | `figures/Fig1_Dataset_Samples/` |
-| **Figure 2** | End-to-end methodology workflow diagram: Input → Preprocessing → Model (Custom CNN / MobileNetV2 / ResNet50) → Evaluation → Grad-CAM + SHAP | `figures/Fig2_Model_Workflow/` |
-| **Figure 3a** | Training and validation accuracy/loss curves — Custom CNN (2 subplots: accuracy curve + loss curve) | `figures/Fig3_Training_Curves/` |
-| **Figure 3b** | Training and validation accuracy/loss curves — MobileNetV2 | `figures/Fig3_Training_Curves/` |
-| **Figure 3c** | Training and validation accuracy/loss curves — ResNet50 | `figures/Fig3_Training_Curves/` |
-| **Figure 4a** | Confusion matrix — Custom CNN (normalized, annotated with 7×7 emotion class labels) | `figures/Fig4_Confusion_Matrices/` |
-| **Figure 4b** | Confusion matrix — MobileNetV2 | `figures/Fig4_Confusion_Matrices/` |
-| **Figure 4c** | Confusion matrix — ResNet50 | `figures/Fig4_Confusion_Matrices/` |
-| **Figure 5** | Grad-CAM correct prediction grid: `Original Image \| Custom CNN \| MobileNetV2 \| ResNet50` across 5 correctly classified emotion examples | `figures/Fig5_GradCAM_Correct/` |
-| **Figure 6** | Grad-CAM misclassification examples: True label / Predicted label / Heatmap / Diagnosis text — 5 examples per model | `figures/Fig6_GradCAM_Misclassified/` |
-| **Figure 7** | SHAP explanation grid: `Original Image \| SHAP heatmap \| Interpretation` — 3 test images per model | `figures/Fig7_SHAP_Explanations/` |
+| Figure | Description | Filename |
+|--------|-------------|----------|
+| **Figure 1** | Class distribution bar chart | `outputs/figures/Fig1_Class_Distribution.pdf` |
+| **Figure 2** | Sample images per class | `outputs/figures/Fig2_Sample_Images.pdf` |
+| **Figure 3a** | Training curves — Custom CNN | `outputs/figures/Fig3a_Training_Curves_Custom_CNN.pdf` |
+| **Figure 3b** | Training curves — MobileNetV2 | `outputs/figures/Fig3b_Training_Curves_MobileNetV2.pdf` |
+| **Figure 3c** | Training curves — ResNet50 | `outputs/figures/Fig3c_Training_Curves_ResNet50.pdf` |
+| **Figure 4a** | Confusion matrix — Custom CNN | `outputs/figures/Fig4a_Confusion_Matrix_Custom_CNN.pdf` |
+| **Figure 4b** | Confusion matrix — MobileNetV2 | `outputs/figures/Fig4b_Confusion_Matrix_MobileNetV2.pdf` |
+| **Figure 4c** | Confusion matrix — ResNet50 | `outputs/figures/Fig4c_Confusion_Matrix_ResNet50.pdf` |
+| **Figure 5** | Model comparison chart | `outputs/figures/Fig5_Model_Comparison.pdf` |
+| **Figure 6a** | Grad-CAM — Custom CNN | `outputs/figures/Fig6a_GradCAM_Custom_CNN.pdf` |
+| **Figure 6b** | Grad-CAM — MobileNetV2 | `outputs/figures/Fig6b_GradCAM_MobileNetV2.pdf` |
+| **Figure 6c** | Grad-CAM — ResNet50 | `outputs/figures/Fig6c_GradCAM_ResNet50.pdf` |
+| **Figure 7a** | SHAP — Custom CNN | `outputs/figures/Fig7a_SHAP_Custom_CNN.pdf` |
+| **Figure 7b** | SHAP — MobileNetV2 | `outputs/figures/Fig7b_SHAP_MobileNetV2.pdf` |
+| **Figure 7c** | SHAP — ResNet50 | `outputs/figures/Fig7c_SHAP_ResNet50.pdf` |
+| **Figure 8a** | ROC curves — Custom CNN | `outputs/figures/Fig8a_ROC_Custom_CNN.pdf` |
+| **Figure 8b** | ROC curves — MobileNetV2 | `outputs/figures/Fig8b_ROC_MobileNetV2.pdf` |
+| **Figure 8c** | ROC curves — ResNet50 | `outputs/figures/Fig8c_ROC_ResNet50.pdf` |
 
 ### 12.2 Expected Tables
 
-| Table | Description | Location |
+| Table | Description | Filename |
 |-------|-------------|----------|
-| **Table 1** | Dataset overview (total images, split sizes, image format) | Section 5 |
-| **Table 2** | Class distribution (emotion, training samples, percentage) | Section 5 |
-| **Table 3** | Custom CNN architecture layer-by-layer | Section 9 |
-| **Table 4** | Transfer learning model comparison (MobileNetV2 vs ResNet50 properties) | Section 10 |
-| **Table 5** | Training hyperparameters per model | Section 8 |
-| **Table 6** | Final evaluation results (accuracy, precision, recall, F1, training time, parameters) | Section 11 / outputs/tables/ |
-| **Table 7** | Per-class F1-score comparison across all 3 models | outputs/tables/ |
+| **Table 1** | Dataset overview | In proposal Section 5 |
+| **Table 2** | Class distribution | In proposal Section 5 |
+| **Table 3** | Custom CNN architecture | In proposal Section 9 |
+| **Table 4** | Transfer learning comparison | In proposal Section 10 |
+| **Table 5** | Training hyperparameters | In proposal Section 8 |
+| **Table 6** | Model comparison results | `outputs/tables/Table8_Model_Comparison.csv` |
+| **Table 7** | Per-class F1 — Custom CNN | `outputs/tables/Table7_CustomCNN_PerClass_F1.csv` |
+| **Table 8** | Per-class F1 — MobileNetV2 | `outputs/tables/Table7_MobileNetV2_PerClass_F1.csv` |
+| **Table 9** | Per-class F1 — ResNet50 | `outputs/tables/Table7_ResNet50_PerClass_F1.csv` |
 
 ### 12.3 Figure Priority
 
