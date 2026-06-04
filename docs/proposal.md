@@ -114,10 +114,8 @@ These factors explain why state-of-the-art accuracy on FER-2013 typically ranges
 
 ## Section 7 — Expected Results
 
-Based on published benchmarks on the FER-2013 dataset 
-(2021–2025), the following results are anticipated for 
-each model. These predictions serve as informed hypotheses 
-to be validated against actual experimental outcomes.
+Based on published benchmarks on the FER‑2013 dataset and typical transfer‑learning practice, the initial expectation for this project was that all three models would reach around mid‑60% to low‑70% accuracy, with transfer learning slightly outperforming the custom CNN. These ranges were treated as hypotheses and later compared against the actual experimental results, which turned out to be lower overall and showed the custom CNN performing best on FER‑2013.
+
 
 ### 7.1 Expected Classification Performance
 
