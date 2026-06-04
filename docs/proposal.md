@@ -18,25 +18,25 @@
 
 ## Section 2 — Background and Motivation
 
-Facial expression recognition (FER) is an important problem in affective computing, with practical applications in healthcare (e.g., mental health screening), education (student engagement monitoring), transportation (driver safety), and human–computer interaction. Automatically detecting basic emotions from facial images can support systems that adapt to a user’s emotional state or help clinicians and teachers interpret subtle non‑verbal cues.
+Facial expression recognition (FER) is a fundamental problem in affective computing, with applications in healthcare (e.g., mental health screening), education (student engagement), transportation (driver safety), and human–computer interaction. Automatically detecting emotional states from facial images can support systems that react to a user’s feelings or help experts interpret subtle non‑verbal cues.
 
-Convolutional Neural Networks (CNNs) have become the standard approach for FER because they learn hierarchical features directly from raw pixels, avoiding the need for hand‑crafted features. However, a key design question remains: should practitioners build a compact CNN tailored specifically to the FER‑2013 domain (48×48 grayscale faces), or should they rely on transfer learning from large pretrained models trained on high‑resolution RGB datasets such as ImageNet? Reported accuracies on FER‑2013 remain noticeably below performance on more controlled datasets, which suggests that this architectural trade‑off is still not fully understood.
+Convolutional Neural Networks (CNNs) are the standard approach for FER because they can learn hierarchical image features directly from raw pixels. However, a key question remains for a dataset like FER‑2013 (48×48 grayscale): should we design a compact CNN tailored to this domain, or rely on transfer learning from larger models trained on high‑resolution RGB images such as ImageNet? Reported accuracies on FER‑2013 are still far from perfect, partly because the trade‑off between custom CNNs and transfer learning in this low‑resolution setting is not fully understood.
 
-Transfer learning models such as MobileNetV2 and ResNet50 bring powerful generic features learned from millions of color images, but they must be adapted to low‑resolution grayscale input. A custom CNN, in contrast, can be designed from scratch for 48×48 grayscale faces, potentially achieving competitive performance with far fewer parameters and lower computational cost. The FER‑2013 dataset further complicates this choice because of its strong class imbalance (Disgust: 436 samples vs. Happy: 7,215), noisy crowdsourced labels, and variation in pose and occlusion.
+Transfer learning models such as MobileNetV2 and ResNet50 bring powerful pretrained features but face a domain mismatch: they expect 224×224 RGB input, while FER‑2013 provides 48×48 grayscale faces with noise and class imbalance. A smaller custom CNN can instead be designed specifically for 48×48 grayscale, potentially achieving reasonable performance with fewer parameters and lower computational cost. The dataset itself is challenging: Happy has 7,215 samples while Disgust has only 436, labels come from crowdsourcing, and faces vary in pose and occlusion.
 
-Beyond raw accuracy, a major limitation of many deep learning systems is their opacity. In human‑centered applications like FER, it is important to understand why a model predicts a specific emotion for a given face. Explainable AI methods such as Grad‑CAM, which visualizes discriminative image regions, and SHAP, which estimates pixel‑level importance, can help reveal whether a model is focusing on meaningful facial regions (eyes, mouth, eyebrows) or on artefacts and background. This project therefore combines model comparison with explainability to build a more transparent FER framework.
+Beyond accuracy, a major limitation of many deep models is that they are hard to explain. In human‑centered applications like FER, understanding why a model predicts a specific emotion matters almost as much as the prediction itself. Grad‑CAM can highlight which facial regions a model uses, and SHAP can show pixel‑level importance. Together they help to diagnose misclassifications and to check if the models really focus on meaningful parts of the face.
 
-The aim of this project is to systematically compare a custom CNN against two transfer learning models (MobileNetV2, ResNet50) on FER‑2013, to analyze how their performance and computational cost differ, and to use Grad‑CAM and SHAP to interpret their behavior. The final system is framed as a decision‑support tool that assists human experts in emotion recognition rather than replacing human judgment.
+This project compares a custom CNN with MobileNetV2 and ResNet50 on FER‑2013, and uses Grad‑CAM and SHAP to understand what each model learns. The goal is to see which approach gives the best balance between accuracy, computational cost, and interpretability, and to frame the final system as a decision‑support tool for human experts rather than a replacement for them.
 
 ---
 
 ## Section 3 — Problem Statement
 
-Facial expression recognition from static images is a challenging multi‑class classification task for several reasons. There is high intra‑class variability: the same emotion can appear differently across individuals, ages, and cultures, and with different intensities. There is also strong inter‑class similarity, for example between Fear and Surprise or between Angry and Disgust, which can look similar in low‑resolution images. The FER‑2013 dataset adds further difficulty, because it contains only 48×48 grayscale faces, which reduces fine‑grained visual information.
+Facial expression recognition from static images is a challenging multi‑class classification problem. There is high intra‑class variability (the same emotion looks different across people, ages, cultures, and intensities) and strong inter‑class similarity (e.g., Fear vs. Surprise, Angry vs. Disgust), especially when working with low‑resolution images. FER‑2013 adds further difficulty because it contains 48×48 grayscale faces, which limits fine‑grained detail that could help separate similar emotions.
 
-The training portion of FER‑2013 exhibits severe class imbalance: Happy contains 7,215 samples while Disgust contains only 436, creating a 16.5‑to‑1 disparity. This imbalance can cause models trained with standard loss functions to focus mainly on majority classes and ignore minority emotions. While many CNN‑based methods have been proposed for FER‑2013, systematic comparisons between a domain‑specific custom CNN and particular transfer learning architectures (MobileNetV2 and ResNet50) on low‑resolution grayscale faces are still limited. In addition, the combined use of Grad‑CAM and SHAP to diagnose misclassifications and to understand which facial regions drive model decisions has not been widely explored for this dataset.
+The training split of FER‑2013 is severely imbalanced: Happy has 7,215 samples while Disgust has only 436, a 16.5‑to‑1 ratio. Under standard training this pushes models to favor majority classes and to ignore minority ones. Although many CNN‑based FER methods exist, direct comparisons between a domain‑specific custom CNN and transfer learning models (MobileNetV2, ResNet50) on low‑resolution grayscale images are still limited. The combined use of Grad‑CAM and SHAP to analyze both correct and incorrect predictions on FER‑2013 is also not very common.
 
-This project addresses these gaps by comparing three CNN architectures (custom CNN, MobileNetV2, ResNet50) on FER‑2013 under controlled training conditions, reporting both overall and per‑class metrics, and applying Grad‑CAM and SHAP to analyze correct and incorrect predictions. A key question is whether a compact, domain‑matched CNN can outperform heavier ImageNet‑pretrained models on this specific grayscale, low‑resolution FER task.
+This project addresses these gaps by training three CNN‑based models (custom CNN, MobileNetV2, ResNet50) on FER‑2013 under the same conditions, reporting both global and per‑class metrics, and using Grad‑CAM and SHAP to inspect how each model behaves, especially on minority emotions. A key question is whether a compact custom CNN can actually outperform heavier pretrained models on this specific grayscale, low‑resolution task.
 
 ---
 
@@ -50,7 +50,7 @@ This project addresses these gaps by comparing three CNN architectures (custom C
 | **License** | Publicly available for academic use |
 | **Format** | Grayscale images in folder structure (train/test) |
 
-FER‑2013 is widely used in FER research and is suitable for an academic project because it is freely available, reasonably large, and already split into training and test sets.
+FER‑2013 is a standard benchmark for FER and is suitable for this project because it is publicly available, has a reasonable size, and already includes a clear train/test split.
 
 ---
 
@@ -67,134 +67,126 @@ FER‑2013 is widely used in FER research and is suitable for an academic projec
 | Image Type | Grayscale (1 channel) |
 | Number of Classes | 7 emotions |
 
-The dataset contains only facial images, each labeled with one of seven basic emotion categories. All images are resized and stored at 48×48 pixels, which significantly constrains the amount of detail available to the model.
+The dataset contains only faces, each labeled with one of seven basic emotions and resized to 48×48 pixels. This size keeps the images small and uniform but also makes the task harder because much of the subtle facial detail is lost.
 
 ### 5.2 Emotion Classes and Training Distribution
 
-| Emotion | Training Samples | Percentage |
-|---------|-----------------|------------|
-| Angry   | 3,995 | 13.9% |
-| Disgust | 436   | 1.5% |
-| Fear    | 4,097 | 14.3% |
-| Happy   | 7,215 | 25.1% |
-| Neutral | 4,965 | 17.3% |
-| Sad     | 4,830 | 16.8% |
-| Surprise| 3,171 | 11.0% |
-| **TOTAL** | **28,709** | **100%** |
+| Emotion  | Training Samples | Percentage |
+|----------|-----------------|------------|
+| Angry    | 3,995 | 13.9% |
+| Disgust  | 436   | 1.5%  |
+| Fear     | 4,097 | 14.3% |
+| Happy    | 7,215 | 25.1% |
+| Neutral  | 4,965 | 17.3% |
+| Sad      | 4,830 | 16.8% |
+| Surprise | 3,171 | 11.0% |
+| **TOTAL**| **28,709** | **100%** |
 
-The Happy class dominates the training set, while Disgust is severely underrepresented. This skewed distribution has a direct impact on model performance and motivates the use of class‑weighted loss and careful evaluation.
+Happy clearly dominates the dataset while Disgust is extremely rare. This imbalance has a strong impact on training and evaluation and needs to be handled explicitly.
 
 ### 5.3 Class Imbalance Analysis
 
-The 16.5‑to‑1 ratio between Happy and Disgust makes it difficult for a model to learn reliable patterns for minority classes. If all samples are treated equally in the loss function, the model can reach high overall accuracy simply by focusing on the majority emotions while misclassifying most minority examples. To counter this, class weights are computed from the training set frequencies and applied in the loss function, and macro‑averaged metrics are used during evaluation to give each class equal importance.
+The 16.5‑to‑1 ratio between Happy and Disgust means that a model can achieve a decent overall accuracy while almost never predicting Disgust. Without class weighting or other imbalance strategies, minority emotions remain poorly learned. In this project, class weights are computed from the training set using `sklearn.utils.class_weight.compute_class_weight` and applied during training for all three models.
 
 ### 5.4 Dataset Challenges
 
-The FER‑2013 dataset presents several well‑known challenges:
+The FER‑2013 dataset has several known challenges:
 
-- **Low spatial resolution (48×48 pixels)** — limits the model’s ability to capture fine‑grained facial detail, especially for subtle emotion differences.
-- **Grayscale format** — removes color cues (such as redness or pallor) that may help humans distinguish some emotional states.
-- **Label noise** — labels were collected via crowdsourcing, so some images are mislabeled or ambiguous.
-- **Pose and occlusion variation** — some faces are non‑frontal or partially occluded by hair, hands, or objects.
-- **Intra‑class and inter‑class similarity** — expressions vary widely between individuals, and similar facial configurations can correspond to different emotions.
+- Low spatial resolution (48×48 pixels), which makes it hard to capture subtle facial cues.  
+- Grayscale format, which removes color information that would help humans (for example, redness or paleness).  
+- Noisy labels, since annotations were collected via crowdsourcing rather than experts.  
+- Variations in pose and occlusion, such as side views or faces partly covered by hands and hair.  
+- High intra‑class and inter‑class variability, with similar facial patterns sometimes corresponding to different emotions.
 
-Because of these factors, reported accuracies on FER‑2013 (often around the mid‑60% range) are lower than on more controlled datasets such as CK+, where accuracy can exceed 90%.
+As a result, even strong CNN models usually reach only mid‑60% accuracy on FER‑2013, which is noticeably lower than on more controlled laboratory datasets like CK+.
 
 ---
 
 ## Section 6 — Research Questions
 
-| RQ | Research Question |
-|----|------------------|
-| **RQ1** | How accurately can CNN‑based models perform seven‑class facial expression recognition using the FER‑2013 dataset? |
-| **RQ2** | Which model family—custom CNN or transfer learning (MobileNetV2, ResNet50)—provides the best balance between predictive performance and computational efficiency? |
-| **RQ3** | How do preprocessing choices, data augmentation, and class‑imbalance handling influence model robustness and per‑class performance on FER‑2013? |
-| **RQ4** | Do Grad‑CAM explanations show that the trained models focus on meaningful facial regions (e.g., eyes, mouth, brow) when making predictions? |
-| **RQ5** | What are the main failure patterns, deployment limitations, and practical risks when applying this facial expression recognition framework in real human‑centered settings? |
+| RQ   | Research Question |
+|------|------------------|
+| **RQ1** | How accurately can CNN‑based models perform seven‑class facial expression recognition on FER‑2013? |
+| **RQ2** | Which model family—custom CNN or transfer learning (MobileNetV2, ResNet50)—offers the best balance between predictive performance and computational efficiency? |
+| **RQ3** | How do preprocessing, data augmentation, and class‑imbalance handling influence robustness and per‑class performance? |
+| **RQ4** | Do Grad‑CAM explanations show that the trained models focus on meaningful facial regions such as eyes, mouth, and eyebrows? |
+| **RQ5** | What failure patterns and practical risks appear when deploying this framework in real human‑centered settings? |
 
-These questions guide the design of the models, the evaluation metrics, and the explainability analysis.
+These questions guide the modeling choices, evaluation metrics, and explainability analyses in later sections.
 
 ---
 
-## Section 7 — Expected Results
+## Section 7 — Expected and Actual Results
 
-This section describes the expectations that motivated the study and then briefly compares them with the actual experimental results. The original expectations were based on published FER‑2013 benchmarks and typical transfer learning practice, and they assumed that transfer learning models would outperform a custom CNN. After training the models, it turned out that the overall performance levels were lower than these optimistic predictions and that the custom CNN actually achieved the best results on FER‑2013.
+This section first summarizes the expectations formed from the literature before training, and then briefly compares them with the actual results from the experiments. Initially, transfer learning models were expected to outperform the custom CNN. However, the final experiments showed the opposite: the custom CNN achieved the best test accuracy and macro‑F1 on FER‑2013.
 
-### 7.1 Expected Classification Performance
+### 7.1 Expected Classification Performance (Before Experiments)
 
-Based on prior work on FER‑2013, the initial hypothesis was that all three models would reach moderately high accuracy, with transfer learning slightly ahead of the custom CNN:
+Based on prior work on FER‑2013, the following performance ranges were expected:
 
-| Model | Expected Accuracy | Expected Macro‑F1 |
-|-------|------------------|-------------------|
-| Custom CNN (from scratch)   | 63–70% | 0.55–0.65 |
-| MobileNetV2 (transfer learning) | 65–72% | 0.65–0.70 |
-| ResNet50 (transfer learning)   | 65–73% | 0.62–0.70 |
+| Model                            | Expected Accuracy | Expected Macro‑F1 |
+|----------------------------------|-------------------|-------------------|
+| Custom CNN (from scratch)        | 63–70%            | 0.55–0.65         |
+| MobileNetV2 (transfer learning)  | 65–72%            | 0.65–0.70         |
+| ResNet50 (transfer learning)     | 65–73%            | 0.62–0.70         |
 
-These ranges are consistent with reported studies using deep CNNs and transfer learning on FER‑2013. It was assumed that the larger pretrained models, once fine‑tuned, would reach the highest accuracy.
+These ranges reflect reported results for deep CNN and transfer learning methods on FER‑2013. It was assumed that MobileNetV2 and ResNet50, with richer pretrained features, would reach higher accuracy than a smaller custom CNN.
 
-In practice, the final experiments did not reach these ranges. On the held‑out FER‑2013 test set, the custom CNN achieved **58.58%** accuracy with macro‑F1 of **0.5364**, MobileNetV2 achieved **50.49%** accuracy with macro‑F1 of **0.4440**, and ResNet50 achieved **40.78%** accuracy with macro‑F1 of **0.3530**. These results show that, under the chosen configuration, the custom CNN generalized better than both transfer learning models.
+### 7.2 Actual Classification Performance
 
-### 7.2 Expected Per‑Class Performance
+After running the full experiments and evaluating on the FER‑2013 test set, the results were:
 
-The class imbalance in FER‑2013 suggests that performance would vary significantly across emotions. Before training, the following pattern was expected:
+| Model        | Test Accuracy | Macro Precision | Macro Recall | Macro F1 |
+|-------------|---------------|-----------------|-------------|----------|
+| Custom CNN  | 58.58%        | 0.5259          | 0.5872      | 0.5364   |
+| MobileNetV2 | 50.49%        | 0.4434          | 0.4873      | 0.4440   |
+| ResNet50    | 40.78%        | 0.3782          | 0.4110      | 0.3530   |
 
-| Emotion | Expected F1 | Reason |
-|---------|------------|--------|
-| Happy   | 0.85–0.92 | Largest class; visually distinct |
-| Neutral | 0.60–0.75 | Well‑represented; limited confusion |
-| Angry   | 0.50–0.65 | High intra‑class variation; confused with Disgust |
-| Sad     | 0.50–0.65 | Overlaps with Neutral and Fear |
-| Fear    | 0.30–0.50 | Visually similar to Surprise and Sad |
-| Disgust | 0.20–0.40 | Severely underrepresented; hard to learn |
-| Surprise| 0.55–0.70 | Distinct features but confusable with Fear |
+Contrary to the initial hypothesis, the custom CNN achieved the best overall performance, while both transfer learning models performed worse, suggesting that the domain gap between ImageNet (high‑resolution RGB) and FER‑2013 (low‑resolution grayscale) is not fully bridged by the chosen fine‑tuning strategy.
 
-As expected, the final per‑class F1‑scores for all three models show that minority classes, especially Disgust and Fear, remain the most difficult, even with class‑weighted loss. The custom CNN generally performs better on several emotions, but no model fully overcomes the dataset’s imbalance and noise.
+### 7.3 Expected Per‑Class Performance
 
-### 7.3 Expected Computational Cost
+The class imbalance suggested that per‑class performance would vary considerably. Before training, the following pattern was expected:
 
-Before running experiments, the anticipated computational trade‑offs were:
+| Emotion  | Expected F1 | Reason |
+|----------|------------|--------|
+| Happy    | 0.85–0.92  | Largest class; visually distinct |
+| Neutral  | 0.60–0.75  | Well‑represented; less confusion |
+| Angry    | 0.50–0.65  | High intra‑class variation; confusable with Disgust |
+| Sad      | 0.50–0.65  | Overlaps with Neutral and Fear |
+| Fear     | 0.30–0.50  | Similar to Surprise and Sad |
+| Disgust  | 0.20–0.40  | Severely underrepresented; hard to learn |
+| Surprise | 0.55–0.70  | Distinct, but overlaps with Fear |
 
-| Model      | Expected Training Time | Parameters (approx.) |
-|-----------|------------------------|----------------------|
-| Custom CNN | Fastest (~30–60 min)  | ~0.5M–2M |
-| MobileNetV2 | Moderate (~1–2 hours) | ~3.4M |
-| ResNet50    | Slowest (~2–3 hours)  | ~25M |
+In the actual results, Disgust and Fear did indeed remain challenging across all models, and Happy and Surprise were among the stronger classes, but the absolute F1 values were lower than these optimistic predictions. The custom CNN still showed more balanced performance than the transfer learning models.
 
-It was assumed that the custom CNN would be fastest to train, but that transfer learning models would reach higher accuracy per epoch once fine‑tuning began.
+### 7.4 Expected and Actual Computational Cost
 
-The actual training confirmed the cost pattern but not the accuracy assumption. The custom CNN (about 1.2M parameters) trained in roughly **27.3 minutes**, MobileNetV2 (about 3.4M parameters) in **153.5 minutes**, and ResNet50 (about 25M parameters) in **138.9 minutes** on the chosen GPU environment. Despite being the lightest model, the custom CNN achieved the best test accuracy and macro‑F1.
+Before training, the expected computational trade‑offs were:
 
-### 7.4 Expected Model Trade‑offs
+| Model       | Expected Training Time | Parameters (approx.) |
+|------------|------------------------|----------------------|
+| Custom CNN | Fastest (~30–60 min)   | ~0.5M–2M             |
+| MobileNetV2| Moderate (~1–2 hours)  | ~3.4M                |
+| ResNet50   | Slowest (~2–3 hours)   | ~25M                 |
 
-The initial expectation from the literature was:
-
-- The **custom CNN** would have the fewest parameters and fastest training time, but the lowest overall accuracy.
-- **MobileNetV2** would offer the best accuracy‑to‑cost ratio.
-- **ResNet50** would achieve the highest absolute accuracy, at the expense of more training time and memory.
-
-After experiments, only part of this expectation held. The custom CNN did have the smallest parameter count and the shortest training time, but it also achieved the highest test accuracy and macro‑F1. Both MobileNetV2 and ResNet50 suffered from a domain gap between ImageNet (color, 224×224) and FER‑2013 (48×48 grayscale), which limited the benefit of transfer learning under the configurations used in this project.
+The experiments confirmed this pattern. On the chosen GPU environment, the custom CNN (about 1.2M parameters) trained in ~27.3 minutes, MobileNetV2 (about 3.4M parameters) in ~153.5 minutes, and ResNet50 (about 25M parameters) in ~138.9 minutes. Despite being the lightest and fastest, the custom CNN achieved the best performance, challenging the assumption that larger pretrained models would be superior on FER‑2013.
 
 ### 7.5 Expected Explainability Findings
 
-From an explainability perspective, it was expected that:
+It was expected that Grad‑CAM would highlight key facial regions (eyes, mouth, eyebrows) for correct predictions, and that misclassifications would have more diffuse or misplaced activations, sometimes even focusing on the background. SHAP was expected to show positive contributions concentrated around meaningful facial features for confident predictions, with scattered contributions for uncertain or incorrect ones.
 
-- Grad‑CAM heatmaps for correctly classified samples would highlight key facial regions such as the eyes, mouth, and eyebrows.
-- Misclassified samples (for example, Disgust predicted as Angry, or Fear predicted as Sad) would show more diffuse or misplaced activation, sometimes focusing on background or occlusions.
-- SHAP visualizations would indicate concentrated positive contributions around relevant facial areas for confident predictions and scattered negative contributions for uncertain or incorrect predictions.
-
-The qualitative Grad‑CAM and SHAP results are broadly consistent with these expectations. Correct predictions often show focused attention on central facial features, while some errors reveal attention leaking to irrelevant regions, which helps explain recurring misclassification patterns.
+The qualitative Grad‑CAM and SHAP results broadly matched these expectations. Correct predictions often showed focused attention on central facial regions, while some errors showed attention drifting away from the key facial areas, which helped explain recurring confusions such as Disgust vs. Angry or Fear vs. Surprise.
 
 ---
 
 ## Section 8 — Proposed Methodology
 
-This project follows a structured end‑to‑end pipeline including dataset preparation, preprocessing, model development, training, evaluation, and explainability analysis. The main goal of the methodology is to allow a fair comparison between the custom CNN and the two transfer learning models.
+This project follows a simple but complete pipeline: dataset preparation, preprocessing, model design, training, evaluation, and explainability analysis. The idea is to treat all three models as fairly as possible so that differences in results mainly come from the architectures themselves.
 
 ### 8.1 Dataset Selection and Preparation
 
-The FER‑2013 dataset is selected as the primary benchmark due to its public availability, academic‑use permissions, and established use in FER research. The dataset is loaded from Kaggle using its existing train/test folder structure. Before training, the data are checked for corrupted or unreadable images, duplicate images, and class distribution statistics.
-
-The original training split is further divided into a new training and validation set using stratified splitting to preserve class distributions:
+The FER‑2013 dataset from Kaggle is used as the only dataset. The original folder structure provides a training and test split, and the training portion is further divided into a new training and validation set using stratified splitting:
 
 | Split      | Images | Percentage |
 |-----------|--------|-----------|
@@ -202,51 +194,50 @@ The original training split is further divided into a new training and validatio
 | Validation | 5,742  | 16% |
 | Test       | 7,178  | 20% |
 
-Class weights are computed using `sklearn.utils.class_weight.compute_class_weight` to address the imbalance between Happy (7,215 samples) and Disgust (436 samples).
+Before training, the dataset is checked for corrupted or unreadable files and the class distribution is plotted (Figure 1). Class weights are then computed from the training set to reduce the impact of the strong class imbalance.
 
 ### 8.2 Preprocessing Pipeline
 
-All images are normalized by dividing pixel values by 255, resulting in values in the range [0, 1]. The preprocessing differs slightly between the custom CNN and the transfer learning models:
+All images are normalized by dividing pixel values by 255 to obtain values in the range [0, 1]. The main preprocessing steps for each model family are:
 
-| Step             | Custom CNN            | MobileNetV2 & ResNet50       |
-|------------------|-----------------------|------------------------------|
-| Resize           | 48×48 pixels          | 224×224 pixels               |
-| Color format     | Grayscale (1 channel) | Pseudo‑RGB (3 channels)      |
-| Normalization    | Divide by 255 → [0,1] | Divide by 255 → [0,1]        |
+| Step             | Custom CNN            | MobileNetV2 & ResNet50         |
+|------------------|-----------------------|--------------------------------|
+| Resize           | 48×48 pixels          | 224×224 pixels                 |
+| Color format     | Grayscale (1 channel) | Pseudo‑RGB (3 channels)        |
+| Normalization    | Divide by 255 → [0,1] | Divide by 255 → [0,1]          |
 | Channel conversion | —                   | Replicate grayscale channel ×3 |
 
-For MobileNetV2 and ResNet50, the single grayscale channel is replicated three times to create pseudo‑RGB images compatible with ImageNet‑pretrained weights.
+For transfer learning models, the single grayscale channel is replicated three times to form a 3‑channel pseudo‑RGB image suitable for ImageNet‑pretrained backbones.
 
 ### 8.3 Data Augmentation
 
-Data augmentation is applied only to the training set to improve robustness and reduce overfitting. The following random transformations are used:
+Data augmentation is applied only to the training set to improve robustness and reduce overfitting. The actual `ImageDataGenerator` configuration uses:
 
-| Augmentation      | Value             |
-|-------------------|-------------------|
-| Horizontal Flip   | 50% probability   |
-| Random Rotation   | ±15 degrees       |
-| Random Zoom       | ±10%              |
-| Random Brightness | ±20%              |
-| Random Contrast   | ±15%              |
+| Augmentation      | Value           |
+|-------------------|-----------------|
+| Horizontal Flip   | 50% probability |
+| Random Rotation   | ±15 degrees     |
+| Random Zoom       | ±10%            |
+| Random Brightness | ±20%            |
 
-No augmentation is applied to the validation or test sets.
+No random contrast, width shift, or height shift is used, and no augmentation is applied to validation or test sets. This keeps evaluation unbiased while still encouraging the models to generalize across small variations.
 
 ### 8.4 Train / Validation / Test Split
 
-As noted above, the original training set is split into training and validation subsets using stratified sampling. This ensures that each split reflects the overall class distribution and provides a realistic evaluation during model development.
+The predefined test split from FER‑2013 is kept as the final test set. The training portion from Kaggle is split into new training and validation subsets using stratified sampling, preserving the original class distributions in both sets. This makes validation performance more representative of real test performance.
 
 ### 8.5 Model Development
 
-Three CNN‑based models are developed and compared under similar conditions:
+Three CNN‑based models are developed and trained under as similar conditions as possible:
 
 **Model 1 — Custom CNN (from scratch)**  
-A compact CNN designed for 48×48 grayscale input. It has four convolutional blocks with increasing filters (32 → 64 → 128 → 256), each followed by Batch Normalization and MaxPooling. Global Average Pooling (instead of Flatten) reduces the risk of overfitting, followed by a dense layer with 256 units and a final dense layer with 7 softmax outputs. Full architecture details are given in Section 9.
+A compact CNN tailored to 48×48 grayscale input. It has four convolutional blocks, each with two convolutional layers and Batch Normalization, followed by MaxPooling and Dropout. Global Average Pooling replaces Flatten, and a small dense head produces the final 7‑class output. Full details are in Section 9.
 
-**Model 2 — MobileNetV2 (Transfer Learning)**  
-MobileNetV2 is loaded with ImageNet weights using `include_top=False`. The base is initially frozen, and a custom classification head is added: `GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → Dropout(0.3) → Dense(7, Softmax)`.
+**Model 2 — MobileNetV2 (transfer learning)**  
+MobileNetV2 pretrained on ImageNet is loaded with `include_top=False`. A custom head (`GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → BatchNormalization → Dropout(0.3) → Dense(7, Softmax)`) is added. The base is first frozen for feature extraction, then the last 30 layers are unfrozen for fine‑tuning.
 
-**Model 3 — ResNet50 (Transfer Learning)**  
-ResNet50 is also loaded with ImageNet weights and `include_top=False`, using the same custom classification head as MobileNetV2. After an initial training phase with frozen base, a subset of the deeper layers is unfrozen and fine‑tuned.
+**Model 3 — ResNet50 (transfer learning)**  
+ResNet50 pretrained on ImageNet is also loaded with `include_top=False` and the same custom head. The training strategy mirrors MobileNetV2: first train only the head, then unfreeze and fine‑tune the last 30 layers of the base network.
 
 ### 8.6 Training Setup and Hyperparameters
 
@@ -255,48 +246,51 @@ All models are trained on Kaggle Notebooks with GPU acceleration (NVIDIA Tesla P
 | Hyperparameter | Custom CNN | MobileNetV2 | ResNet50 |
 |----------------|-----------|-------------|----------|
 | Optimizer      | Adam      | Adam        | Adam     |
-| Learning Rate  | 0.001     | 0.0001      | 0.0001   |
+| Initial LR     | 0.001     | 0.0001      | 0.0001   |
 | Loss Function  | Categorical Cross‑Entropy | Categorical Cross‑Entropy | Categorical Cross‑Entropy |
 | Batch Size     | 32        | 32          | 32       |
-| Epochs         | 30        | 20          | 20       |
+| Epochs (max)   | 30        | 20          | 20       |
 | Class Weights  | Yes       | Yes         | Yes      |
 
-The following callbacks are used:
+Callbacks used for all models:
 
-- **EarlyStopping**: stops training if validation loss does not improve for 5 consecutive epochs.
-- **ModelCheckpoint**: saves the best model weights based on validation accuracy.
-- **ReduceLROnPlateau**: reduces the learning rate by a factor of 0.5 if validation loss plateaus for 3 epochs.
+- EarlyStopping (patience = 5, monitoring validation loss).  
+- ModelCheckpoint (saving best weights by validation accuracy).  
+- ReduceLROnPlateau (factor 0.5, patience = 3 on validation loss).
 
 ### 8.7 Evaluation Strategy
 
-Each model is evaluated on the held‑out test set using the following metrics:
+Each model is evaluated on the held‑out test set using the same metrics:
 
-| Metric            | Method                          |
-|-------------------|---------------------------------|
-| Accuracy          | Overall correct / total         |
-| Precision (macro) | `sklearn.classification_report` |
-| Recall (macro)    | `sklearn.classification_report` |
-| F1‑Score (macro)  | `sklearn.classification_report` |
-| Confusion Matrix  | `sklearn.confusion_matrix`      |
-| Training Time     | Wall‑clock time per epoch       |
-| Parameter Count   | `model.count_params()`          |
+| Metric           | Method / Tool                         |
+|------------------|----------------------------------------|
+| Accuracy         | `model.evaluate` on test generator     |
+| Precision (macro)| `sklearn.metrics.classification_report` |
+| Recall (macro)   | `sklearn.metrics.classification_report` |
+| F1‑Score (macro) | `sklearn.metrics.classification_report` |
+| Per‑class metrics| `classification_report` per emotion    |
+| Confusion Matrix | `sklearn.metrics.confusion_matrix`     |
+| Training Time    | Wall‑clock (Python `time` module)      |
+| Parameter Count  | `model.count_params()`                 |
 
-Per‑class precision, recall, and F1‑scores are reported for all seven emotions, so that performance on minority classes is visible and not hidden behind a single accuracy number.
+Macro‑averaged metrics are used so that each emotion contributes equally, regardless of class size.
 
 ### 8.8 Explainability Analysis (Grad‑CAM and SHAP)
 
-Grad‑CAM is applied to the final convolutional layer of each model to generate class‑specific heatmaps for selected test samples. For each model, Grad‑CAM visualizations are produced for several correctly classified images and several misclassified images, with true and predicted labels annotated. This helps reveal whether the model focuses on meaningful facial regions when predicting a given emotion.
+Grad‑CAM is computed for the final convolutional layer of each model to produce heatmaps over the input faces, and SHAP (GradientExplainer) is used to estimate pixel‑level contributions. In practice:
 
-SHAP (`GradientExplainer`) is applied with a small background set of training images to compute pixel‑level importance values for selected test faces. Positive and negative contributions are visualized as overlays, providing a more detailed picture of how local features influence the final prediction. Together, Grad‑CAM and SHAP address RQ4 and RQ5 by assessing interpretability and diagnosing typical error patterns.
+- Grad‑CAM is applied to several correctly classified and misclassified test images for each model, with the resulting heatmaps saved as PDF files (Figures 6a–6c).  
+- SHAP is applied to a small set of test images with a background of 50 training images, generating visualizations that show positive (red) and negative (blue) contributions to each prediction (Figures 7a–7c).  
+
+Together, these methods help answer whether the models focus on meaningful facial regions and how their attention patterns change when they make mistakes.
 
 ### 8.9 Deployment Considerations and Ethics
 
-The final system is presented as a decision‑support framework that could assist human experts, rather than as an autonomous decision maker. Several deployment aspects are considered:
+The final system is presented as a decision‑support tool. It is not intended to replace human judgement but to assist experts in contexts such as education or healthcare. Some key points:
 
-- **Computational constraints**: MobileNetV2 is the most suitable model for resource‑constrained or edge deployment due to its small parameter count, even though in this project the custom CNN was most accurate.
-- **Class imbalance risks**: Misclassification of minority emotions can lead to biased or misleading outputs if the model is used in sensitive contexts.
-- **Ethical concerns**: Automated emotion recognition carries risks of misuse in surveillance or profiling. Any real deployment should involve informed consent, clear communication of limitations, and human oversight.
-- **Dataset limitations**: FER‑2013’s low resolution and crowdsourced labels limit generalization. Future work should validate models on higher‑resolution, expert‑annotated datasets.
+- Computationally, the custom CNN is fastest and lightest, while MobileNetV2 provides a good compromise; ResNet50 is the heaviest and slowest.  
+- Class imbalance means that certain emotions (especially Disgust and Fear) remain less reliable, so decisions based purely on these predictions would be risky.  
+- Ethical issues include privacy, consent, and the risk of misuse in surveillance or profiling. Real‑world deployment should involve clear communication with users and human oversight.  
 
 ---
 
@@ -304,42 +298,54 @@ The final system is presented as a decision‑support framework that could assis
 
 ### 9.1 Architecture Rationale
 
-The custom CNN is designed specifically for 48×48 grayscale input, aiming to balance representational power and computational efficiency. Four convolutional blocks gradually increase the number of filters (32, 64, 128, 256) to capture low‑level edges and higher‑level expression features. Batch Normalization stabilizes training, MaxPooling reduces spatial dimensions, and Global Average Pooling replaces Flatten to reduce overfitting on the relatively small training set.
+The custom CNN is designed specifically for 48×48 grayscale FER‑2013 images, aiming to balance representational power and computational cost. It uses four convolutional blocks, and each block contains two Conv2D layers with the same number of filters (32, 64, 128, 256), followed by Batch Normalization and MaxPooling. This “two‑conv‑per‑block” pattern lets the network learn richer features at each scale. A Dropout layer with rate 0.25 is applied after each pooling block for early regularization, and Global Average Pooling is used instead of Flatten before a small dense head.
+
+In the classifier head, Dropout(0.5) is applied before a Dense(256, ReLU) layer with Batch Normalization, followed by Dropout(0.3) and a final Dense(7, Softmax) output layer. This setup matches the actual Keras implementation in the notebook.
 
 ### 9.2 Architecture Table
 
-| Layer      | Type         | Output Shape  | Filters / Units | Activation |
-|-----------|--------------|---------------|-----------------|------------|
-| Input     | Input        | 48 × 48 × 1   | —               | —          |
-| Conv_1    | Conv2D       | 48 × 48 × 32  | 32 @ 3×3        | ReLU       |
-| BN_1      | BatchNorm    | 48 × 48 × 32  | —               | —          |
-| Pool_1    | MaxPool2D    | 24 × 24 × 32  | 2×2             | —          |
-| Conv_2    | Conv2D       | 24 × 24 × 64  | 64 @ 3×3        | ReLU       |
-| BN_2      | BatchNorm    | 24 × 24 × 64  | —               | —          |
-| Pool_2    | MaxPool2D    | 12 × 12 × 64  | 2×2             | —          |
-| Conv_3    | Conv2D       | 12 × 12 × 128 | 128 @ 3×3       | ReLU       |
-| BN_3      | BatchNorm    | 12 × 12 × 128 | —               | —          |
-| Pool_3    | MaxPool2D    | 6 × 6 × 128   | 2×2             | —          |
-| Conv_4    | Conv2D       | 6 × 6 × 256   | 256 @ 3×3       | ReLU       |
-| BN_4      | BatchNorm    | 6 × 6 × 256   | —               | —          |
-| GAP       | GlobalAvgPool2D | 256       | —               | —          |
-| Dropout_1 | Dropout      | 256           | rate = 0.5      | —          |
-| Dense_1   | Dense        | 256           | 256 units       | ReLU       |
-| Dropout_2 | Dropout      | 256           | rate = 0.3      | —          |
-| Output    | Dense        | 7             | 7 units         | Softmax    |
+| Layer      | Type              | Output Shape   | Filters / Units | Activation |
+|-----------|-------------------|----------------|-----------------|------------|
+| Input     | Input             | 48 × 48 × 1    | —               | —          |
+| Conv_1a   | Conv2D            | 48 × 48 × 32   | 32 @ 3×3        | ReLU       |
+| Conv_1b   | Conv2D            | 48 × 48 × 32   | 32 @ 3×3        | ReLU       |
+| BN_1      | BatchNorm         | 48 × 48 × 32   | —               | —          |
+| Pool_1    | MaxPool2D         | 24 × 24 × 32   | 2×2             | —          |
+| Dropout_1 | Dropout           | 24 × 24 × 32   | rate = 0.25     | —          |
+| Conv_2a   | Conv2D            | 24 × 24 × 64   | 64 @ 3×3        | ReLU       |
+| Conv_2b   | Conv2D            | 24 × 24 × 64   | 64 @ 3×3        | ReLU       |
+| BN_2      | BatchNorm         | 24 × 24 × 64   | —               | —          |
+| Pool_2    | MaxPool2D         | 12 × 12 × 64   | 2×2             | —          |
+| Dropout_2 | Dropout           | 12 × 12 × 64   | rate = 0.25     | —          |
+| Conv_3a   | Conv2D            | 12 × 12 × 128  | 128 @ 3×3       | ReLU       |
+| Conv_3b   | Conv2D            | 12 × 12 × 128  | 128 @ 3×3       | ReLU       |
+| BN_3      | BatchNorm         | 12 × 12 × 128  | —               | —          |
+| Pool_3    | MaxPool2D         | 6 × 6 × 128    | 2×2             | —          |
+| Dropout_3 | Dropout           | 6 × 6 × 128    | rate = 0.25     | —          |
+| Conv_4a   | Conv2D            | 6 × 6 × 256    | 256 @ 3×3       | ReLU       |
+| Conv_4b   | Conv2D            | 6 × 6 × 256    | 256 @ 3×3       | ReLU       |
+| BN_4      | BatchNorm         | 6 × 6 × 256    | —               | —          |
+| Pool_4    | MaxPool2D         | 3 × 3 × 256    | 2×2             | —          |
+| Dropout_4 | Dropout           | 3 × 3 × 256    | rate = 0.25     | —          |
+| GAP       | GlobalAvgPool2D   | 256            | —               | —          |
+| Dropout_5 | Dropout           | 256            | rate = 0.5      | —          |
+| Dense_1   | Dense             | 256            | 256 units       | ReLU       |
+| BN_5      | BatchNorm         | 256            | —               | —          |
+| Dropout_6 | Dropout           | 256            | rate = 0.3      | —          |
+| Output    | Dense             | 7              | 7 units         | Softmax    |
 
 ### 9.3 Design Decisions
 
-| Decision                     | Justification |
-|-----------------------------|--------------|
-| 4 convolutional blocks      | Sufficient depth for 48×48 images without excessive parameters |
-| Filter doubling (32→256)    | Progressive feature abstraction from edges to complex facial patterns |
-| Batch Normalization         | Stabilizes training and helps with convergence |
-| MaxPooling (2×2)            | Reduces spatial resolution while keeping dominant features |
-| Global Average Pooling      | Reduces overfitting and parameter count compared to Flatten |
-| Dropout (0.5 and 0.3)       | Regularization to prevent overfitting on limited data |
-| Softmax output layer        | Supports multi‑class classification across 7 emotions |
-| ReLU activations            | Standard non‑linear activation that avoids vanishing gradients |
+| Decision                               | Justification |
+|----------------------------------------|--------------|
+| 4 convolutional blocks with 2 convs each | Enough depth for 48×48 images while keeping parameter count manageable |
+| Filter doubling (32→256) across blocks | Progressive feature abstraction from low‑level edges to more complex facial patterns |
+| Batch Normalization after conv layers  | Stabilizes training and allows slightly higher learning rates |
+| MaxPooling 2×2 after each block        | Reduces spatial dimensions and helps control overfitting |
+| Dropout(0.25) after each block         | Early regularization to reduce overfitting in deeper parts of the network |
+| Global Average Pooling instead of Flatten | Reduces parameters and improves generalization on a limited dataset |
+| Dropout(0.5 and 0.3) in classifier head | Further regularization before and after the dense layer |
+| Softmax output over 7 units            | Supports seven‑class emotion classification |
 
 ---
 
@@ -347,172 +353,153 @@ The custom CNN is designed specifically for 48×48 grayscale input, aiming to ba
 
 ### 10.1 Strategy
 
-Both MobileNetV2 and ResNet50 are initialized with ImageNet‑pretrained weights and loaded with `include_top=False` to remove their original classification heads. The base weights are frozen during an initial feature extraction phase, and a custom head is added on top:
-
-`GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → Dropout(0.3) → Dense(7, Softmax)`
-
-Input images are resized to 224×224 and converted from single‑channel grayscale to pseudo‑RGB by replicating the channel three times.
+MobileNetV2 and ResNet50 are both loaded with ImageNet‑pretrained weights and `include_top=False`. A shared custom classification head is attached:  
+`GlobalAveragePooling2D → Dropout(0.5) → Dense(256, ReLU) → BatchNormalization → Dropout(0.3) → Dense(7, Softmax)`.  
+During training, both models follow a two‑phase strategy: first, train only the new head with the base frozen; second, unfreeze and fine‑tune the last 30 layers of the base network.
 
 ### 10.2 Model Comparison
 
-| Property               | MobileNetV2          | ResNet50               |
-|------------------------|----------------------|------------------------|
-| Original dataset       | ImageNet (1.2M, 1000 classes) | ImageNet |
-| Architecture type      | Inverted residuals + depthwise separable convolutions | Deep residual network (skip connections) |
-| Total parameters (approx.) | ~3.4M          | ~25M                   |
-| Required input size    | 224×224×3           | 224×224×3              |
-| Base weights           | Frozen initially    | Frozen initially       |
-| Fine‑tuning            | Unfreeze last 30 layers | Unfreeze last 20+ layers |
-| Custom head            | GAP → Dropout → Dense(256) → Dense(7) | Same |
-| Optimizer              | Adam (lr = 0.0001)  | Adam (lr = 0.0001)     |
-| Epochs                 | 20                  | 20                     |
+| Property               | MobileNetV2                | ResNet50                    |
+|------------------------|----------------------------|-----------------------------|
+| Original Dataset       | ImageNet (1.2M, 1000 classes) | ImageNet                |
+| Architecture Type      | Inverted residuals, depthwise separable convs | Deep residual network with skip connections |
+| Total Parameters (approx.) | ~3.4M                  | ~25M                        |
+| Input Size Required    | 224×224×3                  | 224×224×3                   |
+| Base Weights (Phase 1) | Frozen                     | Frozen                      |
+| Fine‑Tuning (Phase 2)  | Last 30 layers unfrozen    | Last 30 layers unfrozen     |
+| Custom Head            | GAP → Dropout(0.5) → Dense(256) → BN → Dropout(0.3) → Dense(7) | Same      |
+| Optimizer              | Adam (lr 0.0001)           | Adam (lr 0.0001)            |
+| Epochs (max)           | 20                         | 20                          |
 
 ### 10.3 Two‑Phase Training Strategy
 
-Both transfer models use a two‑phase training schedule:
+Both transfer learning models use the same two‑phase schedule:
 
-**Phase 1 — Feature Extraction (Epochs 1–10)**  
-- Base model frozen  
-- Only custom head trained  
-- Higher learning rate (0.001)  
-- Goal: adapt new head to FER‑2013 features
+**Phase 1 — Feature Extraction**  
+- Base model layers are frozen (non‑trainable).  
+- Only the custom head is trained.  
+- Slightly higher learning rate is used to quickly adapt the head to FER‑2013.  
 
-**Phase 2 — Fine‑Tuning (Epochs 11–20)**  
-- Selected deeper layers of the base are unfrozen  
-- Lower learning rate (0.0001)  
-- Goal: adapt high‑level features to facial expression patterns
+**Phase 2 — Fine‑Tuning**  
+- Base model is set to trainable.  
+- All layers except the last 30 are re‑frozen, leaving the final 30 layers of the backbone and the full head trainable.  
+- A lower learning rate is used to avoid destroying pretrained features.  
 
-### 10.4 Justification for Model Selection
+### 10.4 Handling the Grayscale‑to‑RGB Mismatch
+
+To adapt 48×48 grayscale images to ImageNet‑pretrained backbones, the following steps are used:
+
+- Resize 48×48 grayscale images to 224×224.  
+- Replicate the single grayscale channel three times to form pseudo‑RGB: `[gray, gray, gray]`.  
+- Normalize pixel values to [0, 1] as for the custom CNN.
+
+### 10.5 Justification for Model Selection
 
 | Model       | Why Selected |
-|------------|--------------|
-| MobileNetV2 | Lightweight architecture (~3.4M parameters) designed for mobile and edge deployment; widely used in practical applications where memory and speed are constrained. |
-| ResNet50    | Deeper residual architecture (~25M parameters) with strong benchmark performance on many vision tasks; represents a high‑capacity transfer learning baseline. |
+|------------|-------------|
+| MobileNetV2 | Represents a lightweight transfer learning model aimed at mobile and edge devices, with relatively few parameters and efficient depthwise separable convolutions. |
+| ResNet50    | Represents a deeper residual model with high capacity and strong ImageNet performance, making it a common baseline for transfer learning. |
 
-Together, MobileNetV2 and ResNet50 represent a trade‑off between lightweight and deep architectures, helping to answer which type of transfer learning model, if any, is preferable to a custom CNN on FER‑2013.
-
-### 10.5 Handling the Grayscale‑to‑RGB Mismatch
-
-Applying ImageNet‑pretrained models to FER‑2013 requires addressing the mismatch between large RGB images (224×224×3) and small grayscale images (48×48×1). In this project:
-
-- All images are resized from 48×48 to 224×224 using bilinear interpolation.
-- The single grayscale channel is replicated three times to create pseudo‑RGB input `[gray, gray, gray]`.
-
-This simple strategy is consistent with many transfer learning studies on FER‑2013, although it does not fully resolve the domain gap between the two datasets.
+Together with the custom CNN, these models cover a spectrum from small domain‑specific to large pretrained architectures, which directly addresses RQ2 and RQ3.
 
 ---
 
 ## Section 11 — Evaluation Metrics
 
-All three models are evaluated on the same test set using a consistent set of metrics to ensure a fair comparison.
-
 ### 11.1 Quantitative Metrics
 
-| Metric           | Formula / Method                  | Purpose |
-|------------------|-----------------------------------|---------|
-| Accuracy         | Correct predictions / Total       | Overall performance baseline |
-| Precision (macro)| TP / (TP + FP), averaged over classes | Correctness of positive predictions |
-| Recall (macro)   | TP / (TP + FN), averaged over classes | Coverage of actual positives |
-| F1‑Score (macro) | 2 × (P × R) / (P + R), averaged   | Balanced metric under class imbalance |
-| Per‑class F1     | F1 per emotion                    | Highlights which emotions are hardest |
-| Confusion Matrix | `confusion_matrix`                | Visual error pattern analysis |
-| Training Time    | Wall‑clock seconds per epoch      | Measures computational cost |
-| Parameter Count  | `model.count_params()`            | Compares model complexity |
+All three models are evaluated on the same FER‑2013 test set using:
 
-### 11.2 Why Macro‑Averaged Metrics
+| Metric            | Formula / Method                  | Purpose                         |
+|-------------------|-----------------------------------|---------------------------------|
+| Accuracy          | Correct / Total                   | Overall performance             |
+| Precision (macro) | Macro‑average from `classification_report` | Quality of positive predictions |
+| Recall (macro)    | Macro‑average from `classification_report` | Coverage of true positives      |
+| F1‑Score (macro)  | Macro‑average from `classification_report` | Balanced measure with imbalance |
+| Per‑class F1      | F1 per emotion                    | Minority class performance      |
+| Confusion Matrix  | `confusion_matrix`                | Visual error patterns           |
+| Training Time     | Wall‑clock seconds per epoch      | Computational cost              |
+| Parameter Count   | `model.count_params()`            | Model complexity                |
 
-Macro‑averaging computes each metric independently per class and then takes the unweighted average across classes. This means that each of the seven emotions contributes equally to the final macro‑precision, macro‑recall, and macro‑F1 scores, regardless of its frequency in the dataset. This approach helps avoid the “accuracy illusion”, where high overall accuracy hides very poor performance on minority emotions such as Disgust.
+Macro‑averaged metrics treat all seven emotions equally, regardless of how many samples each class has, which is important because Disgust is heavily underrepresented.
 
-### 11.3 Explainability Metrics
+### 11.2 Explainability Metrics
 
-Explainability is assessed qualitatively but in a structured way:
+Explainability is evaluated qualitatively:
 
-| Metric                  | Method                     | Purpose |
-|-------------------------|----------------------------|---------|
-| Grad‑CAM focus quality  | Visual inspection (1–5 scale) | Checks if attention is on meaningful facial regions |
-| SHAP interpretability   | Pixel‑level contribution maps | Evaluates whether positive/negative contributions align with key features |
-| Misclassification diagnosis | Grad‑CAM on incorrect predictions | Identifies which regions contribute to typical errors |
+| Metric                 | Method                         | Purpose |
+|------------------------|--------------------------------|---------|
+| Grad‑CAM quality       | Visual inspection of heatmaps  | Check if focus is on meaningful facial regions |
+| SHAP interpretability  | Pixel‑level contribution maps  | Understand which regions support predictions |
+| Misclassification diagnosis | Grad‑CAM on incorrect predictions | Identify visual patterns in errors |
 
-### 11.4 Final Model Comparison Table
+These qualitative assessments support RQ4 and RQ5 and complement the quantitative metrics.
 
-The main quantitative results of the three models on the FER‑2013 test set are summarized as follows:
+### 11.3 Final Model Comparison Table
 
-| Model       | Accuracy | Precision (macro) | Recall (macro) | F1‑Score (macro) | Training Time | Parameters | Grad‑CAM Quality |
-|------------|----------|-------------------|----------------|------------------|---------------|-----------|------------------|
-| Custom CNN | 58.58%   | 0.5259            | 0.5872         | 0.5364           | 27.3 min      | ~1.2M    | High             |
-| MobileNetV2| 50.49%   | 0.4434            | 0.4873         | 0.4440           | 153.5 min     | ~3.4M    | Medium           |
-| ResNet50   | 40.78%   | 0.3782            | 0.4110         | 0.3530           | 138.9 min     | ~25M     | Medium           |
+The main quantitative results across models are summarized as:
 
-Overall, the custom CNN achieved the best balance between performance and efficiency on FER‑2013, despite being the smallest model. The two transfer learning models did not transfer as well as initially expected, which is likely due to the domain gap between ImageNet and FER‑2013.
+| Model        | Accuracy | Precision | Recall | F1‑Score | Training Time | Parameters | Grad‑CAM Quality |
+|-------------|----------|-----------|--------|----------|---------------|------------|------------------|
+| Custom CNN  | 58.58%   | 0.5259    | 0.5872 | 0.5364   | 27.3 min      | ~1.2M      | High             |
+| MobileNetV2 | 50.49%   | 0.4434    | 0.4873 | 0.4440   | 153.5 min     | ~3.4M      | Medium           |
+| ResNet50    | 40.78%   | 0.3782    | 0.4110 | 0.3530   | 138.9 min     | ~25M       | Medium           |
 
-### 11.5 Implementation Tools
+This table shows that the custom CNN is not only the fastest and smallest, but also achieves the best test performance and the most focused Grad‑CAM heatmaps.
 
-| Tool                                | Purpose |
-|-------------------------------------|---------|
-| `sklearn.metrics.classification_report` | Computes precision, recall, and F1 per class |
-| `sklearn.metrics.confusion_matrix`  | Generates confusion matrices |
-| `matplotlib` / `seaborn`           | Visualizes curves and matrices |
-| `tf-keras-vis` or Grad‑CAM library | Generates Grad‑CAM heatmaps |
-| `shap.GradientExplainer`           | Computes SHAP explanations |
-| `model.count_params()`             | Counts model parameters |
-| `time` module                      | Measures training time |
+### 11.4 Implementation Tools
+
+| Tool / Library      | Purpose                        |
+|---------------------|-------------------------------|
+| TensorFlow / Keras  | Model implementation and training |
+| `ImageDataGenerator`| Preprocessing and augmentation |
+| `sklearn.metrics`   | Accuracy, classification report, confusion matrix |
+| `matplotlib`, `seaborn` | Visualization of curves, confusion matrices |
+| `tf-keras-vis` / custom Grad‑CAM code | Grad‑CAM heatmaps |
+| `shap.GradientExplainer` | SHAP explanations |
+| Python `time`       | Training time measurement     |
 
 ---
 
-## Section 12 — Expected Figures and Tables
+## Section 12 — Figures, Tables, and Files
 
-All figures will be saved as `.pdf` files in the `outputs/figures/` directory of the project repository and generated during model training and evaluation.
+### 12.1 Figures
 
-### 12.1 Expected Figures
+All figures are saved as PDF files in the `outputs/figures/` directory during notebook execution.
 
-| Figure      | Description                       | Filename                                           |
-|-------------|-----------------------------------|---------------------------------------------------|
-| Figure 1    | Class distribution bar chart      | `outputs/figures/Fig1_Class_Distribution.pdf`     |
-| Figure 2    | Sample images per class           | `outputs/figures/Fig2_Sample_Images.pdf`          |
-| Figure 3a   | Training curves — Custom CNN      | `outputs/figures/Fig3a_Training_Curves_Custom_CNN.pdf` |
-| Figure 3b   | Training curves — MobileNetV2     | `outputs/figures/Fig3b_Training_Curves_MobileNetV2.pdf` |
-| Figure 3c   | Training curves — ResNet50        | `outputs/figures/Fig3c_Training_Curves_ResNet50.pdf` |
-| Figure 4a   | Confusion matrix — Custom CNN     | `outputs/figures/Fig4a_Confusion_Matrix_Custom_CNN.pdf` |
-| Figure 4b   | Confusion matrix — MobileNetV2    | `outputs/figures/Fig4b_Confusion_Matrix_MobileNetV2.pdf` |
-| Figure 4c   | Confusion matrix — ResNet50       | `outputs/figures/Fig4c_Confusion_Matrix_ResNet50.pdf` |
-| Figure 5    | Model comparison chart            | `outputs/figures/Fig5_Model_Comparison.pdf`       |
-| Figure 6a   | Grad‑CAM — Custom CNN             | `outputs/figures/Fig6a_GradCAM_Custom_CNN.pdf`    |
-| Figure 6b   | Grad‑CAM — MobileNetV2            | `outputs/figures/Fig6b_GradCAM_MobileNetV2.pdf`   |
-| Figure 6c   | Grad‑CAM — ResNet50               | `outputs/figures/Fig6c_GradCAM_ResNet50.pdf`      |
-| Figure 7a   | SHAP — Custom CNN                 | `outputs/figures/Fig7a_SHAP_Custom_CNN.pdf`       |
-| Figure 7b   | SHAP — MobileNetV2                | `outputs/figures/Fig7b_SHAP_MobileNetV2.pdf`      |
-| Figure 7c   | SHAP — ResNet50                   | `outputs/figures/Fig7c_SHAP_ResNet50.pdf`         |
-| Figure 8a   | ROC curves — Custom CNN           | `outputs/figures/Fig8a_ROC_Custom_CNN.pdf`        |
-| Figure 8b   | ROC curves — MobileNetV2          | `outputs/figures/Fig8b_ROC_MobileNetV2.pdf`       |
-| Figure 8c   | ROC curves — ResNet50             | `outputs/figures/Fig8c_ROC_ResNet50.pdf`          |
+| Figure    | Description                               | Filename                                      |
+|----------|-------------------------------------------|-----------------------------------------------|
+| Figure 1 | Class distribution bar chart              | `outputs/figures/Fig1_Class_Distribution.pdf` |
+| Figure 2 | Sample images per class                   | `outputs/figures/Fig2_Sample_Images.pdf`      |
+| Figure 3a| Training curves — Custom CNN              | `outputs/figures/Fig3a_TrainingCurves_CustomCNN.pdf` |
+| Figure 3b| Training curves — MobileNetV2             | `outputs/figures/Fig3b_TrainingCurves_MobileNetV2.pdf` |
+| Figure 3c| Training curves — ResNet50                | `outputs/figures/Fig3c_TrainingCurves_ResNet50.pdf` |
+| Figure 4a| Confusion matrix — Custom CNN             | `outputs/figures/Fig4a_ConfusionMatrix_CustomCNN.pdf` |
+| Figure 4b| Confusion matrix — MobileNetV2            | `outputs/figures/Fig4b_ConfusionMatrix_MobileNetV2.pdf` |
+| Figure 4c| Confusion matrix — ResNet50               | `outputs/figures/Fig4c_ConfusionMatrix_ResNet50.pdf` |
+| Figure 5 | Model comparison bar chart                | `outputs/figures/Fig5_Model_Comparison.pdf`   |
+| Figure 6a| Grad‑CAM — Custom CNN                     | `outputs/figures/Fig6a_GradCAM_CustomCNN.pdf` |
+| Figure 6b| Grad‑CAM — MobileNetV2                    | `outputs/figures/Fig6b_GradCAM_MobileNetV2.pdf` |
+| Figure 6c| Grad‑CAM — ResNet50                       | `outputs/figures/Fig6c_GradCAM_ResNet50.pdf`  |
+| Figure 7a| SHAP — Custom CNN                         | `outputs/figures/Fig7a_SHAP_CustomCNN.pdf`    |
+| Figure 7b| SHAP — MobileNetV2                        | `outputs/figures/Fig7b_SHAP_MobileNetV2.pdf`  |
+| Figure 7c| SHAP — ResNet50                           | `outputs/figures/Fig7c_SHAP_ResNet50.pdf`     |
 
-### 12.2 Expected Tables
+### 12.2 Tables
 
-| Table    | Description                     | Location / Filename                                     |
-|----------|---------------------------------|--------------------------------------------------------|
-| Table 1  | Dataset overview                | Proposal Section 5                                     |
-| Table 2  | Class distribution              | Proposal Section 5                                     |
-| Table 3  | Custom CNN architecture         | Proposal Section 9                                     |
-| Table 4  | Transfer learning comparison    | Proposal Section 10                                    |
-| Table 5  | Training hyperparameters        | Proposal Section 8                                     |
-| Table 6  | Model comparison results        | `outputs/tables/Table8_Model_Comparison.csv`          |
-| Table 7  | Per‑class F1 — Custom CNN       | `outputs/tables/Table7_CustomCNN_PerClass_F1.csv`     |
-| Table 8  | Per‑class F1 — MobileNetV2      | `outputs/tables/Table7_MobileNetV2_PerClass_F1.csv`   |
-| Table 9  | Per‑class F1 — ResNet50         | `outputs/tables/Table7_ResNet50_PerClass_F1.csv`      |
+Some tables appear directly in this proposal, and others are exported as CSV files from the notebook.
 
-### 12.3 Figure Priority
-
-Not all figures have equal importance. For this project, the most critical are:
-
-| Priority | Figure          | Why Critical |
-|----------|-----------------|-------------|
-| High     | Figure 6 (Grad‑CAM on misclassified samples) | Directly addresses RQ4 and RQ5 and supports error analysis |
-| High     | Figure 4 (Confusion matrices)                | Exposes per‑class failures and the impact of class imbalance |
-| High     | Figure 3 (Training curves)                   | Shows model convergence, overfitting, or underfitting behavior |
-| Medium   | Figure 5 (Grad‑CAM on correct predictions)   | Confirms that models focus on meaningful regions when they are correct |
-| Medium   | Figure 7 (SHAP visualizations)               | Provides deeper, pixel‑level insight into model decisions |
-| Lower    | Figure 1 (Class distribution)                | Basic dataset visualization |
-| Lower    | Figure 2 (Workflow diagram)                  | Summarizes the methodology visually |
+| Table   | Description                       | Location / Filename                                |
+|--------|-----------------------------------|----------------------------------------------------|
+| Table 1| Dataset overview                  | Proposal Section 5                                 |
+| Table 2| Class distribution                | Proposal Section 5                                 |
+| Table 3| Custom CNN architecture           | Proposal Section 9                                 |
+| Table 4| Transfer learning comparison      | Proposal Section 10                                |
+| Table 5| Training hyperparameters          | Proposal Section 8                                 |
+| Table 6| Model comparison metrics          | `outputs/tables/Table8_Model_Comparison.csv`       |
+| Table 7| Per‑class F1 — Custom CNN         | `outputs/tables/Table7_CustomCNN_PerClass_F1.csv`  |
+| Table 8| Per‑class F1 — MobileNetV2        | `outputs/tables/Table7_MobileNetV2_PerClass_F1.csv`|
+| Table 9| Per‑class F1 — ResNet50           | `outputs/tables/Table7_ResNet50_PerClass_F1.csv`   |
 
 ---
 
@@ -520,28 +507,28 @@ Not all figures have equal importance. For this project, the most critical are:
 
 ### Foundational Papers
 
-1. Goodfellow, I. J., Erhan, D., Carrier, P. L., Courville, A., Mirza, M., Hamner, B., & Bengio, Y. (2013). Challenges in representation learning: A report on three machine learning contests. *International Conference on Machine Learning (ICML 2013).* https://arxiv.org/abs/1307.0414  
+1. Goodfellow, I. J., Erhan, D., Carrier, P. L., Courville, A., Mirza, M., Hamner, B., & Bengio, Y. (2013). Challenges in representation learning: A report on three machine learning contests. *International Conference on Machine Learning (ICML 2013)*. https://arxiv.org/abs/1307.0414  
 
-2. He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition. *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR),* 770–778. https://arxiv.org/abs/1512.03385  
+2. He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition. *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 770–778. https://arxiv.org/abs/1512.03385  
 
-3. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., & Chen, L. C. (2018). MobileNetV2: Inverted residuals and linear bottlenecks. *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR),* 4510–4520. https://arxiv.org/abs/1801.04381  
+3. Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., & Chen, L.‑C. (2018). MobileNetV2: Inverted residuals and linear bottlenecks. *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 4510–4520. https://arxiv.org/abs/1801.04381  
 
-4. Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., & Batra, D. (2017). Grad‑CAM: Visual explanations from deep networks via gradient‑based localization. *Proceedings of the IEEE International Conference on Computer Vision (ICCV),* 618–626. https://arxiv.org/abs/1610.02391  
+4. Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., & Batra, D. (2017). Grad‑CAM: Visual explanations from deep networks via gradient‑based localization. *Proceedings of the IEEE International Conference on Computer Vision (ICCV)*, 618–626. https://arxiv.org/abs/1610.02391  
 
-5. Lundberg, S. M., & Lee, S. I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems (NeurIPS),* 30, 4765–4774. https://arxiv.org/abs/1705.07874  
+5. Lundberg, S. M., & Lee, S.‑I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 4765–4774. https://arxiv.org/abs/1705.07874  
 
 ### FER‑Specific Papers
 
-6. Pramerdorfer, C., & Kampel, M. (2016). Facial expression recognition using convolutional neural networks: State of the art. *arXiv preprint.* https://arxiv.org/abs/1612.02903  
+6. Pramerdorfer, C., & Kampel, M. (2016). Facial expression recognition using convolutional neural networks: State of the art. *arXiv preprint*. https://arxiv.org/abs/1612.02903  
 
-7. Li, S., & Deng, W. (2022). Deep facial expression recognition: A survey. *IEEE Transactions on Affective Computing,* 13(3), 1195–1215. https://doi.org/10.1109/TAFFC.2020.2981446  
+7. Li, S., & Deng, W. (2022). Deep facial expression recognition: A survey. *IEEE Transactions on Affective Computing*, 13(3), 1195–1215. https://doi.org/10.1109/TAFFC.2020.2981446  
 
-8. Tran, M., et al. (2021). Deep‑Emotion: Facial expression recognition using attentional convolutional network. *Sensors,* 21(11), 3046. https://doi.org/10.3390/s21113046  
+8. Tran, M., et al. (2021). Deep‑Emotion: Facial expression recognition using attentional convolutional network. *Sensors*, 21(11), 3046. https://doi.org/10.3390/s21113046  
 
-9. Tutuianu, G. I., Liu, Y., Alamäki, A., & Kauttonen, J. (2024). Benchmarking deep facial expression recognition: An extensive protocol with balanced dataset in the wild. *Engineering Applications of Artificial Intelligence,* 133, 108896. https://doi.org/10.1016/j.engappai.2024.108896  
+9. Tutuianu, G. I., Liu, Y., Alamäki, A., & Kauttonen, J. (2024). Benchmarking deep facial expression recognition: An extensive protocol with balanced dataset in the wild. *Engineering Applications of Artificial Intelligence*, 133, 108896. https://doi.org/10.1016/j.engappai.2024.108896  
 
-10. Mandave, D. D., & Patil, L. V. (2025). A statistically rigorous comparison of MobileNetV2 and EfficientNet‑B0 for facial expression recognition on the FER‑2013 benchmark. *Information Dynamics and Applications,* 4(4). https://doi.org/10.56578/ida040401  
+10. Mandave, D. D., & Patil, L. V. (2025). A statistically rigorous comparison of MobileNetV2 and EfficientNet‑B0 for facial expression recognition on the FER2013 benchmark. *Information Dynamics and Applications*, 4(4). https://doi.org/10.56578/ida040401  
 
 ---
 
-*Document Status: Phase 2 — Final Proposal Draft (June 2026)*
+*Document Status: Phase 2 — Final Proposal 
