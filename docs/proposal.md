@@ -18,19 +18,6 @@
 
 ## Section 2 — Background and Motivation
 
-<!-- 
-WRITING INSTRUCTIONS FOR THIS SECTION:
-Use Perplexity to research: "facial expression recognition CNN deep learning applications 2022 2023"
-Then come back to Claude AI with those findings to write this section academically.
-Target: 150–200 words.
-
-POINTS TO COVER:
-- Why facial expression recognition matters (real-world applications)
-- Why CNNs are now the standard approach for this task
-- Why comparing custom CNN vs transfer learning is scientifically valuable
-- Why explainability (Grad-CAM / SHAP) is critical, especially in human-centered AI
--->
-
 **Facial expression recognition (FER) is a fundamental problem in affective computing with significant practical applications across healthcare (mental health screening), education (student engagement monitoring), transportation (driver safety), and human-computer interaction. Automatically detecting emotional states from facial images has direct social value: research shows 55-60% of human communication occurs through facial expressions.
 
 ### The Architecture Challenge
@@ -48,12 +35,6 @@ This project systematically compares custom CNN architectures against transfer l
 ---
 
 ## Section 3 — Problem Statement
-
-<!-- 
-WRITING INSTRUCTIONS:
-Be specific. State the exact problem, what is unknown, and what this project aims to address.
-Target: 100–130 words.
--->
 
 Facial expression recognition from static images is a challenging multi-class classification problem due to several inherent factors: high intra-class variability (e.g., different intensities of the same expression across ages and cultures), inter-class similarity (e.g., Fear vs. Surprise, Angry vs. Disgust), and low image resolution in FER-2013 (48×48 pixels, grayscale). Additionally, the training dataset exhibits severe class imbalance: Happy contains 7,215 samples while Disgust contains only 436, creating a 16.5-to-1 disparity that causes models to ignore minority classes.
 
@@ -132,12 +113,6 @@ These factors explain why state-of-the-art accuracy on FER-2013 typically ranges
 ---
 
 ## Section 7 — Expected Results
-
-<!-- 
-WRITING INSTRUCTIONS:
-These are PREDICTIONS written before running experiments. Required by the proposal.
-State your hypotheses — you will compare these against actual results in Phase 3.
--->
 
 Based on published benchmarks on the FER-2013 dataset 
 (2021–2025), the following results are anticipated for 
@@ -691,15 +666,6 @@ are considered most critical for this project:
 ---
 
 ## References
-
-<!-- 
-WRITING INSTRUCTIONS:
-Use Perplexity to find 5–8 peer-reviewed sources. Search:
-- "FER-2013 dataset CNN facial expression recognition"
-- "Grad-CAM explainable AI image classification"
-- "MobileNetV2 transfer learning facial recognition"
-Add them here in APA or IEEE format.
--->
 
 ### Foundational Papers
 
