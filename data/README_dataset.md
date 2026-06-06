@@ -86,8 +86,12 @@ fer2013/
 
 ## Citation
 
-Goodfellow, I. J., Erhan, D., Carrier, P. L., Courville, A., 
-Mirza, M., Hamner, B., & Bengio, Y. (2013). 
+**Dataset accessed from:**
+https://www.kaggle.com/datasets/msambare/fer2013
+
+**Original dataset paper:**
+Goodfellow, I. J., Erhan, D., Carrier, P. L., 
+Courville, A., Mirza, M., Hamner, B., & Bengio, Y. (2013). 
 Challenges in representation learning: A report on three 
 machine learning contests. ICML 2013.
 https://arxiv.org/abs/1307.0414
