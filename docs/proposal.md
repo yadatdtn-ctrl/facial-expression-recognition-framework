@@ -170,7 +170,11 @@ Before training, the expected computational trade‑offs were:
 | MobileNetV2| Moderate (~1–2 hours)  | ~3.4M                |
 | ResNet50   | Slowest (~2–3 hours)   | ~25M                 |
 
-The experiments confirmed this pattern. On the chosen GPU environment, the custom CNN (about 1.2M parameters) trained in ~27.3 minutes, MobileNetV2 (about 3.4M parameters) in ~153.5 minutes, and ResNet50 (about 25M parameters) in ~138.9 minutes. Despite being the lightest and fastest, the custom CNN achieved the best performance, challenging the assumption that larger pretrained models would be superior on FER‑2013.
+The experiments confirmed this pattern. On the chosen 
+GPU environment, the custom CNN (1,244,135 parameters) 
+trained in 41.68 minutes, MobileNetV2 (2,588,743 
+parameters) in 156.76 minutes, and ResNet50 
+(24,115,079 parameters) in 156.9 minutes.
 
 ### 7.5 Expected Explainability Findings
 
@@ -441,9 +445,9 @@ The main quantitative results across models are summarized as:
 
 | Model        | Accuracy | Precision | Recall | F1‑Score | Training Time | Parameters | Grad‑CAM Quality |
 |-------------|----------|-----------|--------|----------|---------------|------------|------------------|
-| Custom CNN  | 58.58%   | 0.5259    | 0.5872 | 0.5364   | 27.3 min      | ~1.2M      | High             |
-| MobileNetV2 | 50.49%   | 0.4434    | 0.4873 | 0.4440   | 153.5 min     | ~3.4M      | Medium           |
-| ResNet50    | 40.78%   | 0.3782    | 0.4110 | 0.3530   | 138.9 min     | ~25M       | Medium           |
+| Custom CNN  | 57.80%   | 0.5233    | 0.5641 | 0.5165   | 41.68 min     | 1,244,135  | High             |
+| MobileNetV2 | 49.71%   | 0.4432    | 0.4682 | 0.4444   | 156.76 min    | 2,588,743  | Medium           |
+| ResNet50    | 40.54%   | 0.3586    | 0.4208 | 0.3392   | 156.9 min     | 24,115,079 | Medium           |
 
 This table shows that the custom CNN is not only the fastest and smallest, but also achieves the best test performance and the most focused Grad‑CAM heatmaps.
 
@@ -484,6 +488,9 @@ All figures are saved as PDF files in the `outputs/figures/` directory during no
 | Figure 7a| SHAP — Custom CNN                         | `outputs/figures/Fig7a_SHAP_CustomCNN.pdf`    |
 | Figure 7b| SHAP — MobileNetV2                        | `outputs/figures/Fig7b_SHAP_MobileNetV2.pdf`  |
 | Figure 7c| SHAP — ResNet50                           | `outputs/figures/Fig7c_SHAP_ResNet50.pdf`     |
+| Figure 8a| ROC curves — Custom CNN                   | `outputs/figures/Fig8a_ROC_Custom_CNN.pdf` |
+| Figure 8b| ROC curves — MobileNetV2                  | `outputs/figures/Fig8b_ROC_MobileNetV2.pdf` |
+| Figure 8c| ROC curves — ResNet50                     | `outputs/figures/Fig8c_ROC_ResNet50.pdf` |
 
 ### 12.2 Tables
 
