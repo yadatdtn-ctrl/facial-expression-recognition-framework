@@ -138,9 +138,9 @@ After running the full experiments and evaluating on the FER‑2013 test set, th
 
 | Model        | Test Accuracy | Macro Precision | Macro Recall | Macro F1 |
 |-------------|---------------|-----------------|-------------|----------|
-| Custom CNN  | 58.58%        | 0.5259          | 0.5872      | 0.5364   |
-| MobileNetV2 | 50.49%        | 0.4434          | 0.4873      | 0.4440   |
-| ResNet50    | 40.78%        | 0.3782          | 0.4110      | 0.3530   |
+| Custom CNN  | 57.80%        | 0.5233          | 0.5641      | 0.5165   |
+| MobileNetV2 | 49.71%        | 0.4432          | 0.4682      | 0.4444   |
+| ResNet50    | 40.54%        | 0.3586          | 0.4208      | 0.3392   |
 
 Contrary to the initial hypothesis, the custom CNN achieved the best overall performance, while both transfer learning models performed worse, suggesting that the domain gap between ImageNet (high‑resolution RGB) and FER‑2013 (low‑resolution grayscale) is not fully bridged by the chosen fine‑tuning strategy.
 
