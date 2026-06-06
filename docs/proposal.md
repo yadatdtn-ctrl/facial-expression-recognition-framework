@@ -475,17 +475,17 @@ All figures are saved as PDF files in the `outputs/figures/` directory during no
 |----------|-------------------------------------------|-----------------------------------------------|
 | Figure 1 | Class distribution bar chart              | `outputs/figures/Fig1_Class_Distribution.pdf` |
 | Figure 2 | Sample images per class                   | `outputs/figures/Fig2_Sample_Images.pdf`      |
-| Figure 3a| Training curves — Custom CNN              | `outputs/figures/Fig3a_TrainingCurves_CustomCNN.pdf` |
-| Figure 3b| Training curves — MobileNetV2             | `outputs/figures/Fig3b_TrainingCurves_MobileNetV2.pdf` |
-| Figure 3c| Training curves — ResNet50                | `outputs/figures/Fig3c_TrainingCurves_ResNet50.pdf` |
-| Figure 4a| Confusion matrix — Custom CNN             | `outputs/figures/Fig4a_ConfusionMatrix_CustomCNN.pdf` |
-| Figure 4b| Confusion matrix — MobileNetV2            | `outputs/figures/Fig4b_ConfusionMatrix_MobileNetV2.pdf` |
-| Figure 4c| Confusion matrix — ResNet50               | `outputs/figures/Fig4c_ConfusionMatrix_ResNet50.pdf` |
+| Figure 3a| Training curves — Custom CNN              | `outputs/figures/Fig3a_Training_Curves_Custom_CNN.pdf` |
+| Figure 3b| Training curves — MobileNetV2             | `outputs/figures/Fig3b_Training_Curves_MobileNetV2.pdf` |
+| Figure 3c| Training curves — ResNet50                | `outputs/figures/Fig3c_Training_Curves_ResNet50.pdf` |
+| Figure 4a| Confusion matrix — Custom CNN             | `outputs/figures/Fig4a_Confusion_Matrix_CustomCNN.pdf` |
+| Figure 4b| Confusion matrix — MobileNetV2            | `outputs/figures/Fig4b_Confusion_Matrix_MobileNetV2.pdf` |
+| Figure 4c| Confusion matrix — ResNet50               | `outputs/figures/Fig4c_Confusion_Matrix_ResNet50.pdf` |
 | Figure 5 | Model comparison bar chart                | `outputs/figures/Fig5_Model_Comparison.pdf`   |
-| Figure 6a| Grad‑CAM — Custom CNN                     | `outputs/figures/Fig6a_GradCAM_CustomCNN.pdf` |
+| Figure 6a| Grad‑CAM — Custom CNN                     | `outputs/figures/Fig6a_GradCAM_Custom_CNN.pdf` |
 | Figure 6b| Grad‑CAM — MobileNetV2                    | `outputs/figures/Fig6b_GradCAM_MobileNetV2.pdf` |
 | Figure 6c| Grad‑CAM — ResNet50                       | `outputs/figures/Fig6c_GradCAM_ResNet50.pdf`  |
-| Figure 7a| SHAP — Custom CNN                         | `outputs/figures/Fig7a_SHAP_CustomCNN.pdf`    |
+| Figure 7a| SHAP — Custom CNN                         | `outputs/figures/Fig7a_SHAP_Custom_CNN.pdf`    |
 | Figure 7b| SHAP — MobileNetV2                        | `outputs/figures/Fig7b_SHAP_MobileNetV2.pdf`  |
 | Figure 7c| SHAP — ResNet50                           | `outputs/figures/Fig7c_SHAP_ResNet50.pdf`     |
 | Figure 8a| ROC curves — Custom CNN                   | `outputs/figures/Fig8a_ROC_Custom_CNN.pdf` |
