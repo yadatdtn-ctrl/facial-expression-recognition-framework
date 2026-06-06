@@ -1,0 +1,9 @@
+Property,Value
+Total Images,35887
+Training Images,28709
+Test Images,7178
+Image Size (Custom CNN),48×48 pixels
+Image Size (Transfer Learning),224×224 pixels
+Image Type,Grayscale (1 channel)
+Number of Classes,7
+Class Names,"angry, disgust, fear, happy, neutral, sad, surprise"

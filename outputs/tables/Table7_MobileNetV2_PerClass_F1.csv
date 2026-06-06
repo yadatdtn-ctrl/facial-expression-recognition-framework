@@ -1,0 +1,8 @@
+Model,Class,Precision,Recall,F1_Score,Support
+MobileNetV2,angry,0.3747,0.3841,0.3794,958
+MobileNetV2,disgust,0.2763,0.3784,0.3194,111
+MobileNetV2,fear,0.3403,0.1758,0.2318,1024
+MobileNetV2,happy,0.7634,0.7131,0.7374,1774
+MobileNetV2,neutral,0.4041,0.588,0.479,1233
+MobileNetV2,sad,0.4182,0.3015,0.3504,1247
+MobileNetV2,surprise,0.5253,0.7365,0.6132,831

@@ -1,0 +1,8 @@
+Model,Class,Precision,Recall,F1_Score,Support
+ResNet50,angry,0.3393,0.0992,0.1535,958
+ResNet50,disgust,0.0854,0.6306,0.1504,111
+ResNet50,fear,0.2884,0.1484,0.196,1024
+ResNet50,happy,0.6514,0.6172,0.6339,1774
+ResNet50,neutral,0.3661,0.502,0.4234,1233
+ResNet50,sad,0.3354,0.2197,0.2655,1247
+ResNet50,surprise,0.4442,0.728,0.5518,831

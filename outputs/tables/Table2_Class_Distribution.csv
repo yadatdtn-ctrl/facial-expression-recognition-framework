@@ -1,0 +1,8 @@
+Emotion,Train_Samples,Train_Percent,Test_Samples,Test_Percent
+angry,3995,13.9,958,13.3
+disgust,436,1.5,111,1.5
+fear,4097,14.3,1024,14.3
+happy,7215,25.1,1774,24.7
+neutral,4965,17.3,1233,17.2
+sad,4830,16.8,1247,17.4
+surprise,3171,11.0,831,11.6

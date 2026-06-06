@@ -1,0 +1,4 @@
+Model,Accuracy,Precision,Recall,F1_Score,Training_Time_min,Parameters
+Custom CNN,0.578,0.5233,0.5641,0.5165,41.68,1244135
+MobileNetV2,0.4971,0.4432,0.4682,0.4444,156.76,2588743
+ResNet50,0.4054,0.3586,0.4208,0.3392,156.9,24115079
