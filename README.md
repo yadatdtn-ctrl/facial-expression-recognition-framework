@@ -57,7 +57,7 @@ The Custom CNN outperformed both transfer learning models, demonstrating that a 
 facial-expression-recognition-framework/
 │
 ├── README.md
-├── fer2013_facial_expression_recognition.ipynb   # Main notebook (all code)
+├── Facial Expression Recognition Framework.ipynb   # Main notebook (all code)
 │
 ├── outputs/
 │   ├── figures/                                  # All 18 output figures (PDF)
