@@ -1,4 +1,3 @@
-[proposal.md](https://github.com/user-attachments/files/28229783/proposal.md)
 # Phase 2 Proposal Document
 
 ## Comparative Analysis of Custom CNN and Transfer Learning for Facial Expression Recognition
