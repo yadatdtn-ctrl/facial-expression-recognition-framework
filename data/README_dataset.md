@@ -41,7 +41,7 @@
 
 - **Size:** 48 × 48 pixels
 - **Color:** Grayscale (1 channel)
-- **Format:** JPG
+- **Format:** PNG
 - **Classes:** 7 emotion categories
 
 ---
