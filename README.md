@@ -5,7 +5,7 @@
 > Course: Pattern Recognition
 > Institution: University of Europe for Applied Sciences
 > Student: Yada Thadathanacharoen
-> Submission: Phase 2 — Proposal and Code Implementation
+> Submission: Phase 2 - Proposal and Code Implementation
 
 ---
 
@@ -13,9 +13,9 @@
 
 This project builds and compares three deep learning models for seven-class facial expression recognition on the FER-2013 dataset:
 
-- **Custom CNN** — a compact model designed specifically for 48×48 grayscale input
-- **MobileNetV2** — lightweight transfer learning model pretrained on ImageNet
-- **ResNet50** — deeper residual transfer learning model pretrained on ImageNet
+- **Custom CNN** - a compact model designed specifically for 48×48 grayscale input
+- **MobileNetV2** - lightweight transfer learning model pretrained on ImageNet
+- **ResNet50** - deeper residual transfer learning model pretrained on ImageNet
 
 Explainability is provided via **Grad-CAM** (gradient-based heatmaps) and **SHAP** (pixel-level contribution maps) to verify that predictions are grounded in meaningful facial features.
 
@@ -96,7 +96,7 @@ facial-expression-recognition-framework/
 
 ## How to Run
 
-### Option 1 — Run on Kaggle (Recommended)
+### Option 1 - Run on Kaggle (Recommended)
 
 The notebook is available publicly on Kaggle with the dataset already attached:
 
@@ -107,7 +107,7 @@ The notebook is available publicly on Kaggle with the dataset already attached:
 3. Enable GPU: **Settings → Accelerator → GPU T4 x2** or **P100**
 4. Click **Run All**
 
-### Option 2 — Run Locally
+### Option 2 - Run Locally
 
 **Requirements**
 ```bash
@@ -147,9 +147,9 @@ The notebook is organized into 32 clearly commented cells:
 | 1–3 | Library installation, imports, configuration |
 | 4–7 | Dataset loading, class distribution, sample images |
 | 8–10 | Preprocessing pipeline, data augmentation, class weights |
-| 11–17 | Custom CNN — build, train, evaluate, confusion matrix, classification report |
-| 18–22 | MobileNetV2 — build, train (2-phase), evaluate, confusion matrix |
-| 23–27 | ResNet50 — build, train (2-phase), evaluate, confusion matrix, ROC curves |
+| 11–17 | Custom CNN - build, train, evaluate, confusion matrix, classification report |
+| 18–22 | MobileNetV2 - build, train (2-phase), evaluate, confusion matrix |
+| 23–27 | ResNet50 - build, train (2-phase), evaluate, confusion matrix, ROC curves |
 | 28–29 | Final comparison table and bar charts |
 | 30–31 | Grad-CAM visualizations for all 3 models |
 | 32 | SHAP explanations for all 3 models |
@@ -160,12 +160,12 @@ The notebook is organized into 32 clearly commented cells:
 
 All figures are saved as PDFs in `outputs/figures/`. Key outputs include:
 
-- **Training curves** (Fig 3a–3c) — accuracy and loss per epoch
-- **Confusion matrices** (Fig 4a–4c) — raw counts and normalized row %
-- **Model comparison** (Fig 5) — classification metrics and training time
-- **Grad-CAM heatmaps** (Fig 6a–6c) — correct vs incorrect prediction attention maps
-- **SHAP explanations** (Fig 7a–7c) — pixel-level positive/negative evidence maps
-- **ROC curves** (Fig 8a–8c) — per-class and macro/micro AUC
+- **Training curves** (Fig 3a–3c) - accuracy and loss per epoch
+- **Confusion matrices** (Fig 4a–4c) - raw counts and normalized row %
+- **Model comparison** (Fig 5) - classification metrics and training time
+- **Grad-CAM heatmaps** (Fig 6a–6c) - correct vs incorrect prediction attention maps
+- **SHAP explanations** (Fig 7a–7c) - pixel-level positive/negative evidence maps
+- **ROC curves** (Fig 8a–8c) - per-class and macro/micro AUC
 
 ---
 
