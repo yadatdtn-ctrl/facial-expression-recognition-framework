@@ -8,7 +8,6 @@
 | **Institution** | University of Europe for Applied Sciences |
 | **Student** | Yada Thadathanacharoen |
 | **Submission** | Phase 2 - Proposal and Code Implementation |
-| **Due Date** | June 7, 2026 |
 
 ---
 
