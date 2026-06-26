@@ -54,28 +54,28 @@
 
         <div class="grid-3 xai-gradcam-grid">
           <div class="card highlighted xai-method-card">
-            <div class="heatmap-header heatmap-header-blue">
-              <div class="heatmap-placeholder heatmap-placeholder-blue">[ Grad-CAM heatmap ]</div>
-              <div class="heatmap-caption">Custom CNN · Happy</div>
+            <div class="heatmap-header" style="background: #EEF2FF;">
+              <div class="heatmap-placeholder" style="color: #4338CA;">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption" style="color: #4338CA;">Custom CNN · Happy</div>
             </div>
-            <span class="xai-badge xai-badge-best">Best focus</span>
+            <span class="xai-badge xai-badge-best" style="background: #4338CA; color: #FFFFFF; border-color: #4338CA;">Best focus</span>
             <h3 class="xai-card-title">Custom CNN</h3>
             <p class="xai-card-body">Consistently activates over the eye and mouth region — the most emotionally expressive areas. Indicates meaningful feature learning aligned with human perception.</p>
           </div>
 
           <div class="card xai-method-card">
-            <div class="heatmap-header heatmap-header-egg">
-              <div class="heatmap-placeholder heatmap-placeholder-grey">[ Grad-CAM heatmap ]</div>
-              <div class="heatmap-caption">MobileNetV2 · Happy</div>
+            <div class="heatmap-header" style="background: #ECFDF5;">
+              <div class="heatmap-placeholder" style="color: #059669;">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption" style="color: #059669;">MobileNetV2 · Happy</div>
             </div>
             <h3 class="xai-card-title">MobileNetV2</h3>
             <p class="xai-card-body">Activation is more distributed across the face. Some attention on relevant regions but also activates background and non-expressive areas, suggesting partial domain gap impact.</p>
           </div>
 
           <div class="card xai-method-card">
-            <div class="heatmap-header heatmap-header-dark">
-              <div class="heatmap-placeholder heatmap-placeholder-brown">[ Grad-CAM heatmap ]</div>
-              <div class="heatmap-caption">ResNet50 · Happy</div>
+            <div class="heatmap-header" style="background: #FFFBEB;">
+              <div class="heatmap-placeholder" style="color: #D97706;">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption" style="color: #D97706;">ResNet50 · Happy</div>
             </div>
             <h3 class="xai-card-title">ResNet50</h3>
             <p class="xai-card-body">Diffuse and inconsistent activation patterns. The large pre-trained model struggles to localise emotion-relevant features in low-resolution grayscale input.</p>
@@ -110,20 +110,20 @@
     </div>
 
     <!-- Section 4 — Interpretation note -->
-    <div class="xai-interpretation-banner">
+    <div class="xai-interpretation-banner" style="background: #111827;">
       <div class="xai-interpretation-inner">
         <h2 class="xai-interpretation-title">What the explainability analysis tells us</h2>
         <ul class="xai-insight-list">
           <li>
-            <span class="xai-insight-dot"></span>
+            <span class="xai-insight-dot" style="background: #4338CA;"></span>
             <span>Custom CNN focuses on emotionally relevant facial regions, validating its accuracy as meaningful.</span>
           </li>
           <li>
-            <span class="xai-insight-dot"></span>
+            <span class="xai-insight-dot" style="background: #4338CA;"></span>
             <span>Transfer learning models show diffuse attention — consistent with the domain gap hypothesis.</span>
           </li>
           <li>
-            <span class="xai-insight-dot"></span>
+            <span class="xai-insight-dot" style="background: #4338CA;"></span>
             <span>Agreement between Grad-CAM and SHAP across test images strengthens the interpretability findings.</span>
           </li>
         </ul>

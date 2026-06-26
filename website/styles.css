@@ -1,15 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --deep-mocha: #483D3F;
-  --blue-bell: #058ED9;
-  --eggshell: #F4EBD9;
-  --grey-olive: #A39A92;
-  --ash-brown: #77685D;
-  --egg-card: #FFFDF8;
-  --egg-dark: #EAD9BE;
-  --blue-light: #E8F5FD;
-  --blue-border: #B3DDF5;
+  --deep-mocha: #111827;
+  --blue-bell: #4338CA;
+  --eggshell: #F8F9FC;
+  --grey-olive: #9CA3AF;
+  --ash-brown: #6B7280;
+  --egg-card: #FFFFFF;
+  --egg-dark: #E5E7EB;
+  --blue-light: #EEF2FF;
+  --blue-border: #C7D2FE;
+  --mobilenet-accent: #059669;
+  --mobilenet-bg: #ECFDF5;
+  --mobilenet-border: #6EE7B7;
+  --resnet-accent: #D97706;
+  --resnet-bg: #FFFBEB;
+  --resnet-border: #FCD34D;
 }
 
 * {
@@ -20,7 +26,7 @@
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
-  background: var(--eggshell);
+  background: #F8F9FC;
   color: var(--deep-mocha);
   line-height: 1.7;
 }
@@ -36,7 +42,7 @@ nav {
   justify-content: space-between;
   height: 60px;
   padding: 0 80px;
-  background: var(--deep-mocha);
+  background: #111827;
   z-index: 100;
 }
 
@@ -66,7 +72,7 @@ nav {
 .nav-brand {
   font-size: 15px;
   font-weight: 600;
-  color: var(--eggshell);
+  color: #F9FAFB;
 }
 
 .nav-links {
@@ -78,24 +84,24 @@ nav {
 
 .nav-links a {
   font-size: 13px;
-  color: var(--grey-olive);
+  color: #9CA3AF;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .nav-links a:hover {
-  color: var(--eggshell);
+  color: #F9FAFB;
 }
 
 .nav-links a.active {
-  color: var(--eggshell);
+  color: #F9FAFB;
   font-weight: 600;
-  border-bottom: 2px solid var(--blue-bell);
+  border-bottom: 2px solid #4338CA;
   padding-bottom: 2px;
 }
 
 .nav-cta {
-  background: var(--blue-bell);
+  background: #4338CA;
   color: white;
   font-size: 13px;
   padding: 8px 18px;
@@ -131,12 +137,12 @@ footer {
   justify-content: space-between;
   gap: 12px;
   padding: 24px 80px;
-  background: var(--deep-mocha);
+  background: #111827;
 }
 
 .footer-name {
   font-size: 12px;
-  color: var(--grey-olive);
+  color: #9CA3AF;
 }
 
 .footer-links {
@@ -150,12 +156,12 @@ footer {
   align-items: center;
   gap: 5px;
   font-size: 12px;
-  color: var(--grey-olive);
+  color: #9CA3AF;
   text-decoration: none;
 }
 
 .footer-links a:hover {
-  color: var(--eggshell);
+  color: #F9FAFB;
 }
 
 .footer-bottom {
@@ -164,7 +170,7 @@ footer {
   padding-top: 12px;
   border-top: 1px solid rgba(163, 154, 146, 0.3);
   font-size: 11px;
-  color: var(--ash-brown);
+  color: #6B7280;
   text-align: center;
 }
 
@@ -192,7 +198,7 @@ footer {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--blue-bell);
+  color: #4338CA;
 }
 
 .section-title {
@@ -200,14 +206,14 @@ footer {
   font-size: 32px;
   font-weight: 600;
   line-height: 1.2;
-  color: var(--deep-mocha);
+  color: #111827;
 }
 
 .section-body {
   max-width: 760px;
   font-size: 15px;
   line-height: 1.7;
-  color: var(--ash-brown);
+  color: #6B7280;
 }
 
 .btn-primary {
@@ -215,7 +221,7 @@ footer {
   padding: 11px 26px;
   border: none;
   border-radius: 7px;
-  background: var(--blue-bell);
+  background: #4338CA;
   color: white;
   font-family: inherit;
   font-size: 14px;
@@ -226,10 +232,10 @@ footer {
 .btn-secondary {
   display: inline-block;
   padding: 11px 26px;
-  border: 1px solid var(--grey-olive);
+  border: 1px solid #E5E7EB;
   border-radius: 7px;
   background: transparent;
-  color: var(--deep-mocha);
+  color: #111827;
   font-family: inherit;
   font-size: 14px;
   text-decoration: none;
@@ -238,14 +244,14 @@ footer {
 
 .card {
   padding: 24px;
-  border: 1px solid var(--egg-dark);
+  border: 1px solid #E5E7EB;
   border-radius: 12px;
-  background: var(--egg-card);
+  background: #FFFFFF;
 }
 
 .card.highlighted {
-  background: var(--blue-light);
-  border-color: var(--blue-border);
+  background: #EEF2FF;
+  border-color: #C7D2FE;
 }
 
 .grid-3 {
@@ -343,7 +349,7 @@ footer {
 
 .emotion-strip {
   padding: 12px 40px;
-  background: var(--egg-dark);
+  background: #F3F4F6;
 }
 
 .emotion-pills {

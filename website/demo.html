@@ -50,8 +50,8 @@
       <div class="section">
         <div class="demo-grid">
           <div class="card" style="text-align: center; padding: 48px 32px;">
-            <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--blue-light); border: 1px solid var(--blue-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#058ED9" stroke-width="2" width="28" height="28">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #EEF2FF; border: 1px solid #C7D2FE; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4338CA" stroke-width="2" width="28" height="28">
                 <circle cx="12" cy="12" r="10"/>
                 <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
                 <line x1="9" y1="9" x2="9.01" y2="9"/>
@@ -61,7 +61,7 @@
             <h3 style="font-size: 18px; font-weight: 600; color: var(--deep-mocha); margin-bottom: 10px;">Interactive demo on Hugging Face</h3>
             <p style="font-size: 14px; color: var(--ash-brown); line-height: 1.7; margin-bottom: 24px;">The demo runs the actual trained models in real time. Upload any face photo to get simultaneous predictions from all three models, with Grad-CAM heatmaps showing what each model focused on.</p>
             <p style="font-size: 12px; color: var(--grey-olive); margin-bottom: 24px;">Supports JPG and PNG · Frontal face photos work best · Processed on Hugging Face Spaces</p>
-            <a href="#" target="_blank" class="btn-primary" style="display: inline-block; width: 100%; text-align: center; box-sizing: border-box;">Launch demo on Hugging Face →</a>
+            <a href="#" target="_blank" class="btn-primary" style="display: inline-block; width: 100%; text-align: center; box-sizing: border-box; background: #4338CA;">Launch demo on Hugging Face →</a>
           </div>
 
           <div class="card demo-preview-panel">
@@ -70,42 +70,48 @@
 
             <div class="result-row">
               <div class="result-row-header">
-                <span class="result-label result-label-cnn">Custom CNN</span>
+                <span class="result-label result-label-cnn" style="color: #4338CA;">Custom CNN</span>
                 <span class="result-pct">78% Happy</span>
               </div>
               <div class="progress-track">
-                <div class="progress-fill progress-fill-cnn" style="width: 78%;"></div>
+                <div class="progress-fill progress-fill-cnn" style="width: 78%; background: #4338CA;"></div>
               </div>
             </div>
 
             <div class="result-row">
               <div class="result-row-header">
-                <span class="result-label result-label-mob">MobileNetV2</span>
+                <span class="result-label result-label-mob" style="color: #059669;">MobileNetV2</span>
                 <span class="result-pct">55% Happy</span>
               </div>
               <div class="progress-track">
-                <div class="progress-fill progress-fill-mob" style="width: 55%;"></div>
+                <div class="progress-fill progress-fill-mob" style="width: 55%; background: #059669;"></div>
               </div>
             </div>
 
             <div class="result-row">
               <div class="result-row-header">
-                <span class="result-label result-label-res">ResNet50</span>
+                <span class="result-label result-label-res" style="color: #D97706;">ResNet50</span>
                 <span class="result-pct">42% Neutral</span>
               </div>
               <div class="progress-track">
-                <div class="progress-fill progress-fill-res" style="width: 42%;"></div>
+                <div class="progress-fill progress-fill-res" style="width: 42%; background: #D97706;"></div>
               </div>
             </div>
 
             <div class="demo-divider"></div>
 
-            <div class="disagreement-note">
+            <div class="disagreement-note" style="background: #FFFBEB; border: 1px solid #FCD34D;">
               Models disagree on this image — Custom CNN and MobileNetV2 predict Happy, while ResNet50 predicts Neutral. This disagreement is a key finding of this research.
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="demo-streamlit-banner" style="background: #111827;">
+      <h2 class="streamlit-title">Powered by Streamlit · Hosted on Hugging Face Spaces</h2>
+      <p class="streamlit-body">The interactive demo runs the actual trained models — Custom CNN, MobileNetV2, and ResNet50 — in real time. Upload any face photo to get simultaneous predictions with Grad-CAM heatmaps.</p>
+      <a href="#" class="btn-primary" target="_blank" rel="noopener noreferrer" style="background: #4338CA;">Open Streamlit app →</a>
     </div>
   </main>
 
