@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Battle Arena — FaceXplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <span class="nav-brand">FaceXplain</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="demo.html">Demo</a></li>
+      <li><a href="xai.html">XAI</a></li>
+      <li><a href="battle.html" class="active">Battle</a></li>
+      <li><a href="#" target="_blank">GitHub</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='demo.html'">Try the demo</button>
+    <button class="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- Section 1 — Arena header -->
+    <div class="arena-header">
+      <p class="arena-eyebrow">⚔️ MODEL BATTLE ARENA</p>
+      <h1 class="arena-title">Which model reads your face best?</h1>
+      <p class="arena-subtitle">3 models · 1 face · only one wins</p>
+      <div class="arena-stats">
+        <span class="arena-stat-pill">3 Fighters</span>
+        <span class="arena-stat-pill">7 Emotions</span>
+        <span class="arena-stat-pill">1 Winner</span>
+      </div>
+    </div>
+
+    <!-- Section 2 — Sample selector -->
+    <div class="sample-selector">
+      <div class="sample-selector-inner">
+        <p class="sample-eyebrow">CHOOSE YOUR CHALLENGER</p>
+        <h2 class="sample-title">Pick a sample expression</h2>
+        <p class="sample-subtitle">Select one of the 6 sample expressions — then watch all 3 models battle to predict the emotion</p>
+        <div class="sample-grid">
+          <div class="sample-card selected" onclick="selectSample(this, 0)">
+            <div class="sample-emoji">😄</div>
+            <span class="sample-label">Happy</span>
+          </div>
+          <div class="sample-card" onclick="selectSample(this, 1)">
+            <div class="sample-emoji">😢</div>
+            <span class="sample-label">Sad</span>
+          </div>
+          <div class="sample-card" onclick="selectSample(this, 2)">
+            <div class="sample-emoji">😠</div>
+            <span class="sample-label">Angry</span>
+          </div>
+          <div class="sample-card" onclick="selectSample(this, 3)">
+            <div class="sample-emoji">😨</div>
+            <span class="sample-label">Fear</span>
+          </div>
+          <div class="sample-card" onclick="selectSample(this, 4)">
+            <div class="sample-emoji">😲</div>
+            <span class="sample-label">Surprise</span>
+          </div>
+          <div class="sample-card" onclick="selectSample(this, 5)">
+            <div class="sample-emoji">😐</div>
+            <span class="sample-label">Neutral</span>
+          </div>
+        </div>
+        <p class="sample-note">* Predictions are pre-computed from actual model outputs on FER-2013 test images</p>
+      </div>
+    </div>
+
+    <!-- Section 3 — Fighter cards -->
+    <div class="fighter-arena">
+      <div class="fighter-grid">
+        <div class="fighter" id="fighter-cnn">
+          <span class="crown">👑</span>
+          <div class="fighter-image">
+            <img src="images/custom-cnn.png" alt="Custom CNN fighter">
+          </div>
+          <div class="fighter-name">Custom CNN</div>
+          <div class="fighter-nickname">"The Agile One"</div>
+          <span class="fighter-params">1.24M params · 41.7 min</span>
+          <div class="result-box">
+            <span class="result-waiting">Waiting for battle...</span>
+          </div>
+        </div>
+
+        <div class="vs-col">
+          <div class="vs-circle">VS</div>
+        </div>
+
+        <div class="fighter" id="fighter-mob">
+          <span class="crown">👑</span>
+          <div class="fighter-image">
+            <img src="images/mobilenet.png" alt="MobileNetV2 fighter">
+          </div>
+          <div class="fighter-name">MobileNetV2</div>
+          <div class="fighter-nickname">"The Traveller"</div>
+          <span class="fighter-params">2.59M params · 156.8 min</span>
+          <div class="result-box">
+            <span class="result-waiting">Waiting for battle...</span>
+          </div>
+        </div>
+
+        <div class="vs-col">
+          <div class="vs-circle">VS</div>
+        </div>
+
+        <div class="fighter" id="fighter-res">
+          <span class="crown">👑</span>
+          <div class="fighter-image">
+            <img src="images/resnet50.png" alt="ResNet50 fighter">
+          </div>
+          <div class="fighter-name">ResNet50</div>
+          <div class="fighter-nickname">"The Giant"</div>
+          <span class="fighter-params">24.1M params · 156.9 min</span>
+          <div class="result-box">
+            <span class="result-waiting">Waiting for battle...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4 — Progress and battle button -->
+    <div class="battle-controls">
+      <div id="progressWrap" class="progress-wrap">
+        <p id="progressLabel" class="progress-label"></p>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+      <button type="button" id="battleBtn" class="battle-btn">⚔️ Start the Battle</button>
+    </div>
+
+    <!-- Section 5 — Outcome box -->
+    <div id="outcomeBox" class="outcome-box">
+      <span class="outcome-crown">🏆</span>
+      <h3 id="outcomeTitle" class="outcome-title"></h3>
+      <p id="outcomeBody" class="outcome-body"></p>
+      <div id="outcomeTags" class="outcome-tags"></div>
+    </div>
+
+    <!-- Section 6 — Confidence breakdown -->
+    <div id="confidenceBreakdown" class="confidence-breakdown">
+      <p class="confidence-eyebrow">BATTLE ANALYSIS</p>
+      <h2 class="confidence-title">Confidence Breakdown</h2>
+      <p class="confidence-subtitle">How close was the battle? See all 7 emotion scores per model</p>
+      <div class="confidence-panels">
+        <div class="confidence-panel confidence-panel--cnn" id="breakdown-cnn">
+          <div class="confidence-panel-header">
+            <img src="images/custom-cnn.png" alt="" class="confidence-panel-img">
+            <span class="confidence-panel-name">Custom CNN</span>
+          </div>
+          <div class="confidence-bars">
+            <div class="confidence-bar-row" data-emotion="angry">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Angry</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="disgust">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Disgust</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="fear">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Fear</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="happy">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Happy</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="neutral">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Neutral</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="sad">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Sad</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="surprise">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Surprise</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="confidence-panel confidence-panel--mob" id="breakdown-mob">
+          <div class="confidence-panel-header">
+            <img src="images/mobilenet.png" alt="" class="confidence-panel-img">
+            <span class="confidence-panel-name">MobileNetV2</span>
+          </div>
+          <div class="confidence-bars">
+            <div class="confidence-bar-row" data-emotion="angry">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Angry</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="disgust">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Disgust</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="fear">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Fear</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="happy">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Happy</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="neutral">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Neutral</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="sad">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Sad</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="surprise">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Surprise</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="confidence-panel confidence-panel--res" id="breakdown-res">
+          <div class="confidence-panel-header">
+            <img src="images/resnet50.png" alt="" class="confidence-panel-img">
+            <span class="confidence-panel-name">ResNet50</span>
+          </div>
+          <div class="confidence-bars">
+            <div class="confidence-bar-row" data-emotion="angry">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Angry</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="disgust">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Disgust</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="fear">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Fear</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="happy">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Happy</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="neutral">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Neutral</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="sad">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Sad</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+            <div class="confidence-bar-row" data-emotion="surprise">
+              <div class="confidence-bar-label"><span class="confidence-emotion-name">Surprise</span></div>
+              <div class="confidence-bar-track"><div class="confidence-bar-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Yada Thadathanacharoen · M.Sc. Software Engineering · University of Europe for Applied Sciences · 2026</span>
+    <div class="footer-links">
+      <a href="#" target="_blank">GitHub</a>
+      <a href="#" target="_blank">Kaggle</a>
+      <a href="#" target="_blank">Report</a>
+    </div>
+    <div class="footer-bottom">Pattern Recognition Final Project · FaceXplain · 2026</div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    const EMOTIONS = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise'];
+    const EMOJIS = ['😠', '🤢', '😨', '😄', '😐', '😢', '😲'];
+    const EMOTION_KEYS = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'];
+
+    const FIGHTERS = [
+      { el: 'fighter-cnn', key: 'cnn', winnerClass: 'winner-cnn', emotionClass: 'result-emotion-cnn', panelId: 'breakdown-cnn' },
+      { el: 'fighter-mob', key: 'mob', winnerClass: 'winner-mob', emotionClass: 'result-emotion-mob', panelId: 'breakdown-mob' },
+      { el: 'fighter-res', key: 'res', winnerClass: 'winner-res', emotionClass: 'result-emotion-res', panelId: 'breakdown-res' }
+    ];
+
+    const BATTLE_DATA = [
+      {
+        label: 'Happy',
+        agree: false,
+        tlAgree: true,
+        winner: 'cnn',
+        predictions: { cnn: 'Happy', mob: 'Happy', res: 'Neutral' },
+        confidence: {
+          cnn: { Angry: 5, Disgust: 2, Fear: 3, Happy: 78, Neutral: 8, Sad: 3, Surprise: 1 },
+          mob: { Angry: 8, Disgust: 3, Fear: 5, Happy: 55, Neutral: 20, Sad: 6, Surprise: 3 },
+          res: { Angry: 12, Disgust: 4, Fear: 8, Happy: 32, Neutral: 42, Sad: 1, Surprise: 1 }
+        }
+      },
+      {
+        label: 'Sad',
+        agree: true,
+        tlAgree: true,
+        winner: 'cnn',
+        predictions: { cnn: 'Sad', mob: 'Sad', res: 'Sad' },
+        confidence: {
+          cnn: { Angry: 8, Disgust: 3, Fear: 6, Happy: 4, Neutral: 12, Sad: 65, Surprise: 2 },
+          mob: { Angry: 10, Disgust: 4, Fear: 8, Happy: 5, Neutral: 15, Sad: 55, Surprise: 3 },
+          res: { Angry: 11, Disgust: 4, Fear: 9, Happy: 5, Neutral: 14, Sad: 54, Surprise: 3 }
+        }
+      },
+      {
+        label: 'Angry',
+        agree: false,
+        tlAgree: false,
+        winner: 'cnn',
+        predictions: { cnn: 'Angry', mob: 'Angry', res: 'Sad' },
+        confidence: {
+          cnn: { Angry: 72, Disgust: 8, Fear: 5, Happy: 3, Neutral: 6, Sad: 4, Surprise: 2 },
+          mob: { Angry: 68, Disgust: 6, Fear: 7, Happy: 2, Neutral: 8, Sad: 7, Surprise: 2 },
+          res: { Angry: 28, Disgust: 5, Fear: 10, Happy: 4, Neutral: 15, Sad: 35, Surprise: 3 }
+        }
+      },
+      {
+        label: 'Fear',
+        agree: false,
+        tlAgree: true,
+        winner: 'cnn',
+        predictions: { cnn: 'Fear', mob: 'Angry', res: 'Angry' },
+        confidence: {
+          cnn: { Angry: 8, Disgust: 3, Fear: 61, Happy: 4, Neutral: 10, Sad: 9, Surprise: 5 },
+          mob: { Angry: 45, Disgust: 5, Fear: 18, Happy: 3, Neutral: 12, Sad: 10, Surprise: 7 },
+          res: { Angry: 48, Disgust: 4, Fear: 15, Happy: 2, Neutral: 14, Sad: 10, Surprise: 7 }
+        }
+      },
+      {
+        label: 'Surprise',
+        agree: true,
+        tlAgree: true,
+        winner: 'cnn',
+        predictions: { cnn: 'Surprise', mob: 'Surprise', res: 'Surprise' },
+        confidence: {
+          cnn: { Angry: 3, Disgust: 1, Fear: 8, Happy: 12, Neutral: 5, Sad: 2, Surprise: 69 },
+          mob: { Angry: 4, Disgust: 2, Fear: 10, Happy: 10, Neutral: 6, Sad: 3, Surprise: 65 },
+          res: { Angry: 5, Disgust: 2, Fear: 9, Happy: 11, Neutral: 7, Sad: 3, Surprise: 63 }
+        }
+      },
+      {
+        label: 'Neutral',
+        agree: false,
+        tlAgree: false,
+        winner: 'cnn',
+        predictions: { cnn: 'Neutral', mob: 'Neutral', res: 'Angry' },
+        confidence: {
+          cnn: { Angry: 6, Disgust: 2, Fear: 4, Happy: 8, Neutral: 68, Sad: 10, Surprise: 2 },
+          mob: { Angry: 7, Disgust: 3, Fear: 5, Happy: 9, Neutral: 65, Sad: 9, Surprise: 2 },
+          res: { Angry: 38, Disgust: 4, Fear: 8, Happy: 6, Neutral: 24, Sad: 14, Surprise: 6 }
+        }
+      }
+    ];
+
+    let selectedSample = 0;
+    let battleRunning = false;
+
+    const battleBtn = document.getElementById('battleBtn');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressLabel = document.getElementById('progressLabel');
+    const progressFill = document.getElementById('progressFill');
+    const outcomeBox = document.getElementById('outcomeBox');
+    const outcomeTitle = document.getElementById('outcomeTitle');
+    const outcomeBody = document.getElementById('outcomeBody');
+    const outcomeTags = document.getElementById('outcomeTags');
+    const confidenceBreakdown = document.getElementById('confidenceBreakdown');
+
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    function emotionEmoji(emotion) {
+      return EMOJIS[EMOTIONS.indexOf(emotion)];
+    }
+
+    function selectSample(el, idx) {
+      document.querySelectorAll('.sample-card').forEach((card) => card.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedSample = idx;
+      reset();
+    }
+
+    function reset() {
+      FIGHTERS.forEach(({ el, winnerClass }) => {
+        const fighter = document.getElementById(el);
+        fighter.classList.remove(winnerClass, 'loser');
+        fighter.querySelector('.result-box').innerHTML =
+          '<span class="result-waiting">Waiting for battle...</span>';
+      });
+
+      progressWrap.style.display = 'none';
+      progressLabel.textContent = '';
+      progressFill.style.width = '0%';
+
+      outcomeBox.classList.remove('show');
+      outcomeTitle.textContent = '';
+      outcomeBody.innerHTML = '';
+      outcomeTags.innerHTML = '';
+
+      confidenceBreakdown.classList.remove('show');
+      EMOTION_KEYS.forEach((key) => {
+        FIGHTERS.forEach(({ panelId }) => {
+          const panel = document.getElementById(panelId);
+          const row = panel.querySelector(`[data-emotion="${key}"]`);
+          row.querySelector('.confidence-bar-label').classList.remove('is-winner');
+          row.querySelector('.confidence-bar-fill').style.width = '0%';
+        });
+      });
+
+      if (!battleRunning) {
+        battleBtn.disabled = false;
+        battleBtn.textContent = '⚔️ Start the Battle';
+      }
+    }
+
+    function getOutcomeContent(data) {
+      const p = data.predictions;
+      const winnerName = 'Custom CNN';
+
+      if (data.agree) {
+        return {
+          title: `All 3 models agree — ${winnerName} wins!`,
+          body: `All three models detected <strong>${p.cnn}</strong>. When architectures this different all converge on the same prediction, confidence is high. Compare the bars — notice how all three show similar distributions.`,
+          tags: [
+            { class: 'tag-agree', text: '✓ All models agree' },
+            { class: 'tag-domain', text: 'High confidence' }
+          ]
+        };
+      }
+
+      const allDifferent = p.cnn !== p.mob && p.cnn !== p.res && p.mob !== p.res;
+
+      if (data.tlAgree) {
+        const tlEmotion = p.mob === p.res ? p.mob : p.res;
+        return {
+          title: 'Domain gap detected — Custom CNN wins!',
+          body: `Custom CNN detected <strong>${p.cnn}</strong> while both transfer learning models predicted <strong>${tlEmotion}</strong>. This is domain gap in action — MobileNetV2 and ResNet50 were pretrained on ImageNet RGB photos, not 48×48 grayscale faces. Notice in the confidence bars how the transfer learning models spread their confidence differently.`,
+          tags: [
+            { class: 'tag-disagree', text: '⚠ Models disagree' },
+            { class: 'tag-domain', text: 'Domain gap detected' }
+          ]
+        };
+      }
+
+      if (allDifferent) {
+        return {
+          title: `Total disagreement — ${winnerName} wins!`,
+          body: 'All 3 models predicted different emotions. This is a genuinely ambiguous expression — even humans struggle with this face. The confidence bars reveal how uncertain each model was.',
+          tags: [
+            { class: 'tag-disagree', text: '⚠ Full disagreement' },
+            { class: 'tag-domain', text: 'Ambiguous expression' }
+          ]
+        };
+      }
+
+      return {
+        title: `Total disagreement — ${winnerName} wins!`,
+        body: 'All 3 models predicted different emotions. This is a genuinely ambiguous expression — even humans struggle with this face. The confidence bars reveal how uncertain each model was.',
+        tags: [
+          { class: 'tag-disagree', text: '⚠ Full disagreement' },
+          { class: 'tag-domain', text: 'Ambiguous expression' }
+        ]
+      };
+    }
+
+    function showOutcome(data) {
+      const content = getOutcomeContent(data);
+      outcomeTitle.textContent = content.title;
+      outcomeBody.innerHTML = content.body;
+      outcomeTags.innerHTML = content.tags
+        .map(({ class: cls, text }) => `<span class="${cls}">${text}</span>`)
+        .join('');
+      outcomeBox.classList.add('show');
+    }
+
+    function renderConfidence(confidence, predictions) {
+      FIGHTERS.forEach(({ key, panelId }) => {
+        const panel = document.getElementById(panelId);
+        const pred = predictions[key].toLowerCase();
+
+        EMOTION_KEYS.forEach((emotionKey, i) => {
+          const emotionName = EMOTIONS[i];
+          const row = panel.querySelector(`[data-emotion="${emotionKey}"]`);
+          const label = row.querySelector('.confidence-bar-label');
+          const fill = row.querySelector('.confidence-bar-fill');
+
+          label.classList.toggle('is-winner', pred === emotionKey);
+          fill.style.width = confidence[key][emotionName] + '%';
+        });
+      });
+    }
+
+    async function runBattle() {
+      if (battleRunning) return;
+      battleRunning = true;
+      reset();
+
+      const data = BATTLE_DATA[selectedSample];
+      battleBtn.disabled = true;
+
+      progressWrap.style.display = 'block';
+      const steps = [
+        { label: '🧠 Loading Custom CNN...', pct: 25 },
+        { label: '📱 Loading MobileNetV2...', pct: 50 },
+        { label: '🏛️ Loading ResNet50...', pct: 75 },
+        { label: '⚡ Running predictions...', pct: 100 }
+      ];
+
+      for (const step of steps) {
+        progressLabel.textContent = step.label;
+        progressFill.style.width = step.pct + '%';
+        await sleep(550);
+      }
+
+      progressWrap.style.display = 'none';
+
+      for (const fighter of FIGHTERS) {
+        const el = document.getElementById(fighter.el);
+        const emotion = data.predictions[fighter.key];
+
+        el.classList.add('shaking');
+        await sleep(500);
+        el.classList.remove('shaking');
+
+        el.querySelector('.result-box').innerHTML =
+          `<div class="pop-in"><div class="result-emoji">${emotionEmoji(emotion)}</div>` +
+          `<div class="result-emotion ${fighter.emotionClass}">${emotion}</div></div>`;
+
+        await sleep(650);
+      }
+
+      await sleep(400);
+
+      FIGHTERS.forEach(({ el, key, winnerClass: wc }) => {
+        const fighter = document.getElementById(el);
+        if (key === data.winner) {
+          fighter.classList.add(wc);
+        } else {
+          fighter.classList.add('loser');
+        }
+      });
+
+      await sleep(300);
+      showOutcome(data);
+
+      await sleep(400);
+      confidenceBreakdown.classList.add('show');
+      renderConfidence(data.confidence, data.predictions);
+
+      battleBtn.disabled = false;
+      battleBtn.textContent = '🔄 Battle again';
+      battleRunning = false;
+    }
+
+    battleBtn.addEventListener('click', runBattle);
+  </script>
+</body>
+</html>
