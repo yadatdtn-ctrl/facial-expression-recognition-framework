@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Models — FaceXplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <span class="nav-brand">FaceXplain</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="demo.html">Demo</a></li>
+      <li><a href="xai.html">XAI</a></li>
+      <li><a href="#" target="_blank">GitHub</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='demo.html'">Try the demo</button>
+    <button class="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
+  <main>
+    <!-- Section 1 — Page hero -->
+    <div class="section-wrapper models-hero-wrapper">
+      <div class="section models-page-hero">
+        <p class="eyebrow">Model comparison</p>
+        <h1 class="models-hero-title">Three architectures, one key finding</h1>
+        <p class="models-hero-lead">The custom CNN outperforms both pre-trained transfer learning models. The reason is not complexity — it is domain gap. ImageNet-pretrained models were never designed for 48×48 grayscale face images.</p>
+      </div>
+    </div>
+
+    <!-- Section 2 — Model cards -->
+    <div class="section-wrapper models-cards-wrapper">
+      <div class="section">
+        <div class="grid-3 model-cards-grid">
+          <div class="card highlighted model-card">
+            <span class="model-badge model-badge-best">Best model</span>
+            <span class="model-dot model-dot-blue"></span>
+            <h3 class="model-name">Custom CNN</h3>
+            <div class="model-accuracy">57.80%</div>
+            <div class="model-metrics">
+              <div class="metric-row"><span>F1 Score</span><span>0.5165</span></div>
+              <div class="metric-row"><span>Parameters</span><span>1.24M</span></div>
+              <div class="metric-row"><span>Training time</span><span>41.7 min</span></div>
+              <div class="metric-row"><span>Precision</span><span>0.5201</span></div>
+              <div class="metric-row"><span>Recall</span><span>0.5165</span></div>
+            </div>
+          </div>
+
+          <div class="card model-card">
+            <span class="model-badge model-badge-tl">Transfer learning</span>
+            <span class="model-dot model-dot-brown"></span>
+            <h3 class="model-name">MobileNetV2</h3>
+            <div class="model-accuracy">49.71%</div>
+            <div class="model-metrics">
+              <div class="metric-row"><span>F1 Score</span><span>0.4444</span></div>
+              <div class="metric-row"><span>Parameters</span><span>2.59M</span></div>
+              <div class="metric-row"><span>Training time</span><span>156.8 min</span></div>
+              <div class="metric-row"><span>Precision</span><span>0.4489</span></div>
+              <div class="metric-row"><span>Recall</span><span>0.4471</span></div>
+            </div>
+          </div>
+
+          <div class="card model-card">
+            <span class="model-badge model-badge-tl">Transfer learning</span>
+            <span class="model-dot model-dot-grey"></span>
+            <h3 class="model-name">ResNet50</h3>
+            <div class="model-accuracy">40.54%</div>
+            <div class="model-metrics">
+              <div class="metric-row"><span>F1 Score</span><span>0.3392</span></div>
+              <div class="metric-row"><span>Parameters</span><span>24.1M</span></div>
+              <div class="metric-row"><span>Training time</span><span>156.9 min</span></div>
+              <div class="metric-row"><span>Precision</span><span>0.3601</span></div>
+              <div class="metric-row"><span>Recall</span><span>0.3408</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 — Domain gap explanation -->
+    <div class="section-wrapper alt models-gap-wrapper">
+      <div class="section">
+        <p class="eyebrow">Key finding</p>
+        <h2 class="section-title">Why the custom CNN wins</h2>
+        <div class="gap-grid">
+          <p class="gap-text">FER-2013 images are 48×48 grayscale — a very different domain from the high-resolution RGB photos that ImageNet is built from. MobileNetV2 and ResNet50 carry assumptions that do not hold here. This mismatch, known as domain gap, systematically limits their performance. The custom CNN, designed for this input from scratch, avoids these assumptions entirely.</p>
+          <div class="fact-boxes">
+            <div class="fact-box">
+              <div class="fact-label">Training time saved</div>
+              <div class="fact-value">3.8× faster</div>
+            </div>
+            <div class="fact-box">
+              <div class="fact-label">Fewer parameters</div>
+              <div class="fact-value">20× smaller</div>
+            </div>
+            <div class="fact-box">
+              <div class="fact-label">Accuracy advantage</div>
+              <div class="fact-value">+17.3 points</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4 — Results table -->
+    <div class="section-wrapper models-table-wrapper">
+      <div class="section">
+        <p class="eyebrow">Full results</p>
+        <h2 class="section-title">Model evaluation summary</h2>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>F1 Score</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>Parameters</th>
+                <th>Train Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="results-row-best">
+                <td>Custom CNN</td>
+                <td class="accuracy-best">57.80%</td>
+                <td>0.5165</td>
+                <td>0.5201</td>
+                <td>0.5165</td>
+                <td>1.24M</td>
+                <td>41.7 min</td>
+              </tr>
+              <tr>
+                <td>MobileNetV2</td>
+                <td>49.71%</td>
+                <td>0.4444</td>
+                <td>0.4489</td>
+                <td>0.4471</td>
+                <td>2.59M</td>
+                <td>156.8 min</td>
+              </tr>
+              <tr>
+                <td>ResNet50</td>
+                <td>40.54%</td>
+                <td>0.3392</td>
+                <td>0.3601</td>
+                <td>0.3408</td>
+                <td>24.1M</td>
+                <td>156.9 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Dataset: FER-2013 · 35,887 images · 7 emotion classes · 48×48 grayscale. All models trained with class weighting to handle class imbalance.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Yada Thadathanacharoen · M.Sc. Software Engineering · University of Europe for Applied Sciences · 2026</span>
+    <div class="footer-links">
+      <a href="#" target="_blank">GitHub</a>
+      <a href="#" target="_blank">Kaggle</a>
+      <a href="#" target="_blank">Report</a>
+    </div>
+    <div class="footer-bottom">Pattern Recognition Final Project · FaceXplain · 2026</div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>

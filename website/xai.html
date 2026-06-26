@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XAI — FaceXplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <span class="nav-brand">FaceXplain</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="demo.html">Demo</a></li>
+      <li><a href="xai.html">XAI</a></li>
+      <li><a href="#" target="_blank">GitHub</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='demo.html'">Try the demo</button>
+    <button class="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
+  <main>
+    <!-- Section 1 — XAI hero -->
+    <div class="section-wrapper xai-hero-wrapper">
+      <div class="section xai-page-hero">
+        <p class="eyebrow">Explainable AI</p>
+        <h1 class="xai-hero-title">Understanding what the models see</h1>
+        <p class="xai-hero-lead">Accuracy alone does not tell the full story. Grad-CAM and SHAP reveal which parts of a face each model focuses on — and whether those regions are meaningful for emotion recognition.</p>
+      </div>
+    </div>
+
+    <!-- Section 2 — Grad-CAM explanation -->
+    <div class="section-wrapper xai-gradcam-wrapper">
+      <div class="section">
+        <p class="eyebrow">Grad-CAM</p>
+        <h2 class="section-title">Gradient-weighted class activation mapping</h2>
+        <p class="xai-section-intro">Grad-CAM visualises the regions of an input image that most influenced a model's prediction. Warmer colours (red, orange) indicate high importance; cooler colours (blue) indicate low importance. For facial expression recognition, we expect well-trained models to focus on emotionally expressive regions such as the eyes, eyebrows, and mouth.</p>
+
+        <div class="grid-3 xai-gradcam-grid">
+          <div class="card highlighted xai-method-card">
+            <div class="heatmap-header heatmap-header-blue">
+              <div class="heatmap-placeholder heatmap-placeholder-blue">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption">Custom CNN · Happy</div>
+            </div>
+            <span class="xai-badge xai-badge-best">Best focus</span>
+            <h3 class="xai-card-title">Custom CNN</h3>
+            <p class="xai-card-body">Consistently activates over the eye and mouth region — the most emotionally expressive areas. Indicates meaningful feature learning aligned with human perception.</p>
+          </div>
+
+          <div class="card xai-method-card">
+            <div class="heatmap-header heatmap-header-egg">
+              <div class="heatmap-placeholder heatmap-placeholder-grey">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption">MobileNetV2 · Happy</div>
+            </div>
+            <h3 class="xai-card-title">MobileNetV2</h3>
+            <p class="xai-card-body">Activation is more distributed across the face. Some attention on relevant regions but also activates background and non-expressive areas, suggesting partial domain gap impact.</p>
+          </div>
+
+          <div class="card xai-method-card">
+            <div class="heatmap-header heatmap-header-dark">
+              <div class="heatmap-placeholder heatmap-placeholder-brown">[ Grad-CAM heatmap ]</div>
+              <div class="heatmap-caption">ResNet50 · Happy</div>
+            </div>
+            <h3 class="xai-card-title">ResNet50</h3>
+            <p class="xai-card-body">Diffuse and inconsistent activation patterns. The large pre-trained model struggles to localise emotion-relevant features in low-resolution grayscale input.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 — SHAP explanation -->
+    <div class="section-wrapper alt xai-shap-wrapper">
+      <div class="section">
+        <p class="eyebrow">SHAP</p>
+        <h2 class="section-title">Shapley additive explanations</h2>
+        <p class="xai-section-intro">SHAP assigns each pixel a contribution score to the model's output — positive values push the prediction toward a class, negative values push away from it. Unlike Grad-CAM, SHAP provides a theoretically grounded attribution based on cooperative game theory.</p>
+
+        <div class="card xai-shap-card">
+          <div class="shap-header">
+            <span class="shap-placeholder">[ SHAP pixel attribution map — placeholder ]</span>
+          </div>
+          <div class="shap-columns">
+            <div>
+              <h3 class="shap-col-title">What SHAP shows</h3>
+              <p class="shap-col-body">Red pixels contributed positively to the predicted class. Blue pixels contributed negatively. The Custom CNN shows concentrated positive attribution around the mouth curve and eye corners — consistent with the Grad-CAM findings.</p>
+            </div>
+            <div>
+              <h3 class="shap-col-title">Why it matters</h3>
+              <p class="shap-col-body">When both Grad-CAM and SHAP agree on the same facial regions, we have stronger evidence that the model is learning genuine emotion-relevant features rather than spurious correlations in the training data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4 — Interpretation note -->
+    <div class="xai-interpretation-banner">
+      <div class="xai-interpretation-inner">
+        <h2 class="xai-interpretation-title">What the explainability analysis tells us</h2>
+        <ul class="xai-insight-list">
+          <li>
+            <span class="xai-insight-dot"></span>
+            <span>Custom CNN focuses on emotionally relevant facial regions, validating its accuracy as meaningful.</span>
+          </li>
+          <li>
+            <span class="xai-insight-dot"></span>
+            <span>Transfer learning models show diffuse attention — consistent with the domain gap hypothesis.</span>
+          </li>
+          <li>
+            <span class="xai-insight-dot"></span>
+            <span>Agreement between Grad-CAM and SHAP across test images strengthens the interpretability findings.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Yada Thadathanacharoen · M.Sc. Software Engineering · University of Europe for Applied Sciences · 2026</span>
+    <div class="footer-links">
+      <a href="#" target="_blank">GitHub</a>
+      <a href="#" target="_blank">Kaggle</a>
+      <a href="#" target="_blank">Report</a>
+    </div>
+    <div class="footer-bottom">Pattern Recognition Final Project · FaceXplain · 2026</div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>

@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FaceXplain — Facial Expression Recognition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <span class="nav-brand">FaceXplain</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="models.html">Models</a></li>
+      <li><a href="demo.html">Demo</a></li>
+      <li><a href="xai.html">XAI</a></li>
+      <li><a href="#" target="_blank">GitHub</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='demo.html'">Try the demo</button>
+    <button class="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
+  <main>
+    <!-- Section 1 — Hero -->
+    <div class="section-wrapper hero-wrapper">
+      <div class="section hero-section">
+        <span class="hero-tag">Pattern Recognition · M.Sc. Final Project · UE Germany 2026</span>
+        <h1 class="hero-title">Can machines understand human emotions?</h1>
+        <p class="hero-lead">A deep learning study comparing a custom CNN against MobileNetV2 and ResNet50 for facial expression recognition — with Grad-CAM and SHAP explainability to understand each model's decisions.</p>
+        <div class="hero-line"></div>
+        <div class="stats-strip">
+          <div class="stats-box">
+            <div class="stats-number">3</div>
+            <div class="stats-label">Models compared</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-number">7</div>
+            <div class="stats-label">Emotion classes</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-number">35,887</div>
+            <div class="stats-label">Training images</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-number">57.8%</div>
+            <div class="stats-label">Best accuracy</div>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a href="demo.html" class="btn-primary">Try the demo</a>
+          <a href="#" class="btn-secondary" target="_blank">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 — Emotion strip -->
+    <div class="emotion-strip">
+      <div class="emotion-pills">
+        <span class="emotion-pill active">Happy</span>
+        <span class="emotion-pill">Sad</span>
+        <span class="emotion-pill">Angry</span>
+        <span class="emotion-pill">Fear</span>
+        <span class="emotion-pill">Surprise</span>
+        <span class="emotion-pill">Disgust</span>
+        <span class="emotion-pill">Neutral</span>
+      </div>
+      <p class="emotion-caption">FER-2013 · 7 emotion classes · 35,887 images · 48×48 grayscale</p>
+    </div>
+
+    <!-- CTA banner -->
+    <div class="cta-banner">
+      <h2 class="cta-title">See the models in action</h2>
+      <p class="cta-body">Upload a face photo and watch all three models predict the emotion simultaneously — with Grad-CAM heatmaps showing the reasoning behind each prediction.</p>
+      <div class="cta-actions">
+        <a href="demo.html" class="btn-primary">Try the demo</a>
+        <a href="models.html" class="btn-ghost">View model results</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-name">Yada Thadathanacharoen · M.Sc. Software Engineering · University of Europe for Applied Sciences · 2026</span>
+    <div class="footer-links">
+      <a href="#" target="_blank">GitHub</a>
+      <a href="#" target="_blank">Kaggle</a>
+      <a href="#" target="_blank">Report</a>
+    </div>
+    <div class="footer-bottom">Pattern Recognition Final Project · FaceXplain · 2026</div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>
