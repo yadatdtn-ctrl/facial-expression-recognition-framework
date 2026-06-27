@@ -28,7 +28,7 @@
       <li><a href="demo.html">Demo</a></li>
       <li><a href="xai.html">XAI</a></li>
       <li><a href="battle.html">Battle</a></li>
-      <li><a href="#" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/yadatdtn-ctrl/facial-expression-recognition-framework" target="_blank">GitHub</a></li>
     </ul>
     <button class="nav-cta" onclick="window.location.href='demo.html'">Try the demo</button>
     <button class="hamburger" aria-label="Open menu">
@@ -42,66 +42,125 @@
       <div class="section hero-section">
         <span class="hero-tag" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE;">Pattern Recognition · M.Sc. Final Project · UE Germany 2026</span>
         <h1 class="hero-title">Can machines understand human emotions?</h1>
-        <p class="hero-lead">A deep learning study comparing a custom CNN against MobileNetV2 and ResNet50 for facial expression recognition — with Grad-CAM and SHAP explainability to understand each model's decisions.</p>
-        <div class="hero-line" style="background: #4338CA;"></div>
-        <div class="stats-strip" style="background: #F3F4F6; border: 1px solid #E5E7EB;">
-          <div class="stats-box">
+        <p class="hero-lead">Upload a face photo and see how 3 AI models read your emotion — then find out why they agree or disagree.</p>
+        <div class="hero-line"></div>
+        <div class="stats-strip">
+          <div class="stats-box stats-box--indigo">
             <div class="stats-number">3</div>
             <div class="stats-label">Models compared</div>
           </div>
-          <div class="stats-box">
+          <div class="stats-box stats-box--emerald">
             <div class="stats-number">7</div>
             <div class="stats-label">Emotion classes</div>
           </div>
-          <div class="stats-box">
+          <div class="stats-box stats-box--amber">
             <div class="stats-number">35,887</div>
             <div class="stats-label">Training images</div>
           </div>
-          <div class="stats-box">
-            <div class="stats-number">57.8%</div>
-            <div class="stats-label">Best accuracy</div>
+        </div>
+        <div class="hero-model-cards">
+          <div class="hero-model-card hero-model-card--cnn">
+            <span class="hero-model-card-icon" aria-hidden="true">🏆</span>
+            <span class="hero-model-card-name">Custom CNN</span>
+            <span class="hero-model-card-sub">Built from scratch · Best performer</span>
+          </div>
+          <div class="hero-model-card hero-model-card--mob">
+            <span class="hero-model-card-icon" aria-hidden="true">⚡</span>
+            <span class="hero-model-card-name">MobileNetV2</span>
+            <span class="hero-model-card-sub">Transfer learning · ImageNet pretrained</span>
+          </div>
+          <div class="hero-model-card hero-model-card--res">
+            <span class="hero-model-card-icon" aria-hidden="true">🧱</span>
+            <span class="hero-model-card-name">ResNet50</span>
+            <span class="hero-model-card-sub">Transfer learning · Largest model</span>
           </div>
         </div>
-        <div class="hero-actions">
-          <a href="demo.html" class="btn-primary">Try the demo</a>
-          <a href="#" class="btn-secondary" target="_blank">View on GitHub</a>
+
+        <div class="hero-sample-preview">
+          <h2 class="hero-sample-preview-heading">Example results from our models</h2>
+          <div class="hero-sample-preview-card">
+            <div class="hero-sample-face">
+              <div class="hero-sample-face-box">
+                <img src="images/sample-happy.jpg" alt="Sample happy face" style="width:100%; height:300px; border-radius:12px; object-fit:cover; object-position:center top;">
+              </div>
+              <p class="hero-sample-face-label">Sample photo · Unsplash (free license)</p>
+            </div>
+            <div class="hero-sample-results">
+              <h3 class="hero-sample-results-title">What each model predicted</h3>
+              <div class="hero-pred-row">
+                <div class="hero-pred-header">
+                  <span class="hero-pred-dot hero-pred-dot--indigo"></span>
+                  <span class="hero-pred-name">Custom CNN</span>
+                  <span class="hero-pred-badge hero-pred-badge--ok">✅ Happy</span>
+                </div>
+                <div class="hero-pred-bar-track">
+                  <div class="hero-pred-bar-fill hero-pred-bar-fill--indigo" style="width: 78%"></div>
+                </div>
+              </div>
+              <div class="hero-pred-row">
+                <div class="hero-pred-header">
+                  <span class="hero-pred-dot hero-pred-dot--emerald"></span>
+                  <span class="hero-pred-name">MobileNetV2</span>
+                  <span class="hero-pred-badge hero-pred-badge--ok">✅ Happy</span>
+                </div>
+                <div class="hero-pred-bar-track">
+                  <div class="hero-pred-bar-fill hero-pred-bar-fill--emerald" style="width: 55%"></div>
+                </div>
+              </div>
+              <div class="hero-pred-row">
+                <div class="hero-pred-header">
+                  <span class="hero-pred-dot hero-pred-dot--amber"></span>
+                  <span class="hero-pred-name">ResNet50</span>
+                  <span class="hero-pred-badge hero-pred-badge--bad">❌ Neutral</span>
+                </div>
+                <div class="hero-pred-bar-track">
+                  <div class="hero-pred-bar-fill hero-pred-bar-fill--amber" style="width: 42%"></div>
+                </div>
+              </div>
+              <p class="hero-sample-note">* Pre-computed from actual FER-2013 test results</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Section 2 — Emotion strip -->
-    <div class="emotion-strip" style="background: #F3F4F6; border-bottom: 1px solid #E5E7EB;">
-      <div class="emotion-pills">
-        <span class="emotion-pill active" style="background: #4338CA; color: #FFFFFF; border-color: #4338CA;">Happy</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Sad</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Angry</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Fear</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Surprise</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Disgust</span>
-        <span class="emotion-pill" style="background: #FFFFFF; color: #6B7280; border: 1px solid #E5E7EB;">Neutral</span>
-      </div>
-      <p class="emotion-caption">FER-2013 · 7 emotion classes · 35,887 images · 48×48 grayscale</p>
-    </div>
-
-    <!-- CTA banner -->
-    <div class="cta-banner" style="background: #111827;">
-      <h2 class="cta-title">See the models in action</h2>
-      <p class="cta-body">Upload a face photo and watch all three models predict the emotion simultaneously — with Grad-CAM heatmaps showing the reasoning behind each prediction.</p>
-      <div class="cta-actions">
-        <a href="demo.html" class="btn-primary">Try the demo</a>
-        <a href="models.html" class="btn-ghost">View model results</a>
+        <div class="hero-actions">
+          <a href="https://yada-ctrl-facexplain-demo.hf.space" class="btn-primary" target="_blank" rel="noopener noreferrer">Try FaceXplain</a>
+          <a href="https://github.com/yadatdtn-ctrl/facial-expression-recognition-framework" class="btn-secondary" target="_blank">View on GitHub</a>
+        </div>
       </div>
     </div>
   </main>
 
-  <footer>
-    <span class="footer-name">Yada Thadathanacharoen · M.Sc. Software Engineering · University of Europe for Applied Sciences · 2026</span>
-    <div class="footer-links">
-      <a href="#" target="_blank">GitHub</a>
-      <a href="#" target="_blank">Kaggle</a>
-      <a href="#" target="_blank">Report</a>
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">FaceXplain</a>
+        <p class="footer-tagline">A Pattern Recognition research project · UE Germany 2026</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4 class="footer-col-title">Explore</h4>
+          <ul class="footer-col-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="demo.html">Demo</a></li>
+            <li><a href="battle.html">Battle</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Resources</h4>
+          <ul class="footer-col-links">
+            <li><a href="https://github.com/yadatdtn-ctrl/facial-expression-recognition-framework" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://www.kaggle.com/code/yadaaaat/facial-expression-recognition-framework" target="_blank" rel="noopener noreferrer">Kaggle</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-built">
+        <h4 class="footer-col-title">Built with</h4>
+        <p class="footer-stack">Python · TensorFlow · Streamlit · Grad-CAM</p>
+      </div>
     </div>
-    <div class="footer-bottom">Pattern Recognition Final Project · FaceXplain · 2026</div>
+    <div class="footer-bottom">
+      Pattern Recognition Final Project · FaceXplain · 2026
+    </div>
   </footer>
 
   <script src="nav.js"></script>
