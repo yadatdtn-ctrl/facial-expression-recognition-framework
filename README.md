@@ -66,6 +66,7 @@ Download it from Kaggle and place it at `/kaggle/input/datasets/msambare/fer2013
 
 ## Repository Structure
 
+\`\`\`
 facial-expression-recognition-framework/
 │
 ├── README.md
@@ -104,8 +105,9 @@ facial-expression-recognition-framework/
 ├── streamlit-app/                                 # Interactive Streamlit demo source
 │
 └── report/
-├── FaceXplain_Final_Report.pdf                # Phase 3 final academic report
-└── FaceXplain_References.bib                  # Consolidated bibliography
+    ├── FaceXplain_Final_Report.pdf                # Phase 3 final academic report
+    └── FaceXplain_References.bib                  # Consolidated bibliography
+\`\`\`
 
 ---
 
